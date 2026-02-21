@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourtSide Pro | Elite Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="database.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .player-chip { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.05); }
+        .team-1-border { border-top: 4px solid #3b82f6; }
+        .team-2-border { border-top: 4px solid #f43f5e; }
+        .team-1-tag { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .team-2-tag { background: rgba(244, 63, 94, 0.2); color: #fb7185; }
+        .stat-header { @apply text-[10px] font-black text-slate-500 uppercase tracking-widest p-4 text-center; }
+        .stat-cell { @apply p-4 text-center font-bold border-t border-slate-800/50; }
+        .nav-btn { @apply px-6 py-2 rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all border border-white/5; }
+        .nav-active { @apply bg-indigo-600 text-white shadow-lg shadow-indigo-500/20; }
+        .nav-inactive { @apply bg-slate-800/50 text-slate-500 hover:text-white; }
+        .hidden { display: none; }
+
+        .rank-badge { @apply text-[9px] font-black uppercase px-2 py-0.5 rounded-md mt-1 inline-block; }
+        .rank-hof { background: linear-gradient(to right, #fbbf24, #d97706); color: #fff; box-shadow: 0 0 15px rgba(217, 119, 6, 0.3); }
+        .rank-elite { background: linear-gradient(to right, #818cf8, #4f46e5); color: #fff; }
+        .rank-pro { background: #10b981; color: #fff; }
+        .rank-role { background: #475569; color: #cbd5e1; }
+        .rank-rookie { background: #1e293b; color: #64748b; }
+
+        .draft-card { border: 2px dashed rgba(255,255,255,0.1); transition: all 0.3s ease; }
+        .draft-selected { border: 2px solid #6366f1; background: rgba(99, 102, 241, 0.1); }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between items-end gap-6">
+            <div>
+                <h1 class="text-5xl font-black italic bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent uppercase tracking-tighter">CourtSide Pro</h1>
+                <p class="text-slate-500 font-bold tracking-[0.3em] uppercase text-xs mt-2">Efficiency & Power Rankings</p>
+            </div>
+            <nav class="flex gap-3 mb-1">
+                <button onclick="switchTab('archives')" id="tab-archives" class="nav-btn nav-active">Archives</button>
+                <button onclick="switchTab('analytics')" id="tab-analytics" class="nav-btn nav-inactive">Analytics</button>
+                <button onclick="switchTab('warroom')" id="tab-warroom" class="nav-btn nav-inactive">War Room</button>
+            </nav>
+        </header>
+
+        <div id="view-archives">
+            <div id="game-count" class="text-slate-500 font-mono text-xs italic mb-4 text-right"></div>
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-indigo-500">
+                <div class="p-6 bg-slate-800/30 flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-indigo-400">Season Leaderboard</h3>
+                    <span class="text-[10px] text-slate-500 font-bold italic uppercase tracking-widest text-right">Rating: Efficiency Normalized Per 15 Mins</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/50">
+                                <th class="stat-header text-left pl-8">Player / Rank</th>
+                                <th class="stat-header">GP</th>
+                                <th class="stat-header text-emerald-400">WINS</th>
+                                <th class="stat-header text-white">TIME</th>
+                                <th class="stat-header text-blue-400">2PT</th>
+                                <th class="stat-header text-indigo-400">3PT</th>
+                                <th class="stat-header text-blue-400">REB</th>
+                                <th class="stat-header text-orange-400">BLK</th>
+                                <th class="stat-header text-purple-400">STL</th>
+                                <th class="stat-header text-rose-400">FOUL</th>
+                                <th class="stat-header text-amber-500">MISS</th>
+                                <th class="stat-header text-emerald-400">PTS</th>
+                                <th class="stat-header text-indigo-400">Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="archives-container" class="space-y-12"></div>
+        </div>
+
+        <div id="view-analytics" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-12">
+                <div class="glass p-8 rounded-[2.5rem] lg:col-span-1 border-l-4 border-indigo-500">
+                    <label class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4 block">Select Athlete</label>
+                    <select id="player-dropdown" onchange="loadPlayerStats()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
+                </div>
+                <div id="player-averages" class="glass p-8 rounded-[2.5rem] lg:col-span-3 flex justify-around items-center flex-wrap gap-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 glass p-8 rounded-[2.5rem] min-h-[450px]">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-500 mb-8">Performance Curve (Last 10 Games)</h3>
+                    <div class="relative h-80"><canvas id="statChart"></canvas></div>
+                </div>
+                <div class="space-y-6">
+                    <div id="rank-progress-card" class="glass p-8 rounded-[2.5rem] border-t-4 border-emerald-500"></div>
+                    <div class="glass p-8 rounded-[2.5rem]">
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] text-emerald-400 mb-6">Career Highs</h3>
+                        <div id="player-records" class="grid grid-cols-2 gap-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-warroom" class="hidden">
+            <div class="glass p-10 rounded-[3rem] mb-12 text-center border-b-4 border-indigo-500">
+                <h2 class="text-4xl font-black italic mb-2 tracking-tighter">TEAM BALANCER</h2>
+                <div id="draft-pool" class="flex flex-wrap justify-center gap-4 mt-8"></div>
+                <button onclick="balanceTeams()" class="mt-10 bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase tracking-widest py-4 px-12 rounded-full transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-indigo-500/20">
+                    Generate Matchup
+                </button>
+            </div>
+            <div id="matchup-results" class="hidden grid grid-cols-1 lg:grid-cols-7 gap-6 items-center">
+                <div class="lg:col-span-3 glass p-8 rounded-[2.5rem] team-1-border border-l border-r border-b">
+                    <h4 class="text-blue-400 font-black uppercase tracking-widest text-center mb-6 text-xs">Projected Team 1</h4>
+                    <div id="team-1-roster" class="space-y-3"></div>
+                </div>
+                <div class="lg:col-span-1 text-center">
+                    <div class="text-4xl font-black italic text-slate-700">VS</div>
+                    <div id="win-probability" class="mt-4 font-mono text-[10px] font-bold text-indigo-400"></div>
+                </div>
+                <div class="lg:col-span-3 glass p-8 rounded-[2.5rem] team-2-border border-l border-r border-b">
+                    <h4 class="text-rose-400 font-black uppercase tracking-widest text-center mb-6 text-xs">Projected Team 2</h4>
+                    <div id="team-2-roster" class="space-y-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chartInstance = null;
+        let selectedPlayers = new Set();
+
+        const RANKS = [
+            { min: 21.0, title: "Hall of Fame", class: "rank-hof", icon: "🏆" },
+            { min: 14.0, title: "Elite Scorer", class: "rank-elite", icon: "⭐" },
+            { min: 8.0, title: "Pro Starter", class: "rank-pro", icon: "✅" },
+            { min: 4.0, title: "Role Player", class: "rank-role", icon: "🛡️" },
+            { min: -99, title: "Bench Warmer", class: "rank-rookie", icon: "🐣" }
+        ];
+
+        function calculateEfficiency(p, gp) {
+            if (!p.totalDuration || p.totalDuration === 0) return 0;
+            
+            // OFFENSE: 3PT (4.0), 2PT (2.0), FT (1.0)
+            const offensive = (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*4.0) + (parseInt(p.ft||0));
+            
+            // DEFENSE (UPDATED): Rebounds (1.2), Blocks (1.0), Steals (0.8)
+            const defensive = (parseInt(p.rebs||0)*1.2) + (parseInt(p.blocks||0)*1.0) + (parseInt(p.steals||0)*0.8);
+            
+            // TEAM: Win Bonus (3.0)
+            const bonus = (parseInt(p.wins||0)*3.0);
+            
+            // PENALTIES: Miss (-0.2), Foul (-1.2)
+            const penalties = (parseInt(p.miss||0)*0.2) + (parseInt(p.foul||0)*1.2);
+            
+            const totalValue = offensive + defensive + bonus - penalties;
+            
+            // NORMALIZATION: (Total / Minutes) * 15
+            const finalRating = (totalValue / p.totalDuration) * 15;
+            return Math.max(0, finalRating); 
+        }
+
+        function getRank(rating) {
+            return RANKS.find(r => rating >= r.min);
+        }
+
+        function formatMinutes(totalMinutes) {
+            const hrs = Math.floor(totalMinutes / 60);
+            const mins = totalMinutes % 60;
+            return `${hrs}:${mins.toString().padStart(2, '0')}`;
+        }
+
+        function switchTab(tab) {
+            document.getElementById('view-archives').classList.toggle('hidden', tab !== 'archives');
+            document.getElementById('view-analytics').classList.toggle('hidden', tab !== 'analytics');
+            document.getElementById('view-warroom').classList.toggle('hidden', tab !== 'warroom');
+            
+            document.getElementById('tab-archives').className = `nav-btn ${tab === 'archives' ? 'nav-active' : 'nav-inactive'}`;
+            document.getElementById('tab-analytics').className = `nav-btn ${tab === 'analytics' ? 'nav-active' : 'nav-inactive'}`;
+            document.getElementById('tab-warroom').className = `nav-btn ${tab === 'warroom' ? 'nav-active' : 'nav-inactive'}`;
+            
+            if(tab === 'analytics') { initDropdown(); loadPlayerStats(); }
+            if(tab === 'warroom') { initWarRoom(); }
+        }
+
+        function getGlobalStats() {
+            const stats = {};
+            GAME_DATABASE.forEach(game => {
+                const t1Pts = game.players.filter(p => p.team === "Team 1").reduce((s, p) => s + (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0)), 0);
+                const t2Pts = game.players.filter(p => p.team === "Team 2").reduce((s, p) => s + (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0)), 0);
+                game.players.forEach(p => {
+                    if (!stats[p.name]) stats[p.name] = { name: p.name, gp: 0, wins: 0, pts: 0, rebs: 0, miss: 0, foul: 0, ft: 0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+                    const s = stats[p.name]; s.gp++;
+                    s.pts += (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + parseInt(p.ft||0);
+                    s.rebs += parseInt(p.reb||0); s.miss += parseInt(p.miss||0); s.foul += parseInt(p.foul||0); s.ft += parseInt(p.ft||0);
+                    s.twoP += parseInt(p.twoP||0); s.threeP += parseInt(p.threeP||0);
+                    s.blocks += parseInt(p.blk||0); s.steals += parseInt(p.stl||0);
+                    s.totalDuration += parseInt(game.duration || 0);
+                    if((p.team === "Team 1" && t1Pts > t2Pts) || (p.team === "Team 2" && t2Pts > t1Pts)) s.wins++;
+                });
+            });
+            return stats;
+        }
+
+        function initWarRoom() {
+            const pool = document.getElementById('draft-pool');
+            pool.innerHTML = '';
+            const stats = getGlobalStats();
+            Object.keys(stats).sort().forEach(name => {
+                const card = document.createElement('div');
+                card.className = `draft-card px-6 py-4 rounded-2xl cursor-pointer hover:border-indigo-400 font-black italic text-sm ${selectedPlayers.has(name) ? 'draft-selected' : ''}`;
+                card.innerText = name.toUpperCase();
+                card.onclick = () => {
+                    if(selectedPlayers.has(name)) { selectedPlayers.delete(name); card.classList.remove('draft-selected'); }
+                    else { selectedPlayers.add(name); card.classList.add('draft-selected'); }
+                };
+                pool.appendChild(card);
+            });
+        }
+
+        function balanceTeams() {
+            if(selectedPlayers.size < 2) return alert("Select at least 2 players!");
+            const stats = getGlobalStats();
+            const roster = Array.from(selectedPlayers).map(name => ({
+                name,
+                rating: calculateEfficiency(stats[name], stats[name].gp)
+            })).sort((a,b) => b.rating - a.rating);
+            let t1 = [], t2 = [], sum1 = 0, sum2 = 0;
+            roster.forEach(p => { if(sum1 <= sum2) { t1.push(p); sum1 += p.rating; } else { t2.push(p); sum2 += p.rating; } });
+            document.getElementById('team-1-roster').innerHTML = t1.map(p => `<div class="p-3 bg-slate-900 rounded-xl flex justify-between"><span>${p.name}</span><span class="text-blue-400 font-mono">${p.rating.toFixed(1)}</span></div>`).join('');
+            document.getElementById('team-2-roster').innerHTML = t2.map(p => `<div class="p-3 bg-slate-900 rounded-xl flex justify-between"><span>${p.name}</span><span class="text-rose-400 font-mono">${p.rating.toFixed(1)}</span></div>`).join('');
+            const prob = 50 + ((sum1 - sum2) * 5);
+            document.getElementById('win-probability').innerText = `WIN PROBABILITY: T1 ${Math.min(95, Math.max(5, prob.toFixed(0)))}% | T2 ${(100 - Math.min(95, Math.max(5, prob.toFixed(0))))}%`;
+            document.getElementById('matchup-results').classList.remove('hidden');
+        }
+
+        function initDropdown() {
+            const dropdown = document.getElementById('player-dropdown');
+            if (dropdown.options.length > 0) return;
+            const players = [...new Set(GAME_DATABASE.flatMap(g => g.players.map(p => p.name)))].sort();
+            players.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name; opt.innerText = name.toUpperCase();
+                dropdown.appendChild(opt);
+            });
+        }
+
+        function loadPlayerStats() {
+            const name = document.getElementById('player-dropdown').value;
+            if(!name) return;
+            const history = GAME_DATABASE.filter(g => g.players.some(p => p.name === name)).reverse();
+            const playerHistory = history.map(g => g.players.find(p => p.name === name));
+            let total = { pts:0, reb:0, foul:0, miss:0, ft:0, wins:0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+            let high = { pts:0, reb:0, foul:0, miss:0, blocks: 0, steals: 0 };
+            
+            history.forEach((g, i) => {
+                const p = playerHistory[i];
+                const pPts = (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + parseInt(p.ft||0);
+                const pReb = parseInt(p.reb||0); 
+                const pFoul = parseInt(p.foul||0); 
+                const pMiss = parseInt(p.miss||0);
+                const pBlk = parseInt(p.blk||0);
+                const pStl = parseInt(p.stl||0);
+                
+                total.pts += pPts; total.reb += pReb; total.foul += pFoul; total.miss += pMiss; 
+                total.ft += parseInt(p.ft||0); total.twoP += parseInt(p.twoP||0); total.threeP += parseInt(p.threeP||0);
+                total.blocks += pBlk; total.steals += pStl;
+                total.totalDuration += parseInt(g.duration || 0);
+
+                if(pPts > high.pts) high.pts = pPts;
+                if(pReb > high.reb) high.reb = pReb;
+                if(pFoul > high.foul) high.foul = pFoul;
+                if(pMiss > high.miss) high.miss = pMiss;
+                if(pBlk > high.blocks) high.blocks = pBlk;
+                if(pStl > high.steals) high.steals = pStl;
+
+                const t1S = g.players.filter(pl => pl.team === "Team 1").reduce((s, pl) => s + (parseInt(pl.twoP||0)*2) + (parseInt(pl.threeP||0)*3) + (parseInt(pl.ft||0)), 0);
+                const t2S = g.players.filter(pl => pl.team === "Team 2").reduce((s, pl) => s + (parseInt(pl.twoP||0)*2) + (parseInt(pl.threeP||0)*3) + (parseInt(pl.ft||0)), 0);
+                if((p.team === "Team 1" && t1S > t2S) || (p.team === "Team 2" && t2S > t1S)) total.wins++;
+            });
+
+            const avg = (val) => (val/history.length).toFixed(1);
+            const rating = calculateEfficiency(total, history.length);
+            const rank = getRank(rating);
+
+            document.getElementById('player-averages').innerHTML = `
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG PTS</p><p class="text-3xl font-black text-emerald-400">${avg(total.pts)}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG REB</p><p class="text-3xl font-black text-blue-400">${avg(total.reb)}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">RATING / 15m</p><p class="text-3xl font-black text-indigo-400">${rating.toFixed(1)}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG STL</p><p class="text-3xl font-black text-purple-400">${avg(total.steals)}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">WIN %</p><p class="text-3xl font-black text-white">${((total.wins/history.length)*100).toFixed(0)}%</p></div>
+            `;
+
+            document.getElementById('player-records').innerHTML = `
+                ${[['PTS', high.pts, 'text-emerald-400'], ['REB', high.reb, 'text-blue-400'], ['BLK', high.blocks, 'text-orange-400'], ['STL', high.steals, 'text-purple-400']].map(rec => `
+                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5">
+                        <p class="text-[8px] font-black text-slate-500 uppercase">${rec[0]} HIGH</p>
+                        <p class="font-black ${rec[2]} text-xl">${rec[1]}</p>
+                    </div>
+                `).join('')}
+            `;
+
+            if(chartInstance) chartInstance.destroy();
+            chartInstance = new Chart(document.getElementById('statChart'), {
+                type: 'line',
+                data: {
+                    labels: history.slice(-10).map(g => g.date),
+                    datasets: [
+                        { label: 'Points', data: playerHistory.slice(-10).map(p => (parseInt(p.twoP||0)*2)+(parseInt(p.threeP||0)*3)+parseInt(p.ft||0)), borderColor: '#10b981', tension: 0.4 },
+                        { label: 'Rebounds', data: playerHistory.slice(-10).map(p => parseInt(p.reb||0)), borderColor: '#3b82f6', tension: 0.4 },
+                        { label: 'Impact (Stl+Blk)', data: playerHistory.slice(-10).map(p => parseInt(p.blk||0) + parseInt(p.stl||0)), borderColor: '#f59e0b', tension: 0.4 },
+                        { label: 'Fouls', data: playerHistory.slice(-10).map(p => parseInt(p.foul||0)), borderColor: '#f43f5e', tension: 0.4 }
+                    ]
+                },
+                options: { maintainAspectRatio: false, plugins: { legend: { labels: { color: '#64748b', font: { weight: '900', size: 10 } } } } }
+            });
+
+            const currentRankIndex = RANKS.findIndex(r => r === rank);
+            const nextRank = RANKS[currentRankIndex - 1] || null;
+            
+            let progressHtml = `
+                <h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-500 mb-6">Level Progress</h3>
+                <div class="flex justify-between items-end mb-2">
+                    <div>
+                        <p class="${rank.class} rank-badge px-3 py-1 text-[11px]">${rank.icon} ${rank.title}</p>
+                        <p class="text-3xl font-black mt-1">${rating.toFixed(1)}</p>
+                    </div>
+                    ${nextRank ? `<p class="text-[10px] font-black text-slate-500 uppercase">Next: ${nextRank.title}</p>` : '<p class="text-[10px] font-black text-amber-400 uppercase">MAX RANK REACHED</p>'}
+                </div>
+            `;
+
+            if (nextRank) {
+                const minRange = rank.min === -99 ? 0 : rank.min;
+                const maxRange = nextRank.min;
+                const progressPercent = Math.min(100, Math.max(0, ((rating - minRange) / (maxRange - minRange)) * 100));
+                
+                progressHtml += `
+                    <div class="w-full bg-slate-900 rounded-full h-2">
+                        <div class="bg-indigo-500 h-2 rounded-full transition-all duration-1000" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <p class="text-[9px] text-slate-500 mt-2 font-bold uppercase tracking-widest text-right">${(maxRange - rating).toFixed(1)} rating until ${nextRank.title}</p>
+                `;
+            }
+
+            document.getElementById('rank-progress-card').innerHTML = progressHtml;
+        }
+
+        function renderEverything() {
+            const container = document.getElementById('archives-container');
+            const leaderBody = document.getElementById('leaderboard-body');
+            if (typeof GAME_DATABASE === 'undefined') return;
+            document.getElementById('game-count').innerText = `${GAME_DATABASE.length} SESSIONS RECORDED`;
+            const stats = getGlobalStats();
+            const sorted = Object.values(stats).sort((a,b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
+            
+            leaderBody.innerHTML = sorted.map((p, i) => {
+                const rating = calculateEfficiency(p, p.gp);
+                const rank = getRank(rating);
+                return `<tr class="hover:bg-white/5 transition text-sm">
+                    <td class="p-4 pl-8 font-black italic"><div>${i === 0 ? '👑' : ''} ${p.name}</div><span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span></td>
+                    <td class="stat-cell text-slate-400">${p.gp}</td>
+                    <td class="stat-cell text-emerald-400">${p.wins}</td>
+                    <td class="stat-cell text-white font-mono">${formatMinutes(p.totalDuration)}</td>
+                    <td class="stat-cell text-blue-400">${p.twoP}</td>
+                    <td class="stat-cell text-indigo-400">${p.threeP}</td>
+                    <td class="stat-cell text-blue-400">${p.rebs}</td>
+                    <td class="stat-cell text-orange-400">${p.blocks}</td>
+                    <td class="stat-cell text-purple-400">${p.steals}</td>
+                    <td class="stat-cell text-rose-400">${p.foul}</td>
+                    <td class="stat-cell text-amber-500">${p.miss}</td>
+                    <td class="stat-cell text-emerald-400">${p.pts}</td>
+                    <td class="stat-cell"><span class="${rank.class} px-3 py-1 rounded-lg text-xs font-black">${rating.toFixed(1)}</span></td>
+                </tr>`;
+            }).join('');
+
+            container.innerHTML = GAME_DATABASE.map(game => {
+                const t1 = game.players.filter(p => p.team === "Team 1").reduce((s, p) => s + (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0)), 0);
+                const t2 = game.players.filter(p => p.team === "Team 2").reduce((s, p) => s + (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0)), 0);
+                return `<div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/5 mb-10">
+                    <div class="bg-slate-800/50 p-8 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="text-emerald-400 font-mono text-xs font-black uppercase tracking-tighter">${game.date}</span>
+                                <span class="bg-indigo-500/20 text-indigo-400 text-[10px] px-2 py-0.5 rounded font-black uppercase">${game.duration || 0} MINS</span>
+                            </div>
+                            <h2 class="text-3xl font-black italic text-white uppercase tracking-tighter">${game.gameName || "Season Game"}</h2>
+                        </div>
+                        <div class="flex items-center gap-6 bg-slate-900/80 px-8 py-4 rounded-3xl border border-slate-700">
+                            <div class="text-center"><p class="text-[9px] font-black text-blue-400 uppercase">Team 1</p><p class="text-3xl font-black">${t1}</p></div>
+                            <div class="text-slate-700 font-black italic text-xl px-2">VS</div>
+                            <div class="text-center"><p class="text-[9px] font-black text-rose-500 uppercase">Team 2</p><p class="text-3xl font-black">${t2}</p></div>
+                        </div>
+                    </div>
+                    <div class="p-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${game.players.map(p => {
+                            const pPts = (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0));
+                            const winner = (p.team === "Team 1" && t1 > t2) || (p.team === "Team 2" && t2 > t1);
+                            return `<div class="player-chip p-5 rounded-2xl relative overflow-hidden ${p.team === "Team 1" ? "team-1-border" : "team-2-border"}">
+                                <div class="flex justify-between items-start mb-1"><h4 class="font-black text-xl italic">${p.name} ${winner ? '👑' : ''}</h4><span class="bg-blue-600 text-[10px] font-black px-2 py-1 rounded-lg">${pPts}P</span></div>
+                                <div class="${p.team === "Team 1" ? "team-1-tag" : "team-2-tag"} text-[9px] font-black px-2 py-0.5 rounded inline-block uppercase tracking-widest mb-4">${p.team}</div>
+                                <div class="grid grid-cols-3 gap-x-2 gap-y-4 text-center border-t border-white/5 pt-4">
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">REB</p><p class="font-mono text-blue-400 font-bold">${p.reb||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">MISS</p><p class="font-mono text-amber-500 font-bold">${p.miss||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">FOUL</p><p class="font-mono text-rose-400 font-bold">${p.foul||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">3PT</p><p class="font-mono text-indigo-400 font-bold">${p.threeP||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">BLK</p><p class="font-mono text-orange-400 font-bold">${p.blk||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">STL</p><p class="font-mono text-purple-400 font-bold">${p.stl||0}</p></div>
+                                </div>
+                            </div>`;
+                        }).join('')}
+                    </div></div>
+                </div>`;
+            }).join('');
+        }
+
+        renderEverything();
+    </script>
+</body>
+</html>
