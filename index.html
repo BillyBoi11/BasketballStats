@@ -162,6 +162,11 @@
             return parseInt(dur) || 0;
         }
 
+        // Helper to check if a game is a scheduled placeholder
+        function isScheduled(game) {
+            return game.scheduled === true || (game.date && game.date.includes("(Scheduled)"));
+        }
+
         function calculateEfficiency(p, gp) {
             if (!p.totalDuration || p.totalDuration === 0) return 0;
             const offensive = (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*4.0) + (parseInt(p.ft||0));
@@ -199,6 +204,9 @@
         function getGlobalStats() {
             const stats = {};
             GAME_DATABASE.forEach(game => {
+                // Ignore Scheduled Games for Leaderboard and Ratings
+                if (isScheduled(game)) return;
+
                 const activePlayers = game.players.filter(p => p.team !== "None");
                 
                 const teamScores = {};
@@ -272,7 +280,8 @@
             const name = document.getElementById('player-dropdown').value;
             if(!name) return;
             
-            const history = GAME_DATABASE.filter(g => g.players.some(p => p.name === name && p.team !== "None")).reverse();
+            // Filter out scheduled games from history
+            const history = GAME_DATABASE.filter(g => !isScheduled(g) && g.players.some(p => p.name === name && p.team !== "None")).reverse();
             const playerHistory = history.map(g => g.players.find(p => p.name === name));
             
             let total = { pts:0, reb:0, foul:0, miss:0, ft:0, wins:0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
@@ -377,7 +386,9 @@
             const leaderBody = document.getElementById('leaderboard-body');
             if (typeof GAME_DATABASE === 'undefined') return;
             
-            document.getElementById('game-count').innerText = `${GAME_DATABASE.length} SESSIONS RECORDED`;
+            // Count total competitive games (excluding scheduled)
+            const competitiveCount = GAME_DATABASE.filter(g => !isScheduled(g)).length;
+            document.getElementById('game-count').innerText = `${competitiveCount} COMPETITIVE SESSIONS RECORDED`;
             
             const stats = getGlobalStats();
             const sorted = Object.values(stats).sort((a,b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
@@ -411,6 +422,7 @@
 
                 const activeTeams = Object.keys(teamTotals).filter(t => t !== "None");
                 const maxScore = activeTeams.length ? Math.max(...activeTeams.map(t => teamTotals[t])) : -1;
+                const isGameScheduled = isScheduled(game);
 
                 const scoreboardHtml = activeTeams.sort().map(teamName => {
                     let colorClass = "text-white";
@@ -421,24 +433,25 @@
                     return `<div class="text-center px-4"><p class="text-[9px] font-black ${colorClass} uppercase">${teamName}</p><p class="text-3xl font-black">${teamTotals[teamName]}</p></div>`;
                 }).join('<div class="text-slate-700 font-black italic text-xl px-2">/</div>');
 
-                return `<div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/5 mb-10">
+                return `<div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/5 mb-10 ${isGameScheduled ? 'opacity-60 grayscale-[0.5]' : ''}">
                     <div class="bg-slate-800/50 p-8 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div>
                             <div class="flex items-center gap-3 mb-1">
-                                <span class="text-emerald-400 font-mono text-xs font-black uppercase tracking-tighter">${game.date}</span>
+                                <span class="${isGameScheduled ? 'text-amber-400' : 'text-emerald-400'} font-mono text-xs font-black uppercase tracking-tighter">${game.date}</span>
                                 <span class="bg-indigo-500/20 text-indigo-400 text-[10px] px-2 py-0.5 rounded font-black uppercase">${game.duration || 0} MINS</span>
+                                ${isGameScheduled ? '<span class="bg-amber-500/20 text-amber-500 text-[10px] px-2 py-0.5 rounded font-black uppercase">Upcoming</span>' : ''}
                             </div>
                             <h2 class="text-3xl font-black italic text-white uppercase tracking-tighter">${game.gameName || "Season Game"}</h2>
                         </div>
                         <div class="flex items-center bg-slate-900/80 px-8 py-4 rounded-3xl border border-slate-700">
-                            ${scoreboardHtml || '<span class="text-slate-500 text-xs font-black">PRACTICE SESSION</span>'}
+                            ${isGameScheduled ? '<span class="text-slate-400 text-xs font-black tracking-widest uppercase">Matchup Pending</span>' : (scoreboardHtml || '<span class="text-slate-500 text-xs font-black">PRACTICE SESSION</span>')}
                         </div>
                     </div>
                     <div class="p-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         ${game.players.map(p => {
                             const pPts = (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0));
                             const isNone = p.team === "None";
-                            const winner = !isNone && teamTotals[p.team] === maxScore && maxScore > 0;
+                            const winner = !isNone && !isGameScheduled && teamTotals[p.team] === maxScore && maxScore > 0;
                             const teamKey = p.team.toLowerCase().replace(' ', '-');
                             const borderClass = `${teamKey}-border`;
                             const tagClass = `team-${teamKey}-tag`;
