@@ -3,7 +3,7 @@ const GAME_DATABASE = [
   {
     date: "(Scheduled) 2026-02-23",
     gameName: "Game 8",
-    duration: "00:00",
+    duration: "Not Started",
     reboundGame: true, 
     players: [
       { name: "Billy", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -15,7 +15,7 @@ const GAME_DATABASE = [
   {
     date: "(Scheduled) 2026-02-23",
     gameName: "Warmup",
-    duration: "00:00",
+    duration: "Not Started",
     reboundGame: false, 
     players: [
       { name: "Billy", team: "None", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -27,7 +27,7 @@ const GAME_DATABASE = [
   {
     date: "(Scheduled) 2026-02-23",
     gameName: "Rotating 1v2 + ref",
-    duration: "00:00",
+    duration: "Not Started",
     reboundGame: true, 
     players: [
       { name: "Billy", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -113,3 +113,4 @@ const GAME_DATABASE = [
   }
 
 ];
+
