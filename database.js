@@ -7,16 +7,16 @@ const GAME_DATABASE = [
     reboundGame: true, 
     scheduled: true,
     players: [
-      { name: "Billy", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Lucas", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Gem", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Viking", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   }, 
   {
     date: "2026-02-23",
     gameName: "Rotating 1v2 + ref",
-    duration: "00:00",
+    duration: "20:00",
     reboundGame: true, 
     scheduled: true,
     players: [
@@ -94,8 +94,8 @@ const GAME_DATABASE = [
     reboundGame: false, 
     scheduled: false,
     players: [
-      { name: "Billy", team: "Team 2", twoP: 0, threeP: 3, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Gem", team: "Team 1", twoP: 6, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 0, threeP: 3, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Lucas", team: "Team 2", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 2, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   },
