@@ -742,17 +742,29 @@
                         <p class="text-slate-500 mt-4 font-mono text-sm">No data</p>
                     </div>`;
                 }
-                const rank = getRank(p.rating);
+
+                let displayValue = p[c.key];
+                let badgeHtml = '';
+
+                if (c.badge) {
+                    // For the "On fire" card, display the season leaderboard rating + level
+                    const seasonAgg = getPlayerSeasonAggregate(p.name);
+                    const seasonRating = seasonAgg.gp ? calculateEfficiency(seasonAgg, seasonAgg.gp) : 0;
+                    const rank = getRank(seasonRating);
+                    displayValue = seasonRating;
+                    badgeHtml = `<div class="mt-2"><span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span></div>`;
+                }
+
                 return `<div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
                     <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">${c.title}</p>
                     <p class="text-[11px] font-mono text-slate-500 mt-1">${c.subtitle}</p>
                     <div class="mt-5 flex justify-between items-start gap-4">
                         <div>
                             <button type="button" class="font-black italic text-lg text-white underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">${p.name}</button>
-                            ${c.badge ? `<div class="mt-2"><span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span></div>` : ''}
+                            ${badgeHtml}
                         </div>
                         <div class="text-right">
-                            <p class="text-3xl font-black ${c.color}">${c.valueFmt(p[c.key])}</p>
+                            <p class="text-3xl font-black ${c.color}">${c.valueFmt(displayValue)}</p>
                         </div>
                     </div>
                 </div>`;
@@ -777,7 +789,8 @@
 
         function balanceTeams() {
             if(selectedPlayers.size < 2) return alert("Select at least 2 players!");
-            const stats = getGlobalStats();
+            // Use the same season-filtered stats + rating logic as the leaderboard
+            const stats = getGlobalStats(getSeasonFilteredGames());
             const roster = Array.from(selectedPlayers).map(name => ({
                 name,
                 rating: calculateEfficiency(stats[name], stats[name].gp)
