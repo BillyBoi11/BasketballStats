@@ -5,12 +5,12 @@ const GAME_DATABASE = [
     gameName: "Game 8",
     duration: "00:00",
     reboundGame: true, 
-    scheduled: true,
+    scheduled: false,
     players: [
-      { name: "Lucas", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Gem", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Billy", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Viking", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+      { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Gem", team: "Team 1", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 1, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
+      { name: "Viking", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0}
     ]
   }, 
   {
@@ -18,20 +18,20 @@ const GAME_DATABASE = [
     gameName: "Rotating 1v2 + ref",
     duration: "20:00",
     reboundGame: true, 
-    scheduled: true,
+    scheduled: false,
     players: [
-      { name: "Billy", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Lucas", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Gem", team: "Team 3", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Viking", team: "Team 4", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+      { name: "Billy", team: "Team 1", twoP: 5, threeP: 1, ft: 0, miss: 0, foul: 1, reb: 10, tech: 0, stl: 2, blk: 0},
+      { name: "Lucas", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 2, reb: 1, tech: 0, stl: 0, blk: 0},
+      { name: "Gem", team: "Team 3", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 2, tech: 0, stl: 1, blk: 0},
+      { name: "Viking", team: "Team 4", twoP: 7, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 12, tech: 0, stl: 1, blk: 1}
     ]
   }, 
   {
     date: "2026-02-23",
     gameName: "Warmup",
-    duration: "00:00",
+    duration: "10:00",
     reboundGame: false, 
-    scheduled: true,
+    scheduled: false,
     players: [
     
       { name: "Lucas", team: "None", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -122,5 +122,6 @@ const GAME_DATABASE = [
       { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   }
+
 
 ];
