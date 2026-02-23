@@ -65,7 +65,13 @@
             <div id="game-count" class="text-slate-500 font-mono text-xs italic mb-4 text-right"></div>
             <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-indigo-500">
                 <div class="p-6 bg-slate-800/30 flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-indigo-400">Season Leaderboard</h3>
+                    <div class="flex items-center gap-4">
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] text-indigo-400">Season Leaderboard</h3>
+                        <div class="flex items-center gap-2">
+                            <label for="season-dropdown-archives" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
+                            <select id="season-dropdown-archives" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                        </div>
+                    </div>
                     <span class="text-[10px] text-slate-500 font-bold italic uppercase tracking-widest text-right">Rating: Efficiency Normalized Per 15 Mins</span>
                 </div>
                 <div class="overflow-x-auto">
@@ -82,7 +88,6 @@
                                 <th class="stat-header text-orange-400">BLK</th>
                                 <th class="stat-header text-purple-400">STL</th>
                                 <th class="stat-header text-rose-400">FOUL</th>
-                                <th class="stat-header text-amber-500">MISS</th>
                                 <th class="stat-header text-emerald-400">PTS</th>
                                 <th class="stat-header text-indigo-400">Rating</th>
                             </tr>
@@ -97,6 +102,8 @@
         <div id="view-analytics" class="hidden">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-12">
                 <div class="glass p-8 rounded-[2.5rem] lg:col-span-1 border-l-4 border-indigo-500">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 block">Season</label>
+                    <select id="season-dropdown-analytics" onchange="handleSeasonChange(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500 mb-6"></select>
                     <label class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4 block">Select Athlete</label>
                     <select id="player-dropdown" onchange="loadPlayerStats()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
                 </div>
@@ -146,6 +153,7 @@
     <script>
         let chartInstance = null;
         let selectedPlayers = new Set();
+        let selectedSeason = 'all';
 
         const RANKS = [
             { min: 21.0, title: "Hall of Fame", class: "rank-hof", icon: "🏆" },
@@ -166,6 +174,80 @@
         // Helper to check if a game is a scheduled placeholder
         function isScheduled(game) {
             return game.scheduled === true || (game.date && game.date.includes("(Scheduled)"));
+        }
+
+        function getGameYear(game) {
+            const m = String(game?.date || '').match(/^(\d{4})/);
+            return m ? parseInt(m[1], 10) : null;
+        }
+
+        function getAvailableSeasonYears() {
+            if (typeof GAME_DATABASE === 'undefined') return [];
+            const years = new Set();
+            GAME_DATABASE.forEach(g => {
+                const y = getGameYear(g);
+                if (y) years.add(y);
+            });
+            return Array.from(years).sort((a, b) => b - a);
+        }
+
+        function getSeasonFilteredGames() {
+            if (typeof GAME_DATABASE === 'undefined') return [];
+            if (selectedSeason === 'all') return GAME_DATABASE;
+            const seasonYear = parseInt(selectedSeason, 10);
+            return GAME_DATABASE.filter(g => getGameYear(g) === seasonYear);
+        }
+
+        function syncSeasonDropdowns() {
+            const elA = document.getElementById('season-dropdown-archives');
+            const elB = document.getElementById('season-dropdown-analytics');
+            if (elA && elA.value !== selectedSeason) elA.value = selectedSeason;
+            if (elB && elB.value !== selectedSeason) elB.value = selectedSeason;
+        }
+
+        function initSeasonDropdowns() {
+            const years = getAvailableSeasonYears();
+            const options = [
+                ...years.map(y => ({ value: String(y), label: `${y} Season` })),
+                { value: 'all', label: 'All-time' }
+            ];
+
+            const archives = document.getElementById('season-dropdown-archives');
+            const analytics = document.getElementById('season-dropdown-analytics');
+            [archives, analytics].forEach(el => {
+                if (!el) return;
+                const prev = el.value;
+                el.innerHTML = '';
+                options.forEach(o => {
+                    const opt = document.createElement('option');
+                    opt.value = o.value;
+                    opt.innerText = o.label;
+                    el.appendChild(opt);
+                });
+                if (prev && options.some(o => o.value === prev)) {
+                    el.value = prev;
+                }
+            });
+
+            // Ensure selectedSeason is valid; if not, fall back to all-time
+            const yearsAsStrings = years.map(y => String(y));
+            if (!selectedSeason || (selectedSeason !== 'all' && !yearsAsStrings.includes(selectedSeason))) {
+                selectedSeason = 'all';
+            }
+            syncSeasonDropdowns();
+        }
+
+        function handleSeasonChange(newValue) {
+            selectedSeason = newValue || 'all';
+            syncSeasonDropdowns();
+            renderEverything();
+
+            // If user is on analytics, keep everything consistent there too.
+            const analyticsView = document.getElementById('view-analytics');
+            if (analyticsView && !analyticsView.classList.contains('hidden')) {
+                initDropdown();
+                loadPlayerStats();
+            }
         }
 
         function calculateEfficiency(p, gp) {
@@ -202,9 +284,9 @@
             if(tab === 'warroom') { initWarRoom(); }
         }
 
-        function getGlobalStats() {
+        function getGlobalStats(games = GAME_DATABASE) {
             const stats = {};
-            GAME_DATABASE.forEach(game => {
+            games.forEach(game => {
                 // Ignore Scheduled Games for Leaderboard and Ratings
                 if (isScheduled(game)) return;
 
@@ -268,24 +350,43 @@
 
         function initDropdown() {
             const dropdown = document.getElementById('player-dropdown');
-            if (dropdown.options.length > 0) return;
-            const players = [...new Set(GAME_DATABASE.flatMap(g => g.players.map(p => p.name)))].sort();
+            if (!dropdown) return;
+
+            const prev = dropdown.value;
+            dropdown.innerHTML = '';
+
+            const seasonGames = getSeasonFilteredGames().filter(g => !isScheduled(g));
+            const players = [...new Set(seasonGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+
+            if (!players.length) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.innerText = 'NO DATA FOR SEASON';
+                dropdown.appendChild(opt);
+                dropdown.disabled = true;
+                return;
+            }
+
+            dropdown.disabled = false;
             players.forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name; opt.innerText = name.toUpperCase();
                 dropdown.appendChild(opt);
             });
+
+            dropdown.value = players.includes(prev) ? prev : players[0];
         }
 
         function loadPlayerStats() {
             const name = document.getElementById('player-dropdown').value;
             if(!name) return;
             
-            // Filter out scheduled games from history
-            const history = GAME_DATABASE.filter(g => !isScheduled(g) && g.players.some(p => p.name === name && p.team !== "None")).reverse();
+            const seasonGames = getSeasonFilteredGames();
+            const history = seasonGames.filter(g => !isScheduled(g) && g.players.some(p => p.name === name && p.team !== "None")).reverse();
             const playerHistory = history.map(g => g.players.find(p => p.name === name));
             
-            let total = { pts:0, reb:0, foul:0, miss:0, ft:0, wins:0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+            // Initializing with same keys as getGlobalStats to ensure parity
+            let total = { pts:0, reb:0, rebs:0, foul:0, miss:0, ft:0, wins:0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
             let high = { pts:0, reb:0, foul:0, miss:0, blocks: 0, steals: 0 };
             
             history.forEach((g, i) => {
@@ -297,9 +398,16 @@
                 const pBlk = parseInt(p.blk||0);
                 const pStl = parseInt(p.stl||0);
                 
-                total.pts += pPts; total.reb += pReb; total.foul += pFoul; total.miss += pMiss; 
-                total.ft += parseInt(p.ft||0); total.twoP += parseInt(p.twoP||0); total.threeP += parseInt(p.threeP||0);
-                total.blocks += pBlk; total.steals += pStl;
+                total.pts += pPts; 
+                total.reb += pReb; 
+                total.rebs += pReb; // Synced key for calculateEfficiency
+                total.foul += pFoul; 
+                total.miss += pMiss; 
+                total.ft += parseInt(p.ft||0); 
+                total.twoP += parseInt(p.twoP||0); 
+                total.threeP += parseInt(p.threeP||0);
+                total.blocks += pBlk; 
+                total.steals += pStl;
                 total.totalDuration += parseDuration(g.duration);
 
                 if(pPts > high.pts) high.pts = pPts;
@@ -386,12 +494,15 @@
             const container = document.getElementById('archives-container');
             const leaderBody = document.getElementById('leaderboard-body');
             if (typeof GAME_DATABASE === 'undefined') return;
+
+            initSeasonDropdowns();
+            const seasonGames = getSeasonFilteredGames();
             
-            // Count total competitive games (excluding scheduled)
-            const competitiveCount = GAME_DATABASE.filter(g => !isScheduled(g)).length;
-            document.getElementById('game-count').innerText = `${competitiveCount} COMPETITIVE SESSIONS RECORDED`;
+            const competitiveCount = seasonGames.filter(g => !isScheduled(g)).length;
+            const seasonLabel = selectedSeason === 'all' ? 'ALL-TIME' : selectedSeason;
+            document.getElementById('game-count').innerText = `${competitiveCount} COMPETITIVE SESSIONS RECORDED • ${seasonLabel}`;
             
-            const stats = getGlobalStats();
+            const stats = getGlobalStats(seasonGames);
             const sorted = Object.values(stats).sort((a,b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
             
             leaderBody.innerHTML = sorted.map((p, i) => {
@@ -408,13 +519,12 @@
                     <td class="stat-cell text-orange-400">${p.blocks}</td>
                     <td class="stat-cell text-purple-400">${p.steals}</td>
                     <td class="stat-cell text-rose-400">${p.foul}</td>
-                    <td class="stat-cell text-amber-500">${p.miss}</td>
                     <td class="stat-cell text-emerald-400">${p.pts}</td>
                     <td class="stat-cell"><span class="${rank.class} px-3 py-1 rounded-lg text-xs font-black">${rating.toFixed(1)}</span></td>
                 </tr>`;
             }).join('');
 
-            container.innerHTML = GAME_DATABASE.map(game => {
+            container.innerHTML = seasonGames.map(game => {
                 const teamTotals = {};
                 game.players.forEach(p => {
                     const pPts = (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0));
@@ -462,7 +572,7 @@
                                 <div class="${tagClass} text-[9px] font-black px-2 py-0.5 rounded inline-block uppercase tracking-widest mb-4">${p.team}</div>
                                 <div class="grid grid-cols-3 gap-x-2 gap-y-4 text-center border-t border-white/5 pt-4">
                                     <div><p class="text-[9px] text-slate-500 font-bold uppercase">REB</p><p class="font-mono text-blue-400 font-bold">${p.reb||0}</p></div>
-                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">MISS</p><p class="font-mono text-amber-500 font-bold">${p.miss||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">2PT</p><p class="font-mono text-blue-400 font-bold">${p.twoP||0}</p></div>
                                     <div><p class="text-[9px] text-slate-500 font-bold uppercase">FOUL</p><p class="font-mono text-rose-400 font-bold">${p.foul||0}</p></div>
                                     <div><p class="text-[9px] text-slate-500 font-bold uppercase">3PT</p><p class="font-mono text-indigo-400 font-bold">${p.threeP||0}</p></div>
                                     <div><p class="text-[9px] text-slate-500 font-bold uppercase">BLK</p><p class="font-mono text-orange-400 font-bold">${p.blk||0}</p></div>
@@ -475,6 +585,8 @@
             }).join('');
         }
 
+        // Default to all-time when page loads
+        selectedSeason = 'all';
         renderEverything();
     </script>
 </body>
