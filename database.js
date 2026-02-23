@@ -3,7 +3,7 @@ const GAME_DATABASE = [
   {
     date: "2026-02-23",
     gameName: "Game 8",
-    duration: "00:00",
+    duration: "8:00",
     reboundGame: true, 
     scheduled: false,
     players: [
@@ -125,3 +125,4 @@ const GAME_DATABASE = [
 
 
 ];
+
