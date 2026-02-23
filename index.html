@@ -56,7 +56,9 @@
             <nav class="flex gap-3 mb-1">
                 <button onclick="switchTab('archives')" id="tab-archives" class="nav-btn nav-active">Archives</button>
                 <button onclick="switchTab('analytics')" id="tab-analytics" class="nav-btn nav-inactive">Analytics</button>
-                <button onclick="switchTab('warroom')" id="tab-warroom" class="nav-btn nav-inactive">War Room</button>
+                <button onclick="switchTab('compare')" id="tab-compare" class="nav-btn nav-inactive">Compare</button>
+                <button onclick="switchTab('trends')" id="tab-trends" class="nav-btn nav-inactive">Current Trends</button>
+                <button onclick="switchTab('warroom')" id="tab-warroom" class="nav-btn nav-inactive">Teams</button>
                 <a href="recorder.html" class="nav-btn nav-inactive flex items-center">Recorder</a>
             </nav>
         </header>
@@ -71,6 +73,9 @@
                             <label for="season-dropdown-archives" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
                             <select id="season-dropdown-archives" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
                         </div>
+                        <button onclick="copyLeaderboardToClipboard()" class="bg-slate-900/70 hover:bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 font-black uppercase tracking-widest text-[10px] text-white/90 transition-all focus:border-indigo-500">
+                            Copy leaderboard
+                        </button>
                     </div>
                     <span class="text-[10px] text-slate-500 font-bold italic uppercase tracking-widest text-right">Rating: Efficiency Normalized Per 15 Mins</span>
                 </div>
@@ -106,6 +111,7 @@
                     <select id="season-dropdown-analytics" onchange="handleSeasonChange(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500 mb-6"></select>
                     <label class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4 block">Select Athlete</label>
                     <select id="player-dropdown" onchange="loadPlayerStats()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
+                    <div id="hot-player-card" class="mt-6 text-xs text-slate-400"></div>
                 </div>
                 <div id="player-averages" class="glass p-8 rounded-[2.5rem] lg:col-span-3 flex justify-around items-center flex-wrap gap-4"></div>
             </div>
@@ -127,7 +133,16 @@
 
         <div id="view-warroom" class="hidden">
             <div class="glass p-10 rounded-[3rem] mb-12 text-center border-b-4 border-indigo-500">
-                <h2 class="text-4xl font-black italic mb-2 tracking-tighter">TEAM BALANCER</h2>
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-left">
+                        <h2 class="text-4xl font-black italic mb-2 tracking-tighter">TEAMS</h2>
+                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em]">Auto-balance and predict matchups</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
+                        <select id="season-dropdown-teams" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                    </div>
+                </div>
                 <div id="draft-pool" class="flex flex-wrap justify-center gap-4 mt-8"></div>
                 <button onclick="balanceTeams()" class="mt-10 bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase tracking-widest py-4 px-12 rounded-full transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-indigo-500/20">
                     Generate Matchup
@@ -148,6 +163,49 @@
                 </div>
             </div>
         </div>
+
+        <div id="view-compare" class="hidden">
+            <div class="glass p-8 rounded-[2.5rem] mb-10 border-l-4 border-indigo-500">
+                <div class="flex flex-col lg:flex-row justify-between gap-6 items-start lg:items-end">
+                    <div>
+                        <h2 class="text-3xl font-black italic uppercase tracking-tighter">Compare</h2>
+                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em] mt-1">Side-by-side using current season filter</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
+                        <select id="season-dropdown-compare" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                    <div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                        <label class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-3 block">Player A</label>
+                        <select id="compare-player-a" onchange="renderCompare()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
+                        <div id="compare-card-a" class="mt-6"></div>
+                    </div>
+                    <div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                        <label class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-3 block">Player B</label>
+                        <select id="compare-player-b" onchange="renderCompare()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
+                        <div id="compare-card-b" class="mt-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-trends" class="hidden">
+            <div class="glass p-8 rounded-[2.5rem] mb-10 border-l-4 border-emerald-500">
+                <div class="flex flex-col lg:flex-row justify-between gap-6 items-start lg:items-end">
+                    <div>
+                        <h2 class="text-3xl font-black italic uppercase tracking-tighter">Current Trends</h2>
+                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em] mt-1">Leaders over the last 3 competitive games (season-filtered)</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
+                        <select id="season-dropdown-trends" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                    </div>
+                </div>
+                <div id="trends-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -155,12 +213,26 @@
         let selectedPlayers = new Set();
         let selectedSeason = 'all';
 
+        // Rating levels (non-overlapping ranges via descending min thresholds)
         const RANKS = [
-            { min: 21.0, title: "Hall of Fame", class: "rank-hof", icon: "🏆" },
-            { min: 14.0, title: "Elite Scorer", class: "rank-elite", icon: "⭐" },
-            { min: 8.0, title: "Pro Starter", class: "rank-pro", icon: "✅" },
-            { min: 4.0, title: "Role Player", class: "rank-role", icon: "🛡️" },
-            { min: -99, title: "Bench Warmer", class: "rank-rookie", icon: "🐣" }
+            { min: 25, title: "GOAT", class: "rank-hof", icon: "🐐" },
+
+            // Hall of Fame tiers
+            { min: 24, title: "Legendary Hall of Famer", class: "rank-hof", icon: "🏆" }, // gap-safe bucket (24 ≤ rating < 25)
+            { min: 23, title: "Legendary Hall of Famer", class: "rank-hof", icon: "🏆" },
+            { min: 22, title: "Rising Hall of Famer", class: "rank-hof", icon: "🏆" },
+            { min: 21, title: "Rookie Hall of Famer", class: "rank-hof", icon: "🏆" },
+
+            // Upper tiers
+            { min: 18, title: "Superstar", class: "rank-hof", icon: "🌟" },
+            { min: 16, title: "Floor General", class: "rank-elite", icon: "🧠" },
+            { min: 14, title: "Elite Scorer", class: "rank-elite", icon: "⭐" },
+            { min: 12, title: "Playmaker", class: "rank-elite", icon: "🎯" },
+            { min: 10, title: "Court Dominator", class: "rank-pro", icon: "💪" },
+            { min: 8, title: "Pro Starter", class: "rank-pro", icon: "✅" },
+            { min: 6, title: "Team Player", class: "rank-role", icon: "🤝" },
+            { min: 4, title: "Role Player", class: "rank-role", icon: "🛡️" },
+            { min: 0, title: "Benchwarmer", class: "rank-rookie", icon: "🐣" }
         ];
 
         function parseDuration(dur) {
@@ -198,11 +270,30 @@
             return GAME_DATABASE.filter(g => getGameYear(g) === seasonYear);
         }
 
+        function getCompetitiveGamesSortedDesc(games) {
+            return (games || [])
+                .filter(g => !isScheduled(g))
+                .slice()
+                .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+        }
+
+        function getRecentCompetitiveGames(count = 3) {
+            const seasonGames = getSeasonFilteredGames();
+            const sorted = getCompetitiveGamesSortedDesc(seasonGames);
+            return sorted.slice(0, count);
+        }
+
         function syncSeasonDropdowns() {
             const elA = document.getElementById('season-dropdown-archives');
             const elB = document.getElementById('season-dropdown-analytics');
+            const elC = document.getElementById('season-dropdown-teams');
+            const elD = document.getElementById('season-dropdown-compare');
+            const elE = document.getElementById('season-dropdown-trends');
             if (elA && elA.value !== selectedSeason) elA.value = selectedSeason;
             if (elB && elB.value !== selectedSeason) elB.value = selectedSeason;
+            if (elC && elC.value !== selectedSeason) elC.value = selectedSeason;
+            if (elD && elD.value !== selectedSeason) elD.value = selectedSeason;
+            if (elE && elE.value !== selectedSeason) elE.value = selectedSeason;
         }
 
         function initSeasonDropdowns() {
@@ -214,7 +305,10 @@
 
             const archives = document.getElementById('season-dropdown-archives');
             const analytics = document.getElementById('season-dropdown-analytics');
-            [archives, analytics].forEach(el => {
+            const teams = document.getElementById('season-dropdown-teams');
+            const compare = document.getElementById('season-dropdown-compare');
+            const trends = document.getElementById('season-dropdown-trends');
+            [archives, analytics, teams, compare, trends].forEach(el => {
                 if (!el) return;
                 const prev = el.value;
                 el.innerHTML = '';
@@ -248,6 +342,12 @@
                 initDropdown();
                 loadPlayerStats();
             }
+
+            // Keep widgets in sync with season selection
+            renderHotPlayer();
+            initCompareDropdowns();
+            renderCompare();
+            renderTrends();
         }
 
         function calculateEfficiency(p, gp) {
@@ -262,7 +362,8 @@
         }
 
         function getRank(rating) {
-            return RANKS.find(r => rating >= r.min);
+            const r = RANKS.find(x => rating >= x.min);
+            return r || RANKS[RANKS.length - 1];
         }
 
         function formatMinutes(totalMinutes) {
@@ -274,14 +375,32 @@
         function switchTab(tab) {
             document.getElementById('view-archives').classList.toggle('hidden', tab !== 'archives');
             document.getElementById('view-analytics').classList.toggle('hidden', tab !== 'analytics');
+            document.getElementById('view-compare').classList.toggle('hidden', tab !== 'compare');
+            document.getElementById('view-trends').classList.toggle('hidden', tab !== 'trends');
             document.getElementById('view-warroom').classList.toggle('hidden', tab !== 'warroom');
             
             document.getElementById('tab-archives').className = `nav-btn ${tab === 'archives' ? 'nav-active' : 'nav-inactive'}`;
             document.getElementById('tab-analytics').className = `nav-btn ${tab === 'analytics' ? 'nav-active' : 'nav-inactive'}`;
+            document.getElementById('tab-compare').className = `nav-btn ${tab === 'compare' ? 'nav-active' : 'nav-inactive'}`;
+            document.getElementById('tab-trends').className = `nav-btn ${tab === 'trends' ? 'nav-active' : 'nav-inactive'}`;
             document.getElementById('tab-warroom').className = `nav-btn ${tab === 'warroom' ? 'nav-active' : 'nav-inactive'}`;
             
-            if(tab === 'analytics') { initDropdown(); loadPlayerStats(); }
+            if(tab === 'analytics') { initDropdown(); loadPlayerStats(); renderHotPlayer(); }
+            if(tab === 'compare') { initCompareDropdowns(); renderCompare(); }
+            if(tab === 'trends') { renderTrends(); }
             if(tab === 'warroom') { initWarRoom(); }
+        }
+
+        function focusOnPlayer(name) {
+            switchTab('analytics');
+            initDropdown();
+            const dropdown = document.getElementById('player-dropdown');
+            if (!dropdown) return;
+            const options = Array.from(dropdown.options).map(o => o.value);
+            if (options.includes(name)) {
+                dropdown.value = name;
+                loadPlayerStats();
+            }
         }
 
         function getGlobalStats(games = GAME_DATABASE) {
@@ -316,10 +435,303 @@
             return stats;
         }
 
+        function getCurrentSortedLeaderboardRows() {
+            const seasonGames = getSeasonFilteredGames();
+            const stats = getGlobalStats(seasonGames);
+            const sorted = Object.values(stats).sort((a, b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
+            return sorted.map((p, idx) => {
+                const rating = calculateEfficiency(p, p.gp);
+                const rank = getRank(rating);
+                return {
+                    rank: idx + 1,
+                    name: p.name,
+                    gp: p.gp,
+                    wins: p.wins,
+                    time: formatMinutes(p.totalDuration),
+                    twoP: p.twoP,
+                    threeP: p.threeP,
+                    rebs: p.rebs,
+                    blocks: p.blocks,
+                    steals: p.steals,
+                    foul: p.foul,
+                    pts: p.pts,
+                    rating: rating.toFixed(1),
+                    rankTitle: rank?.title || '',
+                };
+            });
+        }
+
+        function renderHotPlayer() {
+            const card = document.getElementById('hot-player-card');
+            if (!card) return;
+
+            const recentGames = getRecentCompetitiveGames(3);
+            if (!recentGames.length) {
+                card.innerHTML = '<span class="text-slate-500">No competitive games for this season yet.</span>';
+                return;
+            }
+
+            // Use the same aggregation + rating logic as the leaderboard.
+            const stats = getGlobalStats(recentGames);
+            const ranked = Object.values(stats)
+                .map(p => ({ ...p, rating: calculateEfficiency(p, p.gp) }))
+                .sort((a, b) => b.rating - a.rating);
+
+            if (!ranked.length) {
+                card.innerHTML = '<span class="text-slate-500">Not enough data to find a hot player.</span>';
+                return;
+            }
+
+            const top = ranked[0];
+
+            // Display the player's season leaderboard rating (avoid confusion with "recent rating")
+            const seasonAgg = getPlayerSeasonAggregate(top.name);
+            const seasonRating = seasonAgg.gp ? calculateEfficiency(seasonAgg, seasonAgg.gp) : 0;
+
+            const avgPts = top.gp ? (top.pts / top.gp).toFixed(1) : '0.0';
+            const winPct = top.gp ? ((top.wins / top.gp) * 100).toFixed(0) : '0';
+
+            card.innerHTML = `
+                <div class="mt-4 p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-indigo-500/5 to-slate-900 border border-emerald-500/40">
+                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-[0.25em] mb-1">Player on fire (last ${recentGames.length} games)</p>
+                    <p class="text-lg font-black text-white mb-1">${top.name}</p>
+                    <p class="text-[11px] text-slate-300 font-mono">Rating ${seasonRating.toFixed(1)} • ${avgPts} PPG (last ${recentGames.length}) • ${winPct}% win rate (last ${recentGames.length})</p>
+                </div>
+            `;
+        }
+
+        async function copyLeaderboardToClipboard() {
+            const rows = getCurrentSortedLeaderboardRows();
+            const seasonLabel = selectedSeason === 'all' ? 'ALL-TIME' : selectedSeason;
+            const stamp = new Date().toISOString().slice(0, 10);
+
+            if (!rows.length) {
+                alert(`No leaderboard data for ${seasonLabel}.`);
+                return;
+            }
+
+            const header = [
+                'RANK',
+                'PLAYER',
+                'GP',
+                'WINS',
+                'TIME',
+                '2PT',
+                '3PT',
+                'REB',
+                'BLK',
+                'STL',
+                'FOUL',
+                'PTS',
+                'RATING',
+                'LEVEL'
+            ].join('\t');
+
+            const body = rows.map(r => [
+                r.rank,
+                r.name,
+                r.gp,
+                r.wins,
+                r.time,
+                r.twoP,
+                r.threeP,
+                r.rebs,
+                r.blocks,
+                r.steals,
+                r.foul,
+                r.pts,
+                r.rating,
+                r.rankTitle
+            ].join('\t')).join('\n');
+
+            const text = `COURTSIDE PRO LEADERBOARD (${seasonLabel})\nGenerated: ${stamp}\n\n${header}\n${body}\n`;
+
+            try {
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                alert('Leaderboard copied to clipboard.');
+            } catch (e) {
+                console.error(e);
+                alert('Copy failed. Your browser may be blocking clipboard access.');
+            }
+        }
+
+        function getPlayerSeasonAggregate(playerName) {
+            const seasonGames = getSeasonFilteredGames().filter(g => !isScheduled(g));
+            const history = seasonGames.filter(g => g.players.some(p => p.name === playerName && p.team !== "None"));
+            if (!history.length) {
+                return { name: playerName, gp: 0, wins: 0, pts: 0, rebs: 0, foul: 0, miss: 0, ft: 0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+            }
+            const stats = getGlobalStats(history);
+            return stats[playerName] || { name: playerName, gp: 0, wins: 0, pts: 0, rebs: 0, foul: 0, miss: 0, ft: 0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+        }
+
+        function initCompareDropdowns() {
+            const elA = document.getElementById('compare-player-a');
+            const elB = document.getElementById('compare-player-b');
+            if (!elA || !elB) return;
+
+            const seasonGames = getSeasonFilteredGames().filter(g => !isScheduled(g));
+            const players = [...new Set(seasonGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+
+            const prevA = elA.value;
+            const prevB = elB.value;
+            elA.innerHTML = '';
+            elB.innerHTML = '';
+
+            if (!players.length) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.innerText = 'NO DATA FOR SEASON';
+                elA.appendChild(opt.cloneNode(true));
+                elB.appendChild(opt);
+                elA.disabled = true;
+                elB.disabled = true;
+                return;
+            }
+
+            elA.disabled = false;
+            elB.disabled = false;
+            players.forEach(name => {
+                const o1 = document.createElement('option');
+                o1.value = name; o1.innerText = name.toUpperCase();
+                elA.appendChild(o1);
+                const o2 = document.createElement('option');
+                o2.value = name; o2.innerText = name.toUpperCase();
+                elB.appendChild(o2);
+            });
+
+            elA.value = players.includes(prevA) ? prevA : players[0];
+            const fallbackB = players[1] || players[0];
+            elB.value = players.includes(prevB) ? prevB : fallbackB;
+        }
+
+        function renderCompare() {
+            const elA = document.getElementById('compare-player-a');
+            const elB = document.getElementById('compare-player-b');
+            const cardA = document.getElementById('compare-card-a');
+            const cardB = document.getElementById('compare-card-b');
+            if (!elA || !elB || !cardA || !cardB) return;
+
+            const aName = elA.value;
+            const bName = elB.value;
+
+            const a = aName ? getPlayerSeasonAggregate(aName) : null;
+            const b = bName ? getPlayerSeasonAggregate(bName) : null;
+
+            const render = (p, accent) => {
+                if (!p || !p.gp) {
+                    return `<div class="text-slate-500 text-sm font-mono">No games for this player in the selected season.</div>`;
+                }
+                const rating = calculateEfficiency(p, p.gp);
+                const rank = getRank(rating);
+                const ppg = (p.pts / p.gp).toFixed(1);
+                const rpg = (p.rebs / p.gp).toFixed(1);
+                const bpg = (p.blocks / p.gp).toFixed(1);
+                const spg = (p.steals / p.gp).toFixed(1);
+                const winPct = ((p.wins / p.gp) * 100).toFixed(0);
+                return `
+                    <div class="p-5 rounded-[1.75rem] bg-slate-950/30 border border-white/5">
+                        <div class="flex justify-between items-start gap-4">
+                            <div>
+                                <p class="text-2xl font-black italic text-white">${p.name}</p>
+                                <span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Rating / 15m</p>
+                                <p class="text-3xl font-black ${accent}">${rating.toFixed(1)}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-6 text-center">
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">GP</p><p class="text-xl font-black text-white">${p.gp}</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">WIN %</p><p class="text-xl font-black text-white">${winPct}%</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">PPG</p><p class="text-xl font-black text-emerald-400">${ppg}</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">RPG</p><p class="text-xl font-black text-blue-400">${rpg}</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">BPG</p><p class="text-xl font-black text-orange-400">${bpg}</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">SPG</p><p class="text-xl font-black text-purple-400">${spg}</p></div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            cardA.innerHTML = render(a, 'text-indigo-400');
+            cardB.innerHTML = render(b, 'text-emerald-400');
+        }
+
+        function renderTrends() {
+            const container = document.getElementById('trends-container');
+            if (!container) return;
+
+            const recentGames = getRecentCompetitiveGames(3);
+            if (!recentGames.length) {
+                container.innerHTML = `<div class="text-slate-500 font-mono text-sm">No competitive games for this season yet.</div>`;
+                return;
+            }
+
+            // Use leaderboard aggregation + rating logic for clarity/consistency.
+            const stats = getGlobalStats(recentGames);
+            const players = Object.values(stats).map(p => ({
+                ...p,
+                rating: calculateEfficiency(p, p.gp),
+                ppg: p.gp ? (p.pts / p.gp) : 0,
+                bpg: p.gp ? (p.blocks / p.gp) : 0,
+                spg: p.gp ? (p.steals / p.gp) : 0,
+                rpg: p.gp ? (p.rebs / p.gp) : 0,
+                threesPg: p.gp ? (p.threeP / p.gp) : 0,
+            }));
+
+            const topBy = (key) => players.slice().sort((a, b) => (b[key] - a[key]) || (b.rating - a.rating))[0] || null;
+
+            const cards = [
+                { title: 'Scoring trend', subtitle: `PPG (last ${recentGames.length})`, key: 'ppg', valueFmt: v => v.toFixed(1), color: 'text-emerald-400' },
+                { title: 'Blocks trend', subtitle: `BPG (last ${recentGames.length})`, key: 'bpg', valueFmt: v => v.toFixed(1), color: 'text-orange-400' },
+                { title: 'Steals trend', subtitle: `SPG (last ${recentGames.length})`, key: 'spg', valueFmt: v => v.toFixed(1), color: 'text-purple-400' },
+                { title: 'Rebounds trend', subtitle: `RPG (last ${recentGames.length})`, key: 'rpg', valueFmt: v => v.toFixed(1), color: 'text-blue-400' },
+                { title: '3PT trend', subtitle: `3PM/G (last ${recentGames.length})`, key: 'threesPg', valueFmt: v => v.toFixed(1), color: 'text-indigo-400' },
+                { title: 'On fire', subtitle: `Rating / 15m (last ${recentGames.length})`, key: 'rating', valueFmt: v => v.toFixed(1), color: 'text-amber-400', badge: true },
+            ];
+
+            container.innerHTML = cards.map(c => {
+                const p = topBy(c.key);
+                if (!p) {
+                    return `<div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                        <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">${c.title}</p>
+                        <p class="text-slate-500 mt-4 font-mono text-sm">No data</p>
+                    </div>`;
+                }
+                const rank = getRank(p.rating);
+                return `<div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                    <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">${c.title}</p>
+                    <p class="text-[11px] font-mono text-slate-500 mt-1">${c.subtitle}</p>
+                    <div class="mt-5 flex justify-between items-start gap-4">
+                        <div>
+                            <button type="button" class="font-black italic text-lg text-white underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">${p.name}</button>
+                            ${c.badge ? `<div class="mt-2"><span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span></div>` : ''}
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-black ${c.color}">${c.valueFmt(p[c.key])}</p>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
         function initWarRoom() {
             const pool = document.getElementById('draft-pool');
             pool.innerHTML = '';
-            const stats = getGlobalStats();
+            const stats = getGlobalStats(getSeasonFilteredGames());
             Object.keys(stats).sort().forEach(name => {
                 const card = document.createElement('div');
                 card.className = `draft-card px-6 py-4 rounded-2xl cursor-pointer hover:border-indigo-400 font-black italic text-sm ${selectedPlayers.has(name) ? 'draft-selected' : ''}`;
@@ -427,15 +839,18 @@
             });
 
             const avg = (val) => history.length ? (val/history.length).toFixed(1) : 0;
-            const rating = calculateEfficiency(total, history.length);
+
+            // Use the same season aggregate + rating logic as the leaderboard
+            const seasonAggregate = getPlayerSeasonAggregate(name);
+            const rating = seasonAggregate.gp ? calculateEfficiency(seasonAggregate, seasonAggregate.gp) : 0;
             const rank = getRank(rating);
 
             document.getElementById('player-averages').innerHTML = `
-                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG PTS</p><p class="text-3xl font-black text-emerald-400">${avg(total.pts)}</p></div>
-                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG REB</p><p class="text-3xl font-black text-blue-400">${avg(total.reb)}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG PTS</p><p class="text-3xl font-black text-emerald-400">${seasonAggregate.gp ? (seasonAggregate.pts/seasonAggregate.gp).toFixed(1) : 0}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG REB</p><p class="text-3xl font-black text-blue-400">${seasonAggregate.gp ? (seasonAggregate.rebs/seasonAggregate.gp).toFixed(1) : 0}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">RATING / 15m</p><p class="text-3xl font-black text-indigo-400">${rating.toFixed(1)}</p></div>
-                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG STL</p><p class="text-3xl font-black text-purple-400">${avg(total.steals)}</p></div>
-                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">WIN %</p><p class="text-3xl font-black text-white">${history.length ? ((total.wins/history.length)*100).toFixed(0) : 0}%</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG STL</p><p class="text-3xl font-black text-purple-400">${seasonAggregate.gp ? (seasonAggregate.steals/seasonAggregate.gp).toFixed(1) : 0}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">WIN %</p><p class="text-3xl font-black text-white">${seasonAggregate.gp ? ((seasonAggregate.wins/seasonAggregate.gp)*100).toFixed(0) : 0}%</p></div>
             `;
 
             document.getElementById('player-records').innerHTML = `
@@ -477,7 +892,7 @@
             `;
 
             if (nextRank) {
-                const minRange = rank.min === -99 ? 0 : rank.min;
+                const minRange = rank.min;
                 const maxRange = nextRank.min;
                 const progressPercent = Math.min(100, Math.max(0, ((rating - minRange) / (maxRange - minRange)) * 100));
                 progressHtml += `
@@ -509,7 +924,15 @@
                 const rating = calculateEfficiency(p, p.gp);
                 const rank = getRank(rating);
                 return `<tr class="hover:bg-white/5 transition text-sm">
-                    <td class="p-4 pl-8 font-black italic"><div>${i === 0 ? '👑' : ''} ${p.name}</div><span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span></td>
+                    <td class="p-4 pl-8 font-black italic">
+                        <div>
+                            ${i === 0 ? '👑' : ''}
+                            <button type="button" class="underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">
+                                ${p.name}
+                            </button>
+                        </div>
+                        <span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span>
+                    </td>
                     <td class="stat-cell text-slate-400">${p.gp}</td>
                     <td class="stat-cell text-emerald-400">${p.wins}</td>
                     <td class="stat-cell text-white font-mono">${formatMinutes(p.totalDuration)}</td>
@@ -568,7 +991,15 @@
                             const tagClass = `team-${teamKey}-tag`;
                             
                             return `<div class="player-chip p-5 rounded-2xl relative overflow-hidden ${borderClass}">
-                                <div class="flex justify-between items-start mb-1"><h4 class="font-black text-xl italic">${p.name} ${winner ? '👑' : ''}</h4><span class="bg-blue-600 text-[10px] font-black px-2 py-1 rounded-lg">${pPts}P</span></div>
+                                <div class="flex justify-between items-start mb-1">
+                                    <h4 class="font-black text-xl italic">
+                                        <button type="button" class="underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">
+                                            ${p.name}
+                                        </button>
+                                        ${winner ? '👑' : ''}
+                                    </h4>
+                                    <span class="bg-blue-600 text-[10px] font-black px-2 py-1 rounded-lg">${pPts}P</span>
+                                </div>
                                 <div class="${tagClass} text-[9px] font-black px-2 py-0.5 rounded inline-block uppercase tracking-widest mb-4">${p.team}</div>
                                 <div class="grid grid-cols-3 gap-x-2 gap-y-4 text-center border-t border-white/5 pt-4">
                                     <div><p class="text-[9px] text-slate-500 font-bold uppercase">REB</p><p class="font-mono text-blue-400 font-bold">${p.reb||0}</p></div>
@@ -583,6 +1014,9 @@
                     </div></div>
                 </div>`;
             }).join('');
+
+            // Keep the "on fire" widget synced even if user stays on analytics.
+            renderHotPlayer();
         }
 
         // Default to all-time when page loads
