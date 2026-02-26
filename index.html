@@ -142,7 +142,17 @@
                     <select id="season-dropdown-analytics" onchange="handleSeasonChange(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500 mb-6"></select>
                     <label class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4 block">Select Athlete</label>
                     <select id="player-dropdown" onchange="loadPlayerStats()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
-                    <div id="hot-player-card" class="mt-6 text-xs text-slate-400"></div>
+                    <div class="mt-4 flex items-center justify-between gap-3">
+                        <label class="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                            <input type="checkbox" id="analytics-compare-toggle" onchange="handleAnalyticsCompareToggle(this.checked)" class="h-3 w-3 rounded border-slate-600 bg-slate-900">
+                            <span>Show last season comparison</span>
+                        </label>
+                        <button type="button" onclick="copyPlayerReport()" class="bg-slate-900/80 hover:bg-slate-900 text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded-2xl border border-slate-700 text-slate-200">
+                            Copy player report
+                        </button>
+                    </div>
+                    <div id="analytics-compare-note" class="mt-2 text-[10px] text-slate-500 font-mono"></div>
+                    <div id="hot-player-card" class="mt-4 text-xs text-slate-400"></div>
                 </div>
                 <div id="player-averages" class="glass p-8 rounded-[2.5rem] lg:col-span-3 flex justify-around items-center flex-wrap gap-4"></div>
             </div>
@@ -192,6 +202,47 @@
                     <h4 class="text-rose-400 font-black uppercase tracking-widest text-center mb-6 text-xs">Projected Team 2</h4>
                     <div id="team-2-roster" class="space-y-3"></div>
                 </div>
+            </div>
+
+            <div class="glass p-8 rounded-[3rem] mt-8">
+                <div class="flex flex-col lg:flex-row justify-between items-start gap-4 mb-6">
+                    <div>
+                        <h3 class="text-2xl font-black italic tracking-tighter">Custom Teams (Manual)</h3>
+                        <p class="text-slate-500 text-[11px] font-mono uppercase tracking-[0.25em] mt-1">Drag players into Team 1 / Team 2 and predict odds</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="button" onclick="resetManualTeams()" class="bg-slate-900/70 hover:bg-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border border-slate-700 text-slate-200">
+                            Reset custom teams
+                        </button>
+                        <button type="button" onclick="predictManualTeamsOdds()" class="bg-emerald-600 hover:bg-emerald-500 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full text-white shadow-lg shadow-emerald-500/30">
+                            Predict odds
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div>
+                        <h4 class="text-xs font-black uppercase tracking-[0.25em] text-slate-500 mb-2">Available</h4>
+                        <div id="manual-pool" class="min-h-[80px] bg-slate-900/60 border border-slate-800 rounded-2xl p-3 flex flex-wrap gap-2"
+                             ondragover="event.preventDefault()" ondrop="handleManualDrop(event, 'pool')"></div>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-2 gap-2">
+                            <input id="manual-team-0-name" type="text" value="Team 1" oninput="updateManualTeamName(0, this.value)"
+                                   class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-black uppercase tracking-widest text-white outline-none focus:border-indigo-500 flex-1" />
+                        </div>
+                        <div id="manual-team-0" class="min-h-[80px] bg-slate-900/60 border border-blue-500/60 rounded-2xl p-3 flex flex-wrap gap-2"
+                             ondragover="event.preventDefault()" ondrop="handleManualDrop(event, 0)"></div>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-2 gap-2">
+                            <input id="manual-team-1-name" type="text" value="Team 2" oninput="updateManualTeamName(1, this.value)"
+                                   class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-black uppercase tracking-widest text-white outline-none focus:border-indigo-500 flex-1" />
+                        </div>
+                        <div id="manual-team-1" class="min-h-[80px] bg-slate-900/60 border border-rose-500/60 rounded-2xl p-3 flex flex-wrap gap-2"
+                             ondragover="event.preventDefault()" ondrop="handleManualDrop(event, 1)"></div>
+                    </div>
+                </div>
+                <div id="manual-win-probability" class="mt-4 text-xs text-slate-400 font-mono"></div>
             </div>
         </div>
 
@@ -243,6 +294,10 @@
         let chartInstance = null;
         let selectedPlayers = new Set();
         let selectedSeason = 'all';
+        let analyticsShowLastSeason = false;
+        let manualTeams = [];
+        let manualPool = [];
+        let manualRatings = {};
 
         // Rating levels (non-overlapping ranges via descending min thresholds)
         const RANKS = [
@@ -309,7 +364,11 @@
         }
 
         function getRecentCompetitiveGames(count = 3) {
-            const seasonGames = getSeasonFilteredGames();
+            // Only include games that are treated as "real" for the leaderboard:
+            // not scheduled and with at least one player assigned to a team.
+            const seasonGames = getSeasonFilteredGames().filter(g => 
+                !isScheduled(g) && Array.isArray(g.players) && g.players.some(p => p.team !== "None")
+            );
             const sorted = getCompetitiveGamesSortedDesc(seasonGames);
             return sorted.slice(0, count);
         }
@@ -609,6 +668,19 @@
             return stats[playerName] || { name: playerName, gp: 0, wins: 0, pts: 0, rebs: 0, foul: 0, miss: 0, ft: 0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
         }
 
+        function getPlayerSeasonAggregateForYear(playerName, year) {
+            if (!year || typeof GAME_DATABASE === 'undefined') {
+                return { name: playerName, gp: 0, wins: 0, pts: 0, rebs: 0, foul: 0, miss: 0, ft: 0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+            }
+            const seasonGames = GAME_DATABASE.filter(g => getGameYear(g) === year && !isScheduled(g));
+            const history = seasonGames.filter(g => g.players.some(p => p.name === playerName && p.team !== "None"));
+            if (!history.length) {
+                return { name: playerName, gp: 0, wins: 0, pts: 0, rebs: 0, foul: 0, miss: 0, ft: 0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+            }
+            const stats = getGlobalStats(history);
+            return stats[playerName] || { name: playerName, gp: 0, wins: 0, pts: 0, rebs: 0, foul: 0, miss: 0, ft: 0, twoP: 0, threeP: 0, blocks: 0, steals: 0, totalDuration: 0 };
+        }
+
         function initCompareDropdowns() {
             const elA = document.getElementById('compare-player-a');
             const elB = document.getElementById('compare-player-b');
@@ -785,6 +857,118 @@
                 };
                 pool.appendChild(card);
             });
+
+            initManualTeamsBuilder(stats);
+        }
+
+        function initManualTeamsBuilder(stats) {
+            manualRatings = {};
+            manualPool = [];
+            manualTeams = [
+                { id: 0, name: 'Team 1', players: [] },
+                { id: 1, name: 'Team 2', players: [] }
+            ];
+
+            Object.keys(stats).sort().forEach(name => {
+                const s = stats[name];
+                manualRatings[name] = calculateEfficiency(s, s.gp);
+                manualPool.push(name);
+            });
+
+            renderManualBuilder();
+        }
+
+        function renderManualBuilder() {
+            const poolEl = document.getElementById('manual-pool');
+            const team0El = document.getElementById('manual-team-0');
+            const team1El = document.getElementById('manual-team-1');
+            if (!poolEl || !team0El || !team1El) return;
+
+            const t0 = manualTeams[0] || { name: 'Team 1', players: [] };
+            const t1 = manualTeams[1] || { name: 'Team 2', players: [] };
+
+            const t0NameInput = document.getElementById('manual-team-0-name');
+            const t1NameInput = document.getElementById('manual-team-1-name');
+            if (t0NameInput) t0NameInput.value = t0.name || 'Team 1';
+            if (t1NameInput) t1NameInput.value = t1.name || 'Team 2';
+
+            const renderChip = (name, accentClass) => {
+                const rating = manualRatings[name] || 0;
+                return `<div class="px-3 py-1.5 rounded-xl bg-slate-950/60 border border-slate-700 text-[11px] font-mono text-slate-200 flex items-center gap-2 cursor-move"
+                             draggable="true" ondragstart="handleManualDragStart(event, '${name.replace(/'/g, "\\'")}')">
+                            <span>${name}</span>
+                            <span class="${accentClass} text-[10px] font-black ml-auto">R ${rating.toFixed(1)}</span>
+                        </div>`;
+            };
+
+            poolEl.innerHTML = manualPool.map(name => renderChip(name, 'text-slate-400')).join('');
+            team0El.innerHTML = t0.players.map(name => renderChip(name, 'text-blue-400')).join('');
+            team1El.innerHTML = t1.players.map(name => renderChip(name, 'text-rose-400')).join('');
+        }
+
+        function handleManualDragStart(event, playerName) {
+            if (!event || !event.dataTransfer) return;
+            event.dataTransfer.setData('text/plain', playerName);
+        }
+
+        function handleManualDrop(event, target) {
+            if (!event || !event.dataTransfer) return;
+            event.preventDefault();
+            const name = event.dataTransfer.getData('text/plain');
+            if (!name) return;
+
+            // Remove from all containers first
+            manualPool = manualPool.filter(n => n !== name);
+            manualTeams.forEach(t => {
+                t.players = t.players.filter(n => n !== name);
+            });
+
+            if (target === 'pool') {
+                if (!manualPool.includes(name)) manualPool.push(name);
+            } else if (typeof target === 'number' && manualTeams[target]) {
+                if (!manualTeams[target].players.includes(name)) {
+                    manualTeams[target].players.push(name);
+                }
+            }
+
+            renderManualBuilder();
+        }
+
+        function updateManualTeamName(index, value) {
+            if (!manualTeams[index]) return;
+            manualTeams[index].name = value || (index === 0 ? 'Team 1' : 'Team 2');
+        }
+
+        function resetManualTeams() {
+            const stats = getGlobalStats(getSeasonFilteredGames());
+            initManualTeamsBuilder(stats);
+            const out = document.getElementById('manual-win-probability');
+            if (out) out.textContent = '';
+        }
+
+        function predictManualTeamsOdds() {
+            if (!manualTeams || manualTeams.length < 2) return;
+            const t0 = manualTeams[0];
+            const t1 = manualTeams[1];
+            if (!t0.players.length || !t1.players.length) {
+                alert('Add at least one player to both Team 1 and Team 2.');
+                return;
+            }
+
+            let sum0 = 0;
+            let sum1 = 0;
+            t0.players.forEach(name => { sum0 += manualRatings[name] || 0; });
+            t1.players.forEach(name => { sum1 += manualRatings[name] || 0; });
+
+            const raw = 50 + ((sum0 - sum1) * 5);
+            const clamped = Math.min(95, Math.max(5, Number(raw.toFixed(0))));
+            const name0 = (t0.name || 'Team 1').toUpperCase();
+            const name1 = (t1.name || 'Team 2').toUpperCase();
+
+            const out = document.getElementById('manual-win-probability');
+            if (out) {
+                out.textContent = `WIN PROBABILITY: ${name0} ${clamped}% | ${name1} ${100 - clamped}%  (ratings ${sum0.toFixed(1)} vs ${sum1.toFixed(1)})`;
+            }
         }
 
         function balanceTeams() {
@@ -889,12 +1073,50 @@
             const rating = seasonAggregate.gp ? calculateEfficiency(seasonAggregate, seasonAggregate.gp) : 0;
             const rank = getRank(rating);
 
+            const compareNoteEl = document.getElementById('analytics-compare-note');
+            if (compareNoteEl) compareNoteEl.textContent = '';
+
+            let lastSeasonHtml = '';
+            if (analyticsShowLastSeason && selectedSeason !== 'all') {
+                const currentYear = parseInt(selectedSeason, 10);
+                if (!isNaN(currentYear)) {
+                    const prevYear = currentYear - 1;
+                    const lastAgg = getPlayerSeasonAggregateForYear(name, prevYear);
+                    if (lastAgg.gp) {
+                        const lastRating = calculateEfficiency(lastAgg, lastAgg.gp);
+                        const lastPpg = (lastAgg.pts / lastAgg.gp).toFixed(1);
+                        const currentPpg = seasonAggregate.gp ? (seasonAggregate.pts / seasonAggregate.gp).toFixed(1) : '0.0';
+                        const deltaRating = (rating - lastRating).toFixed(1);
+                        const deltaSign = (rating - lastRating) >= 0 ? '+' : '';
+                        lastSeasonHtml = `
+                            <div class="mt-6 w-full text-xs text-slate-400 font-mono bg-slate-900/60 border border-slate-800 rounded-2xl px-4 py-3">
+                                <div class="flex justify-between items-center gap-3">
+                                    <div>
+                                        <p class="text-[9px] font-black text-slate-500 uppercase tracking-[0.25em]">Last season comparison (${prevYear})</p>
+                                        <p>PPG ${lastPpg} → <span class="text-emerald-400">${currentPpg}</span></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-[9px] font-black text-slate-500 uppercase tracking-[0.25em]">Rating change</p>
+                                        <p class="text-sm font-black ${(rating - lastRating) >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${deltaSign}${deltaRating}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (compareNoteEl) {
+                        compareNoteEl.textContent = `No recorded games for ${prevYear} for this player.`;
+                    }
+                }
+            } else if (analyticsShowLastSeason && selectedSeason === 'all' && compareNoteEl) {
+                compareNoteEl.textContent = 'Comparison available only when a specific season is selected.';
+            }
+
             document.getElementById('player-averages').innerHTML = `
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG PTS</p><p class="text-3xl font-black text-emerald-400">${seasonAggregate.gp ? (seasonAggregate.pts/seasonAggregate.gp).toFixed(1) : 0}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG REB</p><p class="text-3xl font-black text-blue-400">${seasonAggregate.gp ? (seasonAggregate.rebs/seasonAggregate.gp).toFixed(1) : 0}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">RATING / 15m</p><p class="text-3xl font-black text-indigo-400">${rating.toFixed(1)}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG STL</p><p class="text-3xl font-black text-purple-400">${seasonAggregate.gp ? (seasonAggregate.steals/seasonAggregate.gp).toFixed(1) : 0}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">WIN %</p><p class="text-3xl font-black text-white">${seasonAggregate.gp ? ((seasonAggregate.wins/seasonAggregate.gp)*100).toFixed(0) : 0}%</p></div>
+                ${lastSeasonHtml}
             `;
 
             document.getElementById('player-records').innerHTML = `
@@ -947,6 +1169,61 @@
                 `;
             }
             document.getElementById('rank-progress-card').innerHTML = progressHtml;
+        }
+
+        function handleAnalyticsCompareToggle(enabled) {
+            analyticsShowLastSeason = !!enabled;
+            loadPlayerStats();
+        }
+
+        async function copyPlayerReport() {
+            const dropdown = document.getElementById('player-dropdown');
+            if (!dropdown) return;
+            const name = dropdown.value;
+            if (!name) {
+                alert('Select a player first.');
+                return;
+            }
+
+            const seasonAggregate = getPlayerSeasonAggregate(name);
+            if (!seasonAggregate.gp) {
+                alert('No games for this player in the selected season.');
+                return;
+            }
+
+            const rating = calculateEfficiency(seasonAggregate, seasonAggregate.gp);
+            const rank = getRank(rating);
+            const seasonLabel = selectedSeason === 'all' ? 'ALL-TIME' : `${selectedSeason} Season`;
+            const ppg = (seasonAggregate.pts / seasonAggregate.gp).toFixed(1);
+            const rpg = (seasonAggregate.rebs / seasonAggregate.gp).toFixed(1);
+            const spg = (seasonAggregate.steals / seasonAggregate.gp).toFixed(1);
+            const winPct = ((seasonAggregate.wins / seasonAggregate.gp) * 100).toFixed(0);
+
+            const text = `${name.toUpperCase()} – ${seasonLabel}
+GP ${seasonAggregate.gp}, WINS ${seasonAggregate.wins} (${winPct}%)
+${ppg} PTS, ${rpg} REB, ${spg} STL per game
+Rating ${rating.toFixed(1)} per 15 min – Level: ${rank.title}`;
+
+            try {
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                alert('Player report copied to clipboard.');
+            } catch (e) {
+                console.error(e);
+                alert('Copy failed. Your browser may be blocking clipboard access.');
+            }
         }
 
         function renderEverything() {
@@ -1033,8 +1310,21 @@
                             const teamKey = p.team.toLowerCase().replace(' ', '-');
                             const borderClass = `${teamKey}-border`;
                             const tagClass = `team-${teamKey}-tag`;
+                            const foulCount = parseInt(p.foul || 0);
+                            let foulRingClass = '';
+                            let foulBadge = '';
+                            if (foulCount >= 5) {
+                                foulRingClass = ' ring-4 ring-red-500/70 ring-offset-2 ring-offset-slate-900';
+                                foulBadge = '<span class="ml-2 text-[9px] font-black text-rose-400 uppercase tracking-widest">Foul trouble • 5+</span>';
+                            } else if (foulCount === 4) {
+                                foulRingClass = ' ring-4 ring-orange-500/60 ring-offset-2 ring-offset-slate-900';
+                                foulBadge = '<span class="ml-2 text-[9px] font-black text-orange-400 uppercase tracking-widest">Foul trouble • 4</span>';
+                            } else if (foulCount === 3) {
+                                foulRingClass = ' ring-2 ring-amber-400/70 ring-offset-2 ring-offset-slate-900';
+                                foulBadge = '<span class="ml-2 text-[9px] font-black text-amber-300 uppercase tracking-widest">Watch fouls • 3</span>';
+                            }
                             
-                            return `<div class="player-chip p-5 rounded-2xl relative overflow-hidden ${borderClass}">
+                            return `<div class="player-chip p-5 rounded-2xl relative overflow-hidden ${borderClass}${foulRingClass}">
                                 <div class="flex justify-between items-start mb-1">
                                     <h4 class="font-black text-xl italic">
                                         <button type="button" class="underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">
@@ -1044,7 +1334,8 @@
                                     </h4>
                                     <span class="bg-blue-600 text-[10px] font-black px-2 py-1 rounded-lg">${pPts}P</span>
                                 </div>
-                                <div class="${tagClass} text-[9px] font-black px-2 py-0.5 rounded inline-block uppercase tracking-widest mb-4">${p.team}</div>
+                                <div class="${tagClass} text-[9px] font-black px-2 py-0.5 rounded inline-block uppercase tracking-widest mb-1">${p.team}</div>
+                                ${foulBadge}
                                 <div class="grid grid-cols-3 gap-x-2 gap-y-4 text-center border-t border-white/5 pt-4">
                                     <div><p class="text-[9px] text-slate-500 font-bold uppercase">REB</p><p class="font-mono text-blue-400 font-bold">${p.reb||0}</p></div>
                                     <div><p class="text-[9px] text-slate-500 font-bold uppercase">2PT</p><p class="font-mono text-blue-400 font-bold">${p.twoP||0}</p></div>

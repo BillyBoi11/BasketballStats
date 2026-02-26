@@ -140,12 +140,31 @@
             const grid = document.getElementById('recording-grid');
             grid.innerHTML = currentPlayers.map((p, i) => {
                 const teamKey = p.team.toLowerCase().replace(' ', '-');
+                const foulCount = parseInt(p.foul || 0);
+                let foulRingClass = '';
+                let statusLabel = 'Stat Entry Active';
+                let statusColorClass = 'text-indigo-400';
+
+                if (foulCount >= 5) {
+                    foulRingClass = ' ring-4 ring-red-500/70 ring-offset-4 ring-offset-slate-900';
+                    statusLabel = 'FOUL TROUBLE • 5+';
+                    statusColorClass = 'text-rose-400';
+                } else if (foulCount === 4) {
+                    foulRingClass = ' ring-4 ring-orange-500/60 ring-offset-4 ring-offset-slate-900';
+                    statusLabel = 'Foul trouble • 4';
+                    statusColorClass = 'text-orange-400';
+                } else if (foulCount === 3) {
+                    foulRingClass = ' ring-2 ring-amber-400/70 ring-offset-4 ring-offset-slate-900';
+                    statusLabel = 'Watch fouls • 3';
+                    statusColorClass = 'text-amber-300';
+                }
+
                 return `
-                <div class="glass p-10 rounded-[4.5rem] ${teamKey}-accent shadow-2xl">
+                <div class="glass p-10 rounded-[4.5rem] ${teamKey}-accent shadow-2xl${foulRingClass}">
                     <div class="flex flex-col md:flex-row justify-between items-center mb-10 px-6 gap-8">
                         <div class="text-center md:text-left">
                             <h4 class="font-black text-6xl italic uppercase tracking-tighter leading-none text-white">${p.name}</h4>
-                            <p class="text-indigo-400 font-black text-sm uppercase tracking-[0.4em] mt-4">Stat Entry Active</p>
+                            <p class="${statusColorClass} font-black text-sm uppercase tracking-[0.4em] mt-4">${statusLabel}</p>
                         </div>
                         <div class="flex gap-4">
                             <select onchange="updateTeam(${i}, this.value)" class="bg-slate-900 text-white text-xs font-black px-8 py-5 rounded-2xl border border-white/10 outline-none">
