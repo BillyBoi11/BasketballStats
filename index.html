@@ -447,7 +447,7 @@
             const bonus = (parseInt(p.wins||0)*3.0);
             const penalties = (parseInt(p.miss||0)*0.2) + (parseInt(p.foul||0)*1.2);
             const totalValue = offensive + defensive + bonus - penalties;
-            const finalRating = (totalValue / p.totalDuration) * 15;
+            const finalRating = (totalValue / p.totalDuration * 1.65) * 15;
             return Math.max(0, finalRating); 
         }
 
@@ -1355,7 +1355,7 @@ Rating ${rating.toFixed(1)} per 15 min – Level: ${rank.title}`;
         }
 
         // Default to all-time when page loads
-        selectedSeason = 'all';
+        selectedSeason = '2026';
         renderEverything();
     </script>
 </body>
