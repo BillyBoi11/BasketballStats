@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourtSide Pro | Drill Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="drillDatabase.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .player-chip { background: rgba(15, 23, 42, 0.8); transition: all 0.3s ease; }
+        
+        /* Team Outline & Top Border Colors */
+        .team-1-border { border: 1px solid rgba(59, 130, 246, 0.3); border-top: 5px solid #3b82f6 !important; }
+        .team-2-border { border: 1px solid rgba(244, 63, 94, 0.3); border-top: 5px solid #f43f5e !important; }
+        .team-3-border { border: 1px solid rgba(251, 191, 36, 0.3); border-top: 5px solid #fbbf24 !important; }
+        .team-4-border { border: 1px solid rgba(168, 85, 247, 0.3); border-top: 5px solid #a855f7 !important; }
+        .team-none-border { border: 1px solid rgba(71, 85, 105, 0.3); border-top: 5px solid #bb5aa6 !important; opacity: 0.7; }
+
+        /* Team Tags */
+        .team-1-tag { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .team-2-tag { background: rgba(244, 63, 94, 0.2); color: #fb7185; }
+        .team-3-tag { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .team-4-tag { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        .team-none-tag { background: rgba(71, 85, 105, 0.2); color: #94a3b8; }
+
+        .stat-header { @apply text-[10px] font-black text-slate-500 uppercase tracking-widest p-4 text-center; }
+        .stat-cell { @apply p-4 text-center font-bold border-t border-slate-800/50; }
+        .nav-btn { @apply px-6 py-2 rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all border border-white/5; }
+        .nav-active { @apply bg-indigo-600 text-white shadow-lg shadow-indigo-500/20; }
+        .nav-inactive { @apply bg-slate-800/50 text-slate-500 hover:text-white; }
+        .hidden { display: none; }
+
+        /* Mobile-specific layout tweaks */
+        @media (max-width: 640px) {
+            .top-nav {
+                overflow-x: auto;
+                padding-bottom: 0.25rem;
+            }
+            .top-nav::-webkit-scrollbar {
+                height: 4px;
+            }
+            .top-nav::-webkit-scrollbar-thumb {
+                background: rgba(148, 163, 184, 0.6);
+                border-radius: 9999px;
+            }
+            .nav-btn {
+                white-space: nowrap;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+                font-size: 0.6rem;
+                letter-spacing: 0.15em;
+            }
+            .leader-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            .leader-header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        .rank-badge { @apply text-[9px] font-black uppercase px-2 py-0.5 rounded-md mt-1 inline-block; }
+        .rank-hof { background: linear-gradient(to right, #fbbf24, #d97706); color: #fff; box-shadow: 0 0 15px rgba(217, 119, 6, 0.3); }
+        .rank-elite { background: linear-gradient(to right, #818cf8, #4f46e5); color: #fff; }
+        .rank-pro { background: #10b981; color: #fff; }
+        .rank-role { background: #475569; color: #cbd5e1; }
+        .rank-rookie { background: #1e293b; color: #64748b; }
+
+        .input-field {
+            @apply w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 text-sm text-slate-100 outline-none focus:border-indigo-500;
+        }
+        .pill-label {
+            @apply text-[10px] font-black uppercase tracking-widest text-slate-500;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between items-end gap-6">
+            <div>
+                <h1 class="text-5xl font-black italic bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent uppercase tracking-tighter">CourtSide Pro</h1>
+                <p class="text-slate-500 font-bold tracking-[0.3em] uppercase text-xs mt-2">Drill Analytics & Benchmarks</p>
+            </div>
+            <nav class="flex gap-3 mb-1 top-nav">
+                <button onclick="switchTab('archives')" id="tab-archives" class="nav-btn nav-active">Dashboard</button>
+                <button onclick="switchTab('curves')" id="tab-curves" class="nav-btn nav-inactive">Performance Curves</button>
+                <a href="index.html" class="nav-btn nav-inactive flex items-center">Games</a>
+            </nav>
+        </header>
+
+        <div id="view-archives">
+            <div id="drill-count" class="text-slate-500 font-mono text-xs italic mb-4 text-right"></div>
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-indigo-500">
+                <div class="p-6 bg-slate-800/30 flex justify-between items-center leader-header">
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] text-indigo-400">Drill Leaderboard</h3>
+                        <div class="flex items-center gap-2">
+                            <label for="leaderboard-drill-select" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Drill</label>
+                            <select id="leaderboard-drill-select" onchange="renderLeaderboard()" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label for="season-dropdown-archives" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
+                            <select id="season-dropdown-archives" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                        </div>
+                        <button onclick="copyLeaderboardToClipboard()" class="bg-slate-900/70 hover:bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 font-black uppercase tracking-widest text-[10px] text-white/90 transition-all focus:border-indigo-500">
+                            Copy leaderboard
+                        </button>
+                    </div>
+                    <span class="text-[10px] text-slate-500 font-bold italic uppercase tracking-widest text-right leader-header-right flex items-center justify-end">Rating: Speed vs NBA Average</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/50">
+                                <th class="stat-header text-left pl-8">Athlete / Rank</th>
+                                <th class="stat-header">Sessions</th>
+                                <th class="stat-header text-emerald-400">Best Time</th>
+                                <th class="stat-header text-white">Avg Time</th>
+                                <th class="stat-header text-blue-400">Shuttle</th>
+                                <th class="stat-header text-indigo-400">Sprint</th>
+                                <th class="stat-header text-orange-400">Agility</th>
+                                <th class="stat-header text-purple-400">Improvement</th>
+                                <th class="stat-header text-indigo-400">Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="archives-container" class="space-y-12"></div>
+        </div>
+
+        <div id="view-curves" class="hidden">
+            <div class="glass p-8 rounded-[2.5rem] mb-10 border-l-4 border-purple-500">
+                <div class="flex flex-col lg:flex-row justify-between gap-6 items-start lg:items-end">
+                    <div>
+                        <h2 class="text-3xl font-black italic uppercase tracking-tighter">Performance Curves</h2>
+                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em] mt-1">Compare athlete times across multiple drill sessions</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
+                            <select id="season-dropdown-curves" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Drill</label>
+                            <select id="curves-drill-select" onchange="renderCurves()" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
+                    <div class="lg:col-span-3">
+                        <div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                            <h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-500 mb-6">Time Progression Over Sessions</h3>
+                            <div class="relative h-96"><canvas id="curvesChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                            <h3 class="text-xs font-black uppercase tracking-[0.3em] text-purple-400 mb-4">Legend</h3>
+                            <div id="curves-legend" class="space-y-2"></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                            <h3 class="text-xs font-black uppercase tracking-[0.3em] text-emerald-400 mb-4">Statistics</h3>
+                            <div id="curves-stats" class="text-xs space-y-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chartInstance = null;
+        let curvesChartInstance = null;
+        let selectedSeason = 'all';
+        let analyticsShowLastSeason = false;
+        let rowCounter = 0;
+        const activeTimers = {}; // key: rowId -> start timestamp
+
+        // Color palette for different players
+        const PLAYER_COLORS = [
+            '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', 
+            '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#84cc16'
+        ];
+
+        // Rating levels for drill performance (higher is better - based on speed vs NBA average)
+        const RANKS = [
+            { min: 25, title: "GOAT", class: "rank-hof", icon: "🐐" },
+            // Hall of Fame tiers
+            { min: 24, title: "Legendary Hall of Famer", class: "rank-hof", icon: "🏆" },
+            { min: 23, title: "Legendary Hall of Famer", class: "rank-hof", icon: "🏆" },
+            { min: 22, title: "Rising Hall of Famer", class: "rank-hof", icon: "🏆" },
+            { min: 21, title: "Rookie Hall of Famer", class: "rank-hof", icon: "🏆" },
+            // Upper tiers
+            { min: 18, title: "Elite Athlete", class: "rank-elite", icon: "🌟" },
+            { min: 16, title: "Pro Level", class: "rank-elite", icon: "🧠" },
+            { min: 14, title: "Advanced", class: "rank-elite", icon: "⭐" },
+            { min: 12, title: "Competitive", class: "rank-pro", icon: "🎯" },
+            { min: 10, title: "College Ready", class: "rank-pro", icon: "💪" },
+            { min: 8, title: "Developing", class: "rank-pro", icon: "✅" },
+            { min: 6, title: "Training Level", class: "rank-role", icon: "🤝" },
+            { min: 4, title: "Beginner", class: "rank-role", icon: "🛡️" },
+            { min: 0, title: "Rookie", class: "rank-rookie", icon: "🐣" }
+        ];
+
+        function $(id) { return document.getElementById(id); }
+
+        function getDrillYear(drill) {
+            const m = String(drill?.date || '').match(/^(\d{4})/);
+            return m ? parseInt(m[1], 10) : null;
+        }
+
+        function getAvailableSeasonYears() {
+            if (typeof DRILL_DATABASE === 'undefined') return [];
+            const years = new Set();
+            DRILL_DATABASE.forEach(d => {
+                const y = getDrillYear(d);
+                if (y) years.add(y);
+            });
+            return Array.from(years).sort((a, b) => b - a);
+        }
+
+        function getSeasonFilteredDrills() {
+            if (typeof DRILL_DATABASE === 'undefined') return [];
+            if (selectedSeason === 'all') return DRILL_DATABASE;
+            const seasonYear = parseInt(selectedSeason, 10);
+            return DRILL_DATABASE.filter(d => getDrillYear(d) === seasonYear);
+        }
+
+        function getRecentDrills(count = 3) {
+            const seasonDrills = getSeasonFilteredDrills();
+            const sorted = seasonDrills.slice().sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+            return sorted.slice(0, count);
+        }
+
+        function syncSeasonDropdowns() {
+            const elA = document.getElementById('season-dropdown-archives');
+            const elB = document.getElementById('season-dropdown-curves');
+            if (elA && elA.value !== selectedSeason) elA.value = selectedSeason;
+            if (elB && elB.value !== selectedSeason) elB.value = selectedSeason;
+        }
+
+        function initSeasonDropdowns() {
+            const years = getAvailableSeasonYears();
+            const options = [
+                ...years.map(y => ({ value: String(y), label: `${y} Season` })),
+                { value: 'all', label: 'All-time' }
+            ];
+
+            const archives = document.getElementById('season-dropdown-archives');
+            const analytics = document.getElementById('season-dropdown-analytics');
+            const compare = document.getElementById('season-dropdown-compare');
+            const trends = document.getElementById('season-dropdown-trends');
+            [archives, analytics, compare, trends].forEach(el => {
+                if (!el) return;
+                const prev = el.value;
+                el.innerHTML = '';
+                options.forEach(o => {
+                    const opt = document.createElement('option');
+                    opt.value = o.value;
+                    opt.innerText = o.label;
+                    el.appendChild(opt);
+                });
+                if (prev && options.some(o => o.value === prev)) {
+                    el.value = prev;
+                }
+            });
+
+            const yearsAsStrings = years.map(y => String(y));
+            if (!selectedSeason || (selectedSeason !== 'all' && !yearsAsStrings.includes(selectedSeason))) {
+                selectedSeason = 'all';
+            }
+            syncSeasonDropdowns();
+        }
+
+        function handleSeasonChange(newValue) {
+            selectedSeason = newValue || 'all';
+            syncSeasonDropdowns();
+            renderEverything();
+
+            const analyticsView = document.getElementById('view-analytics');
+            if (analyticsView && !analyticsView.classList.contains('hidden')) {
+                initDropdown();
+                loadPlayerStats();
+            }
+
+            renderHotPlayer();
+            initCompareDropdowns();
+            renderCompare();
+            renderTrends();
+        }
+
+        function calculateDrillRating(playerStats) {
+            if (!playerStats.sessions || playerStats.sessions === 0) return 0;
+            
+            let totalRating = 0;
+            let drillCount = 0;
+            
+            // Calculate rating based on how close times are to NBA averages
+            if (playerStats.shuttleBest > 0) {
+                const nbaAvg = DRILL_META['Reactive Shuttle Run']?.nbaAverage || 3.10;
+                const shuttleRating = Math.min(25, (nbaAvg / playerStats.shuttleBest) * 20);
+                totalRating += shuttleRating;
+                drillCount++;
+            }
+            
+            if (playerStats.sprintBest > 0) {
+                const nbaAvg = DRILL_META['Three-Quarter Court Sprint']?.nbaAverage || 3.30;
+                const sprintRating = Math.min(25, (nbaAvg / playerStats.sprintBest) * 20);
+                totalRating += sprintRating;
+                drillCount++;
+            }
+            
+            if (playerStats.agilityBest > 0) {
+                const nbaAvg = DRILL_META['Lane Agility Drill']?.nbaAverage || 11.50;
+                const agilityRating = Math.min(25, (nbaAvg / playerStats.agilityBest) * 20);
+                totalRating += agilityRating;
+                drillCount++;
+            }
+            
+            return drillCount > 0 ? totalRating / drillCount : 0;
+        }
+
+        function getRank(rating) {
+            const r = RANKS.find(x => rating >= x.min);
+            return r || RANKS[RANKS.length - 1];
+        }
+
+        function switchTab(tab) {
+            document.getElementById('view-archives').classList.toggle('hidden', tab !== 'archives');
+            document.getElementById('view-curves').classList.toggle('hidden', tab !== 'curves');
+            
+            document.getElementById('tab-archives').className = `nav-btn ${tab === 'archives' ? 'nav-active' : 'nav-inactive'}`;
+            document.getElementById('tab-curves').className = `nav-btn ${tab === 'curves' ? 'nav-active' : 'nav-inactive'}`;
+            
+            if(tab === 'curves') { initCurves(); }
+        }
+
+        function focusOnPlayer(name) {
+            switchTab('curves');
+            const drillSelect = document.getElementById('curves-drill-select');
+            if (drillSelect) {
+                const drillNames = DrillDB.getDrillNames();
+                if (drillNames.includes(name)) {
+                    drillSelect.value = name;
+                    renderCurves();
+                }
+            }
+        }
+
+        function getGlobalDrillStats(drills = DRILL_DATABASE) {
+            const stats = {};
+            drills.forEach(drill => {
+                drill.players.forEach(p => {
+                    if (!stats[p.name]) {
+                        stats[p.name] = { 
+                            name: p.name, 
+                            sessions: 0, 
+                            shuttleBest: 0, 
+                            shuttleAvg: 0, 
+                            sprintBest: 0, 
+                            sprintAvg: 0, 
+                            agilityBest: 0, 
+                            agilityAvg: 0,
+                            improvement: 0,
+                            allTimes: []
+                        };
+                    }
+                    const s = stats[p.name];
+                    s.sessions++;
+                    
+                    const time = parseFloat(p.time) || 0;
+                    if (time > 0) {
+                        s.allTimes.push({ date: drill.date, drill: drill.drillName, time });
+                        
+                        if (drill.drillName === 'Reactive Shuttle Run') {
+                            if (s.shuttleBest === 0 || time < s.shuttleBest) s.shuttleBest = time;
+                            s.shuttleAvg = (s.shuttleAvg * (s.sessions - 1) + time) / s.sessions;
+                        } else if (drill.drillName === 'Three-Quarter Court Sprint') {
+                            if (s.sprintBest === 0 || time < s.sprintBest) s.sprintBest = time;
+                            s.sprintAvg = (s.sprintAvg * (s.sessions - 1) + time) / s.sessions;
+                        } else if (drill.drillName === 'Lane Agility Drill') {
+                            if (s.agilityBest === 0 || time < s.agilityBest) s.agilityBest = time;
+                            s.agilityAvg = (s.agilityAvg * (s.sessions - 1) + time) / s.sessions;
+                        }
+                    }
+                });
+            });
+            
+            // Calculate improvement (first vs last session)
+            Object.keys(stats).forEach(name => {
+                const times = stats[name].allTimes.sort((a, b) => a.date.localeCompare(b.date));
+                if (times.length >= 2) {
+                    const first = times[0].time;
+                    const last = times[times.length - 1].time;
+                    stats[name].improvement = ((first - last) / first * 100).toFixed(1);
+                }
+            });
+            
+            return stats;
+        }
+
+        function getCurrentSortedLeaderboardRows() {
+            const seasonDrills = getSeasonFilteredDrills();
+            const stats = getGlobalDrillStats(seasonDrills);
+            const sorted = Object.values(stats).sort((a, b) => calculateDrillRating(b) - calculateDrillRating(a));
+            return sorted.map((p, idx) => {
+                const rating = calculateDrillRating(p);
+                const rank = getRank(rating);
+                return {
+                    rank: idx + 1,
+                    name: p.name,
+                    sessions: p.sessions,
+                    bestTime: Math.min(p.shuttleBest || 999, p.sprintBest || 999, p.agilityBest || 999).toFixed(2),
+                    avgTime: ((p.shuttleAvg + p.sprintAvg + p.agilityAvg) / 3).toFixed(2),
+                    shuttle: p.shuttleBest.toFixed(2),
+                    sprint: p.sprintBest.toFixed(2),
+                    agility: p.agilityBest.toFixed(2),
+                    improvement: p.improvement + '%',
+                    rating: rating.toFixed(1),
+                    rankTitle: rank?.title || '',
+                };
+            });
+        }
+
+        function renderHotPlayer() {
+            const card = document.getElementById('hot-player-card');
+            if (!card) return;
+
+            const recentDrills = getRecentDrills(3);
+            if (!recentDrills.length) {
+                card.innerHTML = '<span class="text-slate-500">No drill sessions for this season yet.</span>';
+                return;
+            }
+
+            const stats = getGlobalDrillStats(recentDrills);
+            const ranked = Object.values(stats)
+                .map(p => ({ ...p, rating: calculateDrillRating(p) }))
+                .sort((a, b) => b.rating - a.rating);
+
+            if (!ranked.length) {
+                card.innerHTML = '<span class="text-slate-500">Not enough data to find a hot performer.</span>';
+                return;
+            }
+
+            const top = ranked[0];
+            const seasonAgg = getPlayerSeasonAggregate(top.name);
+            const seasonRating = seasonAgg.sessions ? calculateDrillRating(seasonAgg) : 0;
+
+            const avgTime = top.sessions ? ((top.shuttleAvg + top.sprintAvg + top.agilityAvg) / 3).toFixed(2) : '0.00';
+
+            card.innerHTML = `
+                <div class="mt-4 p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-indigo-500/5 to-slate-900 border border-emerald-500/40">
+                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-[0.25em] mb-1">Top performer (last ${recentDrills.length} sessions)</p>
+                    <p class="text-lg font-black text-white mb-1">${top.name}</p>
+                    <p class="text-[11px] text-slate-300 font-mono">Rating ${seasonRating.toFixed(1)} • ${avgTime}s avg time (last ${recentDrills.length}) • ${top.improvement}% improvement</p>
+                </div>
+            `;
+        }
+
+        async function copyLeaderboardToClipboard() {
+            const rows = getCurrentSortedLeaderboardRows();
+            const seasonLabel = selectedSeason === 'all' ? 'ALL-TIME' : selectedSeason;
+            const stamp = new Date().toISOString().slice(0, 10);
+
+            if (!rows.length) {
+                alert(`No leaderboard data for ${seasonLabel}.`);
+                return;
+            }
+
+            const header = [
+                'RANK',
+                'ATHLETE',
+                'SESSIONS',
+                'BEST TIME',
+                'AVG TIME',
+                'SHUTTLE',
+                'SPRINT',
+                'AGILITY',
+                'IMPROVEMENT',
+                'RATING',
+                'LEVEL'
+            ].join('\t');
+
+            const body = rows.map(r => [
+                r.rank,
+                r.name,
+                r.sessions,
+                r.bestTime,
+                r.avgTime,
+                r.shuttle,
+                r.sprint,
+                r.agility,
+                r.improvement,
+                r.rating,
+                r.rankTitle
+            ].join('\t')).join('\n');
+
+            const text = `COURTSIDE PRO DRILL LEADERBOARD (${seasonLabel})\nGenerated: ${stamp}\n\n${header}\n${body}\n`;
+
+            try {
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                alert('Drill leaderboard copied to clipboard.');
+            } catch (e) {
+                console.error(e);
+                alert('Copy failed. Your browser may be blocking clipboard access.');
+            }
+        }
+
+        function getPlayerSeasonAggregate(playerName) {
+            const seasonDrills = getSeasonFilteredDrills();
+            const history = seasonDrills.filter(d => d.players.some(p => p.name === playerName));
+            if (!history.length) {
+                return { name: playerName, sessions: 0, shuttleBest: 0, shuttleAvg: 0, sprintBest: 0, sprintAvg: 0, agilityBest: 0, agilityAvg: 0, improvement: 0, allTimes: [] };
+            }
+            const stats = getGlobalDrillStats(history);
+            return stats[playerName] || { name: playerName, sessions: 0, shuttleBest: 0, shuttleAvg: 0, sprintBest: 0, sprintAvg: 0, agilityBest: 0, agilityAvg: 0, improvement: 0, allTimes: [] };
+        }
+
+        function initCompareDropdowns() {
+            const elA = document.getElementById('compare-player-a');
+            const elB = document.getElementById('compare-player-b');
+            if (!elA || !elB) return;
+
+            const seasonDrills = getSeasonFilteredDrills();
+            const players = [...new Set(seasonDrills.flatMap(d => d.players.map(p => p.name)))].sort();
+
+            const prevA = elA.value;
+            const prevB = elB.value;
+            elA.innerHTML = '';
+            elB.innerHTML = '';
+
+            if (!players.length) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.innerText = 'NO DATA FOR SEASON';
+                elA.appendChild(opt.cloneNode(true));
+                elB.appendChild(opt);
+                elA.disabled = true;
+                elB.disabled = true;
+                return;
+            }
+
+            elA.disabled = false;
+            elB.disabled = false;
+            players.forEach(name => {
+                const o1 = document.createElement('option');
+                o1.value = name; o1.innerText = name.toUpperCase();
+                elA.appendChild(o1);
+                const o2 = document.createElement('option');
+                o2.value = name; o2.innerText = name.toUpperCase();
+                elB.appendChild(o2);
+            });
+
+            elA.value = players.includes(prevA) ? prevA : players[0];
+            const fallbackB = players[1] || players[0];
+            elB.value = players.includes(prevB) ? prevB : fallbackB;
+        }
+
+        function renderCompare() {
+            const elA = document.getElementById('compare-player-a');
+            const elB = document.getElementById('compare-player-b');
+            const cardA = document.getElementById('compare-card-a');
+            const cardB = document.getElementById('compare-card-b');
+            if (!elA || !elB || !cardA || !cardB) return;
+
+            const aName = elA.value;
+            const bName = elB.value;
+
+            const a = aName ? getPlayerSeasonAggregate(aName) : null;
+            const b = bName ? getPlayerSeasonAggregate(bName) : null;
+
+            const render = (p, accent) => {
+                if (!p || !p.sessions) {
+                    return `<div class="text-slate-500 text-sm font-mono">No drill sessions for this athlete in the selected season.</div>`;
+                }
+                const rating = calculateDrillRating(p);
+                const rank = getRank(rating);
+                const avgTime = ((p.shuttleAvg + p.sprintAvg + p.agilityAvg) / 3).toFixed(2);
+                return `
+                    <div class="p-5 rounded-[1.75rem] bg-slate-950/30 border border-white/5">
+                        <div class="flex justify-between items-start gap-4">
+                            <div>
+                                <p class="text-2xl font-black italic text-white">${p.name}</p>
+                                <span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Rating</p>
+                                <p class="text-3xl font-black ${accent}">${rating.toFixed(1)}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-6 text-center">
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">Sessions</p><p class="text-xl font-black text-white">${p.sessions}</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">Avg Time</p><p class="text-xl font-black text-white">${avgTime}s</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">Shuttle</p><p class="text-xl font-black text-emerald-400">${p.shuttleBest.toFixed(2)}s</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">Sprint</p><p class="text-xl font-black text-blue-400">${p.sprintBest.toFixed(2)}s</p></div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            cardA.innerHTML = render(a, 'text-indigo-400');
+            cardB.innerHTML = render(b, 'text-emerald-400');
+        }
+
+        function renderTrends() {
+            const container = document.getElementById('trends-container');
+            if (!container) return;
+
+            const recentDrills = getRecentDrills(3);
+            if (!recentDrills.length) {
+                container.innerHTML = `<div class="text-slate-500 font-mono text-sm">No drill sessions for this season yet.</div>`;
+                return;
+            }
+
+            const stats = getGlobalDrillStats(recentDrills);
+            const players = Object.values(stats).map(p => ({
+                ...p,
+                rating: calculateDrillRating(p),
+                avgTime: p.sessions ? ((p.shuttleAvg + p.sprintAvg + p.agilityAvg) / 3) : 0,
+            }));
+
+            const topBy = (key) => players.slice().sort((a, b) => {
+                if (key === 'avgTime') return a[key] - b[key]; // Lower time is better
+                return b[key] - a[key];
+            })[0] || null;
+
+            const cards = [
+                { title: 'Fastest avg time', subtitle: `Seconds (last ${recentDrills.length} sessions)`, key: 'avgTime', valueFmt: v => v.toFixed(2), color: 'text-emerald-400' },
+                { title: 'Most sessions', subtitle: `Sessions (last ${recentDrills.length})`, key: 'sessions', valueFmt: v => v, color: 'text-blue-400' },
+                { title: 'Best shuttle', subtitle: `Reactive Shuttle Run (last ${recentDrills.length})`, key: 'shuttleBest', valueFmt: v => v.toFixed(2), color: 'text-indigo-400' },
+                { title: 'Top performer', subtitle: `Rating (last ${recentDrills.length})`, key: 'rating', valueFmt: v => v.toFixed(1), color: 'text-amber-400', badge: true },
+            ];
+
+            container.innerHTML = cards.map(c => {
+                const p = topBy(c.key);
+                if (!p) {
+                    return `<div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                        <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">${c.title}</p>
+                        <p class="text-slate-500 mt-4 font-mono text-sm">No data</p>
+                    </div>`;
+                }
+
+                let displayValue = p[c.key];
+                let badgeHtml = '';
+
+                if (c.badge) {
+                    const seasonAgg = getPlayerSeasonAggregate(p.name);
+                    const seasonRating = seasonAgg.sessions ? calculateDrillRating(seasonAgg) : 0;
+                    const rank = getRank(seasonRating);
+                    displayValue = seasonRating;
+                    badgeHtml = `<div class="mt-2"><span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span></div>`;
+                }
+
+                return `<div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
+                    <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">${c.title}</p>
+                    <p class="text-[11px] font-mono text-slate-500 mt-1">${c.subtitle}</p>
+                    <div class="mt-5 flex justify-between items-start gap-4">
+                        <div>
+                            <button type="button" class="font-black italic text-lg text-white underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">${p.name}</button>
+                            ${badgeHtml}
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-black ${c.color}">${c.valueFmt(displayValue)}${c.key === 'avgTime' || c.key === 'shuttleBest' ? 's' : ''}</p>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function initDropdown() {
+            const dropdown = document.getElementById('player-dropdown');
+            if (!dropdown) return;
+
+            const prev = dropdown.value;
+            dropdown.innerHTML = '';
+
+            const seasonDrills = getSeasonFilteredDrills();
+            const players = [...new Set(seasonDrills.flatMap(d => d.players.map(p => p.name)))].sort();
+
+            if (!players.length) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.innerText = 'NO DATA FOR SEASON';
+                dropdown.appendChild(opt);
+                dropdown.disabled = true;
+                return;
+            }
+
+            dropdown.disabled = false;
+            players.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name; opt.innerText = name.toUpperCase();
+                dropdown.appendChild(opt);
+            });
+
+            dropdown.value = players.includes(prev) ? prev : players[0];
+        }
+
+        function loadPlayerStats() {
+            const name = document.getElementById('player-dropdown').value;
+            if(!name) return;
+            
+            const seasonDrills = getSeasonFilteredDrills();
+            const history = seasonDrills.filter(d => d.players.some(p => p.name === name)).reverse();
+            const playerHistory = history.map(d => d.players.find(p => p.name === name));
+            
+            let total = { sessions: 0, shuttleBest: 999, sprintBest: 999, agilityBest: 999, allTimes: [] };
+            let high = { shuttle: 999, sprint: 999, agility: 999 };
+            
+            history.forEach((d, i) => {
+                const p = playerHistory[i];
+                const time = parseFloat(p.time) || 0;
+                
+                total.sessions++;
+                total.allTimes.push({ date: d.date, drill: d.drillName, time });
+                
+                if (d.drillName === 'Reactive Shuttle Run') {
+                    if (time < total.shuttleBest) total.shuttleBest = time;
+                    if (time < high.shuttle) high.shuttle = time;
+                } else if (d.drillName === 'Three-Quarter Court Sprint') {
+                    if (time < total.sprintBest) total.sprintBest = time;
+                    if (time < high.sprint) high.sprint = time;
+                } else if (d.drillName === 'Lane Agility Drill') {
+                    if (time < total.agilityBest) total.agilityBest = time;
+                    if (time < high.agility) high.agility = time;
+                }
+            });
+
+            const seasonAggregate = getPlayerSeasonAggregate(name);
+            const rating = seasonAggregate.sessions ? calculateDrillRating(seasonAggregate) : 0;
+            const rank = getRank(rating);
+
+            const compareNoteEl = document.getElementById('analytics-compare-note');
+            if (compareNoteEl) compareNoteEl.textContent = '';
+
+            let lastSeasonHtml = '';
+            if (analyticsShowLastSeason && selectedSeason !== 'all') {
+                const currentYear = parseInt(selectedSeason, 10);
+                if (!isNaN(currentYear)) {
+                    const prevYear = currentYear - 1;
+                    const lastAgg = getPlayerSeasonAggregateForYear(name, prevYear);
+                    if (lastAgg.sessions) {
+                        const lastRating = calculateDrillRating(lastAgg);
+                        const deltaRating = (rating - lastRating).toFixed(1);
+                        const deltaSign = (rating - lastRating) >= 0 ? '+' : '';
+                        lastSeasonHtml = `
+                            <div class="mt-6 w-full text-xs text-slate-400 font-mono bg-slate-900/60 border border-slate-800 rounded-2xl px-4 py-3">
+                                <div class="flex justify-between items-center gap-3">
+                                    <div>
+                                        <p class="text-[9px] font-black text-slate-500 uppercase tracking-[0.25em]">Last season comparison (${prevYear})</p>
+                                        <p>Rating ${lastRating.toFixed(1)} → <span class="text-emerald-400">${rating.toFixed(1)}</span></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-[9px] font-black text-slate-500 uppercase tracking-[0.25em]">Rating change</p>
+                                        <p class="text-sm font-black ${(rating - lastRating) >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${deltaSign}${deltaRating}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (compareNoteEl) {
+                        compareNoteEl.textContent = `No recorded drills for ${prevYear} for this athlete.`;
+                    }
+                }
+            } else if (analyticsShowLastSeason && selectedSeason === 'all' && compareNoteEl) {
+                compareNoteEl.textContent = 'Comparison available only when a specific season is selected.';
+            }
+
+            const avgTime = seasonAggregate.sessions ? ((seasonAggregate.shuttleAvg + seasonAggregate.sprintAvg + seasonAggregate.agilityAvg) / 3).toFixed(2) : '0.00';
+
+            document.getElementById('player-averages').innerHTML = `
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG TIME</p><p class="text-3xl font-black text-emerald-400">${avgTime}s</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">SESSIONS</p><p class="text-3xl font-black text-blue-400">${seasonAggregate.sessions}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">RATING</p><p class="text-3xl font-black text-indigo-400">${rating.toFixed(1)}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">IMPROVEMENT</p><p class="text-3xl font-black text-purple-400">${seasonAggregate.improvement}%</p></div>
+                ${lastSeasonHtml}
+            `;
+
+            document.getElementById('player-records').innerHTML = `
+                ${[['Shuttle', high.shuttle === 999 ? 0 : high.shuttle, 'text-emerald-400'], ['Sprint', high.sprint === 999 ? 0 : high.sprint, 'text-blue-400'], ['Agility', high.agility === 999 ? 0 : high.agility, 'text-orange-400']].map(rec => `
+                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5">
+                        <p class="text-[8px] font-black text-slate-500 uppercase">${rec[0]} BEST</p>
+                        <p class="font-black ${rec[2]} text-xl">${rec[1] === 0 ? '—' : rec[1].toFixed(2) + 's'}</p>
+                    </div>
+                `).join('')}
+            `;
+
+            if(chartInstance) chartInstance.destroy();
+            
+            const chartData = playerHistory.slice(-10).map(p => parseFloat(p.time) || 0);
+            const chartLabels = history.slice(-10).map(d => `${d.drillName.split(' ')[0]}...`);
+            
+            chartInstance = new Chart(document.getElementById('statChart'), {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        { label: 'Time (seconds)', data: chartData, borderColor: '#10b981', tension: 0.4 }
+                    ]
+                },
+                options: { 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { labels: { color: '#64748b', font: { weight: '900', size: 10 } } } 
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: { color: '#64748b' },
+                            grid: { color: '#1e293b' }
+                        },
+                        x: {
+                            ticks: { color: '#64748b' },
+                            grid: { color: '#1e293b' }
+                        }
+                    }
+                }
+            });
+
+            const currentRankIndex = RANKS.findIndex(r => r === rank);
+            const nextRank = RANKS[currentRankIndex - 1] || null;
+            
+            let progressHtml = `
+                <h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-500 mb-6">Level Progress</h3>
+                <div class="flex justify-between items-end mb-2">
+                    <div>
+                        <p class="${rank.class} rank-badge px-3 py-1 text-[11px]">${rank.icon} ${rank.title}</p>
+                        <p class="text-3xl font-black mt-1">${rating.toFixed(1)}</p>
+                    </div>
+                    ${nextRank ? `<p class="text-[10px] font-black text-slate-500 uppercase">Next: ${nextRank.title}</p>` : '<p class="text-[10px] font-black text-amber-400 uppercase">MAX RANK REACHED</p>'}
+                </div>
+            `;
+
+            if (nextRank) {
+                const minRange = rank.min;
+                const maxRange = nextRank.min;
+                const progressPercent = Math.min(100, Math.max(0, ((rating - minRange) / (maxRange - minRange)) * 100));
+                progressHtml += `
+                    <div class="w-full bg-slate-900 rounded-full h-2">
+                        <div class="bg-indigo-500 h-2 rounded-full transition-all duration-1000" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <p class="text-[9px] text-slate-500 mt-2 font-bold uppercase tracking-widest text-right">${(maxRange - rating).toFixed(1)} rating until ${nextRank.title}</p>
+                `;
+            }
+            document.getElementById('rank-progress-card').innerHTML = progressHtml;
+        }
+
+        function handleAnalyticsCompareToggle(enabled) {
+            analyticsShowLastSeason = !!enabled;
+            loadPlayerStats();
+        }
+
+        function getPlayerSeasonAggregateForYear(playerName, year) {
+            if (!year || typeof DRILL_DATABASE === 'undefined') {
+                return { name: playerName, sessions: 0, shuttleBest: 0, shuttleAvg: 0, sprintBest: 0, sprintAvg: 0, agilityBest: 0, agilityAvg: 0, improvement: 0, allTimes: [] };
+            }
+            const seasonDrills = DRILL_DATABASE.filter(d => getDrillYear(d) === year);
+            const history = seasonDrills.filter(d => d.players.some(p => p.name === playerName));
+            if (!history.length) {
+                return { name: playerName, sessions: 0, shuttleBest: 0, shuttleAvg: 0, sprintBest: 0, sprintAvg: 0, agilityBest: 0, agilityAvg: 0, improvement: 0, allTimes: [] };
+            }
+            const stats = getGlobalDrillStats(history);
+            return stats[playerName] || { name: playerName, sessions: 0, shuttleBest: 0, shuttleAvg: 0, sprintBest: 0, sprintAvg: 0, agilityBest: 0, agilityAvg: 0, improvement: 0, allTimes: [] };
+        }
+
+        async function copyPlayerReport() {
+            const dropdown = document.getElementById('player-dropdown');
+            if (!dropdown) return;
+            const name = dropdown.value;
+            if (!name) {
+                alert('Select an athlete first.');
+                return;
+            }
+
+            const seasonAggregate = getPlayerSeasonAggregate(name);
+            if (!seasonAggregate.sessions) {
+                alert('No drill sessions for this athlete in selected season.');
+                return;
+            }
+
+            const rating = calculateDrillRating(seasonAggregate);
+            const rank = getRank(rating);
+            const seasonLabel = selectedSeason === 'all' ? 'ALL-TIME' : `${selectedSeason} Season`;
+            const avgTime = ((seasonAggregate.shuttleAvg + seasonAggregate.sprintAvg + seasonAggregate.agilityAvg) / 3).toFixed(2);
+
+            const text = `${name.toUpperCase()} – ${seasonLabel}
+Sessions: ${seasonAggregate.sessions}, Improvement: ${seasonAggregate.improvement}%
+Avg Time: ${avgTime}s, Best Shuttle: ${seasonAggregate.shuttleBest.toFixed(2)}s, Best Sprint: ${seasonAggregate.sprintBest.toFixed(2)}s
+Rating: ${rating.toFixed(1)} – Level: ${rank.title}`;
+
+            try {
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                alert('Athlete report copied to clipboard.');
+            } catch (e) {
+                console.error(e);
+                alert('Copy failed. Your browser may be blocking clipboard access.');
+            }
+        }
+
+        function renderEverything() {
+            const container = document.getElementById('archives-container');
+            const leaderBody = document.getElementById('leaderboard-body');
+            const drillSelect = document.getElementById('leaderboard-drill-select');
+            if (typeof DRILL_DATABASE === 'undefined') return;
+
+            initSeasonDropdowns();
+            const seasonDrills = getSeasonFilteredDrills();
+            
+            const drillCount = seasonDrills.length;
+            const seasonLabel = selectedSeason === 'all' ? 'ALL-TIME' : selectedSeason;
+            document.getElementById('drill-count').innerText = `${drillCount} DRILL SESSIONS RECORDED • ${seasonLabel}`;
+            
+            // Populate drill dropdown
+            const drillNames = DrillDB.getDrillNames();
+            const prevDrill = drillSelect.value;
+            drillSelect.innerHTML = '';
+            
+            // Add "Overall" option
+            const overallOpt = document.createElement('option');
+            overallOpt.value = 'overall';
+            overallOpt.innerText = 'OVERALL';
+            drillSelect.appendChild(overallOpt);
+            
+            // Add individual drill options
+            drillNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = name;
+                drillSelect.appendChild(opt);
+            });
+            
+            drillSelect.value = prevDrill && (prevDrill === 'overall' || drillNames.includes(prevDrill)) ? prevDrill : 'overall';
+            
+            renderLeaderboard();
+            renderArchives();
+        }
+
+        function renderLeaderboard() {
+            const leaderBody = document.getElementById('leaderboard-body');
+            const selectedDrill = document.getElementById('leaderboard-drill-select').value;
+            const seasonDrills = getSeasonFilteredDrills();
+            
+            let filteredDrills = seasonDrills;
+            if (selectedDrill !== 'overall') {
+                filteredDrills = seasonDrills.filter(d => d.drillName === selectedDrill);
+            }
+            
+            const stats = getGlobalDrillStats(filteredDrills);
+            const sorted = Object.values(stats).sort((a,b) => calculateDrillRating(b) - calculateDrillRating(a));
+            
+            const drillLabel = selectedDrill === 'overall' ? 'ALL DRILLS' : selectedDrill.toUpperCase();
+            
+            leaderBody.innerHTML = sorted.map((p, i) => {
+                const rating = calculateDrillRating(p);
+                const rank = getRank(rating);
+                
+                // Get drill-specific best times
+                let drillBestTime = '—';
+                let drillAvgTime = '—';
+                
+                if (selectedDrill === 'Reactive Shuttle Run' && p.shuttleBest > 0) {
+                    drillBestTime = p.shuttleBest.toFixed(2) + 's';
+                    drillAvgTime = p.shuttleAvg.toFixed(2) + 's';
+                } else if (selectedDrill === 'Three-Quarter Court Sprint' && p.sprintBest > 0) {
+                    drillBestTime = p.sprintBest.toFixed(2) + 's';
+                    drillAvgTime = p.sprintAvg.toFixed(2) + 's';
+                } else if (selectedDrill === 'Lane Agility Drill' && p.agilityBest > 0) {
+                    drillBestTime = p.agilityBest.toFixed(2) + 's';
+                    drillAvgTime = p.agilityAvg.toFixed(2) + 's';
+                } else if (selectedDrill === 'overall') {
+                    const best = Math.min(p.shuttleBest || 999, p.sprintBest || 999, p.agilityBest || 999);
+                    const avg = ((p.shuttleAvg + p.sprintAvg + p.agilityAvg) / 3);
+                    drillBestTime = best === 999 ? '—' : best.toFixed(2) + 's';
+                    drillAvgTime = avg.toFixed(2) + 's';
+                }
+                
+                return `<tr class="hover:bg-white/5 transition text-sm">
+                    <td class="p-4 pl-8 font-black italic">
+                        <div>
+                            ${i === 0 ? '👑' : ''}
+                            <button type="button" class="underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">
+                                ${p.name}
+                            </button>
+                        </div>
+                        <span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span>
+                    </td>
+                    <td class="stat-cell text-slate-400">${p.sessions}</td>
+                    <td class="stat-cell text-emerald-400">${drillBestTime}</td>
+                    <td class="stat-cell text-white font-mono">${drillAvgTime}</td>
+                    <td class="stat-cell text-blue-400">${p.shuttleBest > 0 ? p.shuttleBest.toFixed(2) + 's' : '—'}</td>
+                    <td class="stat-cell text-indigo-400">${p.sprintBest > 0 ? p.sprintBest.toFixed(2) + 's' : '—'}</td>
+                    <td class="stat-cell text-orange-400">${p.agilityBest > 0 ? p.agilityBest.toFixed(2) + 's' : '—'}</td>
+                    <td class="stat-cell text-purple-400">${p.improvement}%</td>
+                    <td class="stat-cell"><span class="${rank.class} px-3 py-1 rounded-lg text-xs font-black">${rating.toFixed(1)}</span></td>
+                </tr>`;
+            }).join('');
+        }
+
+        function renderArchives() {
+            const container = document.getElementById('archives-container');
+            const seasonDrills = getSeasonFilteredDrills();
+            
+            container.innerHTML = seasonDrills.map(drill => {
+                return `<div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/5 mb-10">
+                    <div class="bg-slate-800/50 p-8 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="text-emerald-400 font-mono text-xs font-black uppercase tracking-tighter">${drill.date}</span>
+                                <span class="bg-indigo-500/20 text-indigo-400 text-[10px] px-2 py-0.5 rounded font-black uppercase">${drill.duration || 0} MINS</span>
+                                ${drill.label ? `<span class="bg-amber-500/20 text-amber-500 text-[10px] px-2 py-0.5 rounded font-black uppercase">${drill.label}</span>` : ''}
+                            </div>
+                            <h2 class="text-3xl font-black italic text-white uppercase tracking-tighter">${drill.drillName || "Drill Session"}</h2>
+                        </div>
+                        <div class="flex items-center bg-slate-900/80 px-8 py-4 rounded-3xl border border-slate-700">
+                            <span class="text-slate-400 text-xs font-black tracking-widest uppercase">${drill.players.length} ATHLETES</span>
+                        </div>
+                    </div>
+                    <div class="p-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${drill.players.map(p => {
+                            const time = parseFloat(p.time) || 0;
+                            const nbaMeta = DRILL_META[drill.drillName];
+                            const nbaVerticalJump = nbaMeta ? nbaMeta.nbaVerticalJump || 0 : 0;
+                            const vsNba = nbaVerticalJump > 0 ? nbaVerticalJump.toFixed(1) : '0.0';
+                            
+                            return `<div class="player-chip p-5 rounded-2xl relative overflow-hidden team-none-border">
+                                <div class="flex justify-between items-start mb-1">
+                                    <h4 class="font-black text-xl italic">
+                                        <button type="button" class="underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">
+                                            ${p.name}
+                                        </button>
+                                    </h4>
+                                    <span class="bg-blue-600 text-[10px] font-black px-2 py-1 rounded-lg">${time.toFixed(2)}s</span>
+                                </div>
+                                <div class="team-none-tag text-[9px] font-black px-2 py-0.5 rounded inline-block uppercase tracking-widest mb-1">${drill.drillName.split(' ')[0]}</div>
+                                <div class="grid grid-cols-2 gap-x-2 gap-y-4 text-center border-t border-white/5 pt-4">
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">HEIGHT</p><p class="font-mono text-blue-400 font-bold">${p.height || 0}cm</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">REACH</p><p class="font-mono text-indigo-400 font-bold">${p.reach || 0}cm</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">VERTICAL</p><p class="font-mono text-orange-400 font-bold">${p.vertical || 0}cm</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">AVERAGE NBA VERTICAL</p><p class="font-mono text-emerald-400 font-bold">${vsNba}</p></div>
+                                </div>
+                            </div>`;
+                        }).join('')}
+                    </div></div>
+                </div>`;
+            }).join('');
+
+            renderHotPlayer();
+        }
+
+        // Recorder functions
+        function addDrillRow(name = '', seconds = '') {
+            const container = $('drill-rows');
+            const rowId = 'drill-row-' + (rowCounter++);
+            const row = document.createElement('div');
+            row.className = 'flex gap-2 items-center';
+            row.dataset.rowId = rowId;
+
+            row.innerHTML = `
+                <input type="text" class="input-field flex-[1.4]" placeholder="Athlete name" value="${name || ''}">
+                <input type="number" min="0" step="0.01" class="input-field flex-[0.8]" placeholder="Time (s)" value="${seconds || ''}">
+                <button type="button" class="bg-slate-900/80 hover:bg-slate-900 text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded-2xl border border-slate-700 text-slate-200 flex-[0.6]" onclick="toggleRowTimer('${rowId}', this)">Start</button>
+                <button type="button" class="text-[10px] text-slate-500 hover:text-rose-400 font-black uppercase tracking-widest flex-[0.3]" onclick="removeDrillRow(this)">×</button>
+            `;
+
+            container.appendChild(row);
+        }
+
+        function removeDrillRow(btn) {
+            const row = btn.closest('[data-row-id]');
+            if (!row) return;
+            const rowId = row.dataset.rowId;
+            if (activeTimers[rowId]) {
+                delete activeTimers[rowId];
+            }
+            row.remove();
+        }
+
+        function toggleRowTimer(rowId, btn) {
+            const container = $('drill-rows');
+            const row = container.querySelector('[data-row-id="' + rowId + '"]');
+            if (!row) return;
+            const timeInput = row.querySelector('input[type="number"]');
+
+            if (!activeTimers[rowId]) {
+                activeTimers[rowId] = Date.now();
+                btn.textContent = 'Stop';
+                btn.classList.remove('bg-slate-900/80');
+                btn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+            } else {
+                const elapsedMs = Date.now() - activeTimers[rowId];
+                const secs = (elapsedMs / 1000);
+                timeInput.value = secs.toFixed(2);
+                delete activeTimers[rowId];
+                btn.textContent = 'Start';
+                btn.classList.add('bg-slate-900/80');
+                btn.classList.remove('bg-rose-600', 'hover:bg-rose-500');
+            }
+        }
+
+        function getDrillRowsData() {
+            const rows = Array.from($('drill-rows').querySelectorAll('[data-row-id]'));
+            return rows.map(row => {
+                const [nameInput, timeInput] = row.querySelectorAll('input');
+                return {
+                    name: nameInput.value.trim(),
+                    seconds: parseFloat(timeInput.value)
+                };
+            }).filter(e => e.name && !isNaN(e.seconds) && e.seconds > 0);
+        }
+
+        function saveDrillSession() {
+            const drillName = $('drill-name-input').value.trim();
+            if (!drillName) {
+                alert('Enter a drill name first.');
+                return;
+            }
+
+            const dateInput = $('drill-date-input').value;
+            const label = $('drill-label-input').value.trim();
+            let dateLabel = dateInput || new Date().toISOString().slice(0, 10);
+            if (label) {
+                dateLabel += ' • ' + label;
+            }
+
+            const entries = getDrillRowsData();
+            if (!entries.length) {
+                alert('Add at least one athlete with a recorded time.');
+                return;
+            }
+
+            const payload = {
+                date: dateLabel,
+                drillName,
+                label: label || undefined,
+                duration: "00:30",
+                players: entries.map(e => ({
+                    name: e.name,
+                    team: "None",
+                    height: 0,
+                    reach: 0,
+                    vertical: 0,
+                    time: Number(e.seconds.toFixed(2))
+                }))
+            };
+
+            const text = JSON.stringify(payload, null, 4) + ',';
+
+            try {
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                    navigator.clipboard.writeText(text);
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                alert('Drill session code copied. Paste it into DRILL_DATABASE in drillDatabase.js.');
+            } catch (e) {
+                console.error(e);
+                alert('Copy failed. Your browser may be blocking clipboard access.');
+            }
+        }
+
+        function initRecorder() {
+            const today = new Date().toISOString().slice(0, 10);
+            const dateInput = $('drill-date-input');
+            if (dateInput) dateInput.value = today;
+
+            // Clear existing rows and add one empty row
+            $('drill-rows').innerHTML = '';
+            addDrillRow();
+
+            // Populate drill name datalist
+            const datalist = $('drill-name-list');
+            if (datalist) {
+                const drillNames = DrillDB.getDrillNames();
+                datalist.innerHTML = '';
+                drillNames.forEach(name => {
+                    const opt = document.createElement('option');
+                    opt.value = name;
+                    datalist.appendChild(opt);
+                });
+            }
+
+            renderDrillDiagram();
+        }
+
+        function renderDrillDiagram() {
+            const select = $('diagram-drill-select');
+            const overlay = $('diagram-overlay');
+            const desc = $('diagram-description');
+            if (!select || !overlay || !desc) return;
+            const name = select.value;
+
+            if (name === 'Reactive Shuttle Run') {
+                overlay.innerHTML = `
+                    <div class="absolute left-1/2 bottom-6 -translate-x-1/2 flex flex-col items-center">
+                        <div class="w-4 h-4 rounded-full bg-emerald-400 mb-1"></div>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-emerald-300">Player</span>
+                    </div>
+                    <div class="absolute left-1/2 bottom-10 -translate-x-1/2 w-24 h-px bg-emerald-400"></div>
+                    <div class="absolute left-1/2 bottom-10 -translate-x-1/2 w-24 h-px bg-emerald-400 rotate-20 origin-left"></div>
+                `;
+                desc.innerHTML = `
+                    <p><span class="font-black text-emerald-300">Reactive Shuttle Run</span> starts with the player on the lane line at the free-throw line.</p>
+                    <p class="mt-2">On the signal, the player reacts and sprints to touch one sideline, then changes direction to touch the opposite sideline, and finally returns through the middle. Time is recorded from first movement until they cross the middle again. Faster total shuttle time = better score.</p>
+                `;
+            } else if (name === 'Three-Quarter Court Sprint') {
+                overlay.innerHTML = `
+                    <div class="absolute left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center">
+                        <div class="w-4 h-4 rounded-full bg-sky-400 mb-1"></div>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-sky-300">Player</span>
+                    </div>
+                    <div class="absolute left-1/2 bottom-10 -translate-x-1/2 w-[70%] h-px bg-sky-400"></div>
+                `;
+                desc.innerHTML = `
+                    <p><span class="font-black text-sky-300">Three-Quarter Court Sprint</span> mimics a full-speed transition run.</p>
+                    <p class="mt-2">The player starts on the baseline and sprints straight ahead for three-quarters of the court length. Time is measured from first movement to when they cross the finish line at the far free-throw line. Lower time indicates higher straight-line speed.</p>
+                `;
+            } else {
+                // Lane Agility Drill
+                overlay.innerHTML = `
+                    <div class="absolute left-1/2 bottom-20 -translate-x-1/2 flex flex-col items-center">
+                        <div class="w-4 h-4 rounded-full bg-amber-400 mb-1"></div>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-amber-200">Player</span>
+                    </div>
+                    <div class="absolute left-1/2 bottom-20 -translate-x-1/2 w-20 h-px bg-amber-400"></div>
+                    <div class="absolute left-1/2 bottom-20 -translate-x-1/2 w-20 h-px bg-amber-400 -rotate-90 origin-left"></div>
+                    <div class="absolute left-1/2 bottom-20 -translate-x-1/2 w-20 h-px bg-amber-400 rotate-90 origin-left"></div>
+                `;
+                desc.innerHTML = `
+                    <p><span class="font-black text-amber-300">Lane Agility Drill</span> measures change-of-direction and defensive slide ability inside the paint.</p>
+                    <p class="mt-2">Starting at a low stance on one corner of the free-throw lane, the player shuffles and sprints around the lane&#8217;s perimeter (up, across, down, and back) following the painted key. Time is recorded for the full loop; the best of multiple attempts is used. Lower time reflects better lateral quickness and body control.</p>
+                `;
+            }
+        }
+
+        function initCurves() {
+            const drillSelect = document.getElementById('curves-drill-select');
+            const seasonSelect = document.getElementById('season-dropdown-curves');
+            
+            // Populate drill dropdown
+            const drillNames = DrillDB.getDrillNames();
+            drillSelect.innerHTML = '';
+            drillNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = name;
+                drillSelect.appendChild(opt);
+            });
+            
+            // Set season dropdown
+            const years = getAvailableSeasonYears();
+            const options = [
+                ...years.map(y => ({ value: String(y), label: `${y} Season` })),
+                { value: 'all', label: 'All-time' }
+            ];
+            
+            seasonSelect.innerHTML = '';
+            options.forEach(o => {
+                const opt = document.createElement('option');
+                opt.value = o.value;
+                opt.innerText = o.label;
+                seasonSelect.appendChild(opt);
+            });
+            
+            seasonSelect.value = selectedSeason;
+            
+            if (drillNames.length > 0) {
+                drillSelect.value = drillNames[0];
+                renderCurves();
+            }
+        }
+
+        function renderCurves() {
+            const drillName = document.getElementById('curves-drill-select').value;
+            const seasonDrills = getSeasonFilteredDrills();
+            
+            if (!drillName) return;
+            
+            // Filter drills by selected drill name
+            const filteredDrills = seasonDrills.filter(d => d.drillName === drillName);
+            
+            if (filteredDrills.length === 0) {
+                document.getElementById('curves-legend').innerHTML = '<p class="text-slate-500 text-xs">No data for this drill in selected season.</p>';
+                document.getElementById('curves-stats').innerHTML = '';
+                if (curvesChartInstance) {
+                    curvesChartInstance.destroy();
+                    curvesChartInstance = null;
+                }
+                return;
+            }
+            
+            // Get all players who participated in this drill
+            const players = [...new Set(filteredDrills.flatMap(d => d.players.map(p => p.name)))].sort();
+            
+            // Prepare data for chart
+            const dates = filteredDrills.map(d => d.date).sort();
+            const datasets = players.map((player, index) => {
+                const color = PLAYER_COLORS[index % PLAYER_COLORS.length];
+                const data = dates.map(date => {
+                    const drill = filteredDrills.find(d => d.date === date);
+                    const playerData = drill?.players.find(p => p.name === player);
+                    return playerData ? parseFloat(playerData.time) : null;
+                });
+                
+                return {
+                    label: player,
+                    data: data,
+                    borderColor: color,
+                    backgroundColor: color + '20',
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    spanGaps: true
+                };
+            });
+            
+            // Destroy existing chart
+            if (curvesChartInstance) {
+                curvesChartInstance.destroy();
+            }
+            
+            // Create new chart
+            const ctx = document.getElementById('curvesChart').getContext('2d');
+            curvesChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#f8fafc',
+                            borderColor: '#475569',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + (context.parsed.y ? context.parsed.y.toFixed(2) + 's' : 'No data');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Session Date',
+                                color: '#94a3b8',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                color: '#64748b',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                color: '#1e293b'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Time (seconds)',
+                                color: '#94a3b8',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            },
+                            beginAtZero: false,
+                            ticks: {
+                                color: '#64748b',
+                                callback: function(value) {
+                                    return value.toFixed(1) + 's';
+                                }
+                            },
+                            grid: {
+                                color: '#1e293b'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Update legend
+            const legendHtml = players.map((player, index) => {
+                const color = PLAYER_COLORS[index % PLAYER_COLORS.length];
+                return `
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full" style="background-color: ${color}"></div>
+                        <span class="text-xs font-mono">${player.toUpperCase()}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('curves-legend').innerHTML = legendHtml;
+            
+            // Calculate and display statistics
+            const stats = calculateCurvesStats(filteredDrills, players);
+            const statsHtml = `
+                <div class="flex justify-between"><span>ATHLETES:</span><span class="font-bold">${stats.totalPlayers}</span></div>
+                <div class="flex justify-between"><span>SESSIONS:</span><span class="font-bold">${stats.totalSessions}</span></div>
+                <div class="flex justify-between"><span>BEST TIME:</span><span class="font-bold text-emerald-400">${stats.bestTime}s</span></div>
+                <div class="flex justify-between"><span>AVG TIME:</span><span class="font-bold text-blue-400">${stats.avgTime}s</span></div>
+                <div class="flex justify-between"><span>IMPROVEMENT:</span><span class="font-bold text-purple-400">${stats.improvement}%</span></div>
+            `;
+            
+            document.getElementById('curves-stats').innerHTML = statsHtml;
+        }
+
+        function calculateCurvesStats(drills, players) {
+            const allTimes = [];
+            const playerBestTimes = {};
+            
+            players.forEach(player => {
+                playerBestTimes[player] = [];
+            });
+            
+            drills.forEach(drill => {
+                drill.players.forEach(player => {
+                    const time = parseFloat(player.time);
+                    if (time && time > 0) {
+                        allTimes.push(time);
+                        playerBestTimes[player.name].push(time);
+                    }
+                });
+            });
+            
+            const bestTime = Math.min(...allTimes);
+            const avgTime = (allTimes.reduce((a, b) => a + b, 0) / allTimes.length);
+            
+            // Calculate improvement (first vs last session for each player)
+            let totalImprovement = 0;
+            let playersWithImprovement = 0;
+            
+            players.forEach(player => {
+                const times = playerBestTimes[player].sort((a, b) => a - b);
+                if (times.length >= 2) {
+                    const first = times[0];
+                    const last = times[times.length - 1];
+                    const improvement = ((first - last) / first) * 100;
+                    totalImprovement += improvement;
+                    playersWithImprovement++;
+                }
+            });
+            
+            const avgImprovement = playersWithImprovement > 0 ? (totalImprovement / playersWithImprovement).toFixed(1) : '0.0';
+            
+            return {
+                totalPlayers: players.length,
+                totalSessions: drills.length,
+                bestTime: bestTime.toFixed(2),
+                avgTime: avgTime.toFixed(2),
+                improvement: avgImprovement
+            };
+        }
+
+        // Default to all-time when page loads
+        selectedSeason = '2026';
+        renderEverything();
+    </script>
+</body>
+</html>
+
