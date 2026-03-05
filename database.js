@@ -2,7 +2,7 @@
 const GAME_DATABASE = [
     {
     date: "2026-03-05",
-    gameName: "Game 13",
+    gameName: "Outside Game 3",
     duration: "8:00",
     reboundGame: false, 
     scheduled: false,
@@ -15,7 +15,7 @@ const GAME_DATABASE = [
   }, 
   {
     date: "2026-03-05",
-    gameName: "Game 12",
+    gameName: "Outside Game 2",
     duration: "20:00",
     reboundGame: false, 
     scheduled: false,
@@ -28,7 +28,7 @@ const GAME_DATABASE = [
   }, 
   {
     date: "2026-03-05",
-    gameName: "Game 11",
+    gameName: "Outside Game 1",
     duration: "20:00",
     reboundGame: false, 
     scheduled: false,
@@ -223,6 +223,7 @@ const GAME_DATABASE = [
 
 
 ];
+
 
 
 
