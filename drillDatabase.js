@@ -7,8 +7,9 @@ const DRILL_DATABASE = [
     label: "Pre-season test",
     players: [
       { name: "Billy", team: "None", time: 0.00, height: 177, reach: 220, vertical: 65 },
-      { name: "Gem", team: "None", time: 0.00, height: 0, reach: 0, vertical: 0 },
-      { name: "Lucas", team: "None", time: 0.00, height: 0, reach: 0, vertical: 0 }
+      { name: "Gem", team: "None", time: 0.00, height: 175, reach: 0, vertical: 0 },
+      { name: "Lucas", team: "None", time: 0.00, height: 169, reach: 0, vertical: 0 },
+      { name: "Viking", team: "None", time: 0.00, height: 180, reach: 0, vertical: 0 }
     ]
   },
 ];
@@ -89,4 +90,5 @@ const DrillDB = (() => {
         getDrillMeta
     };
 })();
+
 
