@@ -1,5 +1,18 @@
 // EDIT THIS FILE TO UPDATE THE WEBSITE
 const GAME_DATABASE = [
+    {
+    date: "2026-03-05",
+    gameName: "Game 12",
+    duration: "20:00",
+    reboundGame: false, 
+    scheduled: false,
+    players: [
+      { name: "Gem", team: "Team 1", twoP: 3, threeP: 0, ft: 1, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 0, threeP: 0, ft: 1, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 1},
+      { name: "Lucas", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Viking", team: "Team 1", twoP: 11, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 2}
+    ]
+  }, 
   {
     date: "2026-03-05",
     gameName: "Game 11",
@@ -197,4 +210,5 @@ const GAME_DATABASE = [
 
 
 ];
+
 
