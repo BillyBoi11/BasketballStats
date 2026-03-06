@@ -2,6 +2,19 @@
 const GAME_DATABASE = [
     {
     date: "2026-03-05",
+    gameName: "Game 11",
+    duration: "18:00",
+    reboundGame: false, 
+    scheduled: false,
+    players: [
+      { name: "Billy", team: "Team 1", twoP: 5, threeP: 3, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 2, blk: 0},
+      { name: "Viking", team: "Team 1", twoP: 6, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 2, blk: 0},        
+      { name: "Gem", team: "Team 2", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
+      { name: "Lucas", team: "Team 2", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 2, reb: 0, tech: 0, stl: 0, blk: 0}
+    ]
+  }, 
+    {
+    date: "2026-03-05",
     gameName: "Outside Game 3",
     duration: "8:00",
     reboundGame: false, 
@@ -223,6 +236,7 @@ const GAME_DATABASE = [
 
 
 ];
+
 
 
 
