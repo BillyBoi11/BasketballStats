@@ -12,6 +12,30 @@ const DRILL_DATABASE = [
       { name: "Viking", team: "None", time: 0.00, height: 180, reach: 0, vertical: 0 }
     ]
   },
+  {
+    date: "2026-03-06",
+    drillName: "Lane Agility Drill",
+    duration: "00:00",
+    label: "Pre-season test",
+    players: [
+      { name: "Billy", team: "None", time: 0.00, height: 177, reach: 220, vertical: 65 },
+      { name: "Gem", team: "None", time: 0.00, height: 175, reach: 0, vertical: 0 },
+      { name: "Lucas", team: "None", time: 0.00, height: 169, reach: 0, vertical: 0 },
+      { name: "Viking", team: "None", time: 0.00, height: 180, reach: 0, vertical: 0 }
+    ]
+  },
+  {
+    date: "2026-03-06",
+    drillName: "Three-Quarter Court Sprint",
+    duration: "00:00",
+    label: "Pre-season test",
+    players: [
+      { name: "Billy", team: "None", time: 0.00, height: 177, reach: 220, vertical: 65 },
+      { name: "Gem", team: "None", time: 0.00, height: 175, reach: 0, vertical: 0 },
+      { name: "Lucas", team: "None", time: 0.00, height: 169, reach: 0, vertical: 0 },
+      { name: "Viking", team: "None", time: 0.00, height: 180, reach: 0, vertical: 0 }
+    ]
+  },  
 ];
 
 // Reference NBA benchmarks (seconds) for supported drills.
@@ -90,5 +114,6 @@ const DrillDB = (() => {
         getDrillMeta
     };
 })();
+
 
 
