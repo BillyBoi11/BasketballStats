@@ -89,7 +89,6 @@
                 <button onclick="switchTab('analytics')" id="tab-analytics" class="nav-btn nav-inactive">Analytics</button>
                 <button onclick="switchTab('compare')" id="tab-compare" class="nav-btn nav-inactive">Compare</button>
                 <button onclick="switchTab('trends')" id="tab-trends" class="nav-btn nav-inactive">Current Trends</button>
-                <button onclick="switchTab('warroom')" id="tab-warroom" class="nav-btn nav-inactive">Teams</button>
                 <a href="recorder.html" class="nav-btn nav-inactive flex items-center">Recorder</a>
                 <a href="drills.html" class="nav-btn nav-inactive flex items-center">Drills</a>
             </nav>
@@ -173,80 +172,7 @@
             </div>
         </div>
 
-        <div id="view-warroom" class="hidden">
-            <div class="glass p-10 rounded-[3rem] mb-12 text-center border-b-4 border-indigo-500">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div class="text-left">
-                        <h2 class="text-4xl font-black italic mb-2 tracking-tighter">TEAMS</h2>
-                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em]">Auto-balance and predict matchups</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
-                        <select id="season-dropdown-teams" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
-                    </div>
-                </div>
-                <div id="draft-pool" class="flex flex-wrap justify-center gap-4 mt-8"></div>
-                <button onclick="balanceTeams()" class="mt-10 bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase tracking-widest py-4 px-12 rounded-full transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-indigo-500/20">
-                    Generate Matchup
-                </button>
-            </div>
-            <div id="matchup-results" class="hidden grid grid-cols-1 lg:grid-cols-7 gap-6 items-center">
-                <div class="lg:col-span-3 glass p-8 rounded-[2.5rem] team-1-border">
-                    <h4 class="text-blue-400 font-black uppercase tracking-widest text-center mb-6 text-xs">Projected Team 1</h4>
-                    <div id="team-1-roster" class="space-y-3"></div>
-                </div>
-                <div class="lg:col-span-1 text-center">
-                    <div class="text-4xl font-black italic text-slate-700">VS</div>
-                    <div id="win-probability" class="mt-4 font-mono text-[10px] font-bold text-indigo-400"></div>
-                </div>
-                <div class="lg:col-span-3 glass p-8 rounded-[2.5rem] team-2-border">
-                    <h4 class="text-rose-400 font-black uppercase tracking-widest text-center mb-6 text-xs">Projected Team 2</h4>
-                    <div id="team-2-roster" class="space-y-3"></div>
-                </div>
-            </div>
-
-            <div class="glass p-8 rounded-[3rem] mt-8">
-                <div class="flex flex-col lg:flex-row justify-between items-start gap-4 mb-6">
-                    <div>
-                        <h3 class="text-2xl font-black italic tracking-tighter">Custom Teams (Manual)</h3>
-                        <p class="text-slate-500 text-[11px] font-mono uppercase tracking-[0.25em] mt-1">Drag players into Team 1 / Team 2 and predict odds</p>
-                    </div>
-                    <div class="flex gap-3">
-                        <button type="button" onclick="resetManualTeams()" class="bg-slate-900/70 hover:bg-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border border-slate-700 text-slate-200">
-                            Reset custom teams
-                        </button>
-                        <button type="button" onclick="predictManualTeamsOdds()" class="bg-emerald-600 hover:bg-emerald-500 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full text-white shadow-lg shadow-emerald-500/30">
-                            Predict odds
-                        </button>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    <div>
-                        <h4 class="text-xs font-black uppercase tracking-[0.25em] text-slate-500 mb-2">Available</h4>
-                        <div id="manual-pool" class="min-h-[80px] bg-slate-900/60 border border-slate-800 rounded-2xl p-3 flex flex-wrap gap-2"
-                             ondragover="event.preventDefault()" ondrop="handleManualDrop(event, 'pool')"></div>
-                    </div>
-                    <div>
-                        <div class="flex items-center justify-between mb-2 gap-2">
-                            <input id="manual-team-0-name" type="text" value="Team 1" oninput="updateManualTeamName(0, this.value)"
-                                   class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-black uppercase tracking-widest text-white outline-none focus:border-indigo-500 flex-1" />
-                        </div>
-                        <div id="manual-team-0" class="min-h-[80px] bg-slate-900/60 border border-blue-500/60 rounded-2xl p-3 flex flex-wrap gap-2"
-                             ondragover="event.preventDefault()" ondrop="handleManualDrop(event, 0)"></div>
-                    </div>
-                    <div>
-                        <div class="flex items-center justify-between mb-2 gap-2">
-                            <input id="manual-team-1-name" type="text" value="Team 2" oninput="updateManualTeamName(1, this.value)"
-                                   class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-black uppercase tracking-widest text-white outline-none focus:border-indigo-500 flex-1" />
-                        </div>
-                        <div id="manual-team-1" class="min-h-[80px] bg-slate-900/60 border border-rose-500/60 rounded-2xl p-3 flex flex-wrap gap-2"
-                             ondragover="event.preventDefault()" ondrop="handleManualDrop(event, 1)"></div>
-                    </div>
-                </div>
-                <div id="manual-win-probability" class="mt-4 text-xs text-slate-400 font-mono"></div>
-            </div>
-        </div>
-
+        
         <div id="view-compare" class="hidden">
             <div class="glass p-8 rounded-[2.5rem] mb-10 border-l-4 border-indigo-500">
                 <div class="flex flex-col lg:flex-row justify-between gap-6 items-start lg:items-end">
@@ -279,7 +205,7 @@
                 <div class="flex flex-col lg:flex-row justify-between gap-6 items-start lg:items-end">
                     <div>
                         <h2 class="text-3xl font-black italic uppercase tracking-tighter">Current Trends</h2>
-                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em] mt-1">Leaders over the last 3 competitive games (season-filtered)</p>
+                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em] mt-1">Top 3 leaders over the last 3 competitive games (season-filtered)</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
@@ -296,9 +222,6 @@
         let selectedPlayers = new Set();
         let selectedSeason = 'all';
         let analyticsShowLastSeason = false;
-        let manualTeams = [];
-        let manualPool = [];
-        let manualRatings = {};
 
         // Rating levels (non-overlapping ranges via descending min thresholds)
         const RANKS = [
@@ -377,12 +300,10 @@
         function syncSeasonDropdowns() {
             const elA = document.getElementById('season-dropdown-archives');
             const elB = document.getElementById('season-dropdown-analytics');
-            const elC = document.getElementById('season-dropdown-teams');
             const elD = document.getElementById('season-dropdown-compare');
             const elE = document.getElementById('season-dropdown-trends');
             if (elA && elA.value !== selectedSeason) elA.value = selectedSeason;
             if (elB && elB.value !== selectedSeason) elB.value = selectedSeason;
-            if (elC && elC.value !== selectedSeason) elC.value = selectedSeason;
             if (elD && elD.value !== selectedSeason) elD.value = selectedSeason;
             if (elE && elE.value !== selectedSeason) elE.value = selectedSeason;
         }
@@ -396,10 +317,9 @@
 
             const archives = document.getElementById('season-dropdown-archives');
             const analytics = document.getElementById('season-dropdown-analytics');
-            const teams = document.getElementById('season-dropdown-teams');
             const compare = document.getElementById('season-dropdown-compare');
             const trends = document.getElementById('season-dropdown-trends');
-            [archives, analytics, teams, compare, trends].forEach(el => {
+            [archives, analytics, compare, trends].forEach(el => {
                 if (!el) return;
                 const prev = el.value;
                 el.innerHTML = '';
@@ -468,18 +388,15 @@
             document.getElementById('view-analytics').classList.toggle('hidden', tab !== 'analytics');
             document.getElementById('view-compare').classList.toggle('hidden', tab !== 'compare');
             document.getElementById('view-trends').classList.toggle('hidden', tab !== 'trends');
-            document.getElementById('view-warroom').classList.toggle('hidden', tab !== 'warroom');
             
             document.getElementById('tab-archives').className = `nav-btn ${tab === 'archives' ? 'nav-active' : 'nav-inactive'}`;
             document.getElementById('tab-analytics').className = `nav-btn ${tab === 'analytics' ? 'nav-active' : 'nav-inactive'}`;
             document.getElementById('tab-compare').className = `nav-btn ${tab === 'compare' ? 'nav-active' : 'nav-inactive'}`;
             document.getElementById('tab-trends').className = `nav-btn ${tab === 'trends' ? 'nav-active' : 'nav-inactive'}`;
-            document.getElementById('tab-warroom').className = `nav-btn ${tab === 'warroom' ? 'nav-active' : 'nav-inactive'}`;
             
             if(tab === 'analytics') { initDropdown(); loadPlayerStats(); renderHotPlayer(); }
             if(tab === 'compare') { initCompareDropdowns(); renderCompare(); }
             if(tab === 'trends') { renderTrends(); }
-            if(tab === 'warroom') { initWarRoom(); }
         }
 
         function focusOnPlayer(name) {
@@ -796,7 +713,7 @@
                 threesPg: p.gp ? (p.threeP / p.gp) : 0,
             }));
 
-            const topBy = (key) => players.slice().sort((a, b) => (b[key] - a[key]) || (b.rating - a.rating))[0] || null;
+            const topBy = (key) => players.slice().sort((a, b) => (b[key] - a[key]) || (b.rating - a.rating)).slice(0, 3);
 
             const cards = [
                 { title: 'Scoring trend', subtitle: `PPG (last ${recentGames.length})`, key: 'ppg', valueFmt: v => v.toFixed(1), color: 'text-emerald-400' },
@@ -808,185 +725,50 @@
             ];
 
             container.innerHTML = cards.map(c => {
-                const p = topBy(c.key);
-                if (!p) {
+                const topPlayers = topBy(c.key);
+                if (!topPlayers.length) {
                     return `<div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
                         <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">${c.title}</p>
                         <p class="text-slate-500 mt-4 font-mono text-sm">No data</p>
                     </div>`;
                 }
 
-                let displayValue = p[c.key];
-                let badgeHtml = '';
+                const leaderboardHtml = topPlayers.map((p, index) => {
+                    let displayValue = p[c.key];
+                    let badgeHtml = '';
+                    const positionIcon = index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉';
 
-                if (c.badge) {
-                    // For the "On fire" card, display the season leaderboard rating + level
-                    const seasonAgg = getPlayerSeasonAggregate(p.name);
-                    const seasonRating = seasonAgg.gp ? calculateEfficiency(seasonAgg, seasonAgg.gp) : 0;
-                    const rank = getRank(seasonRating);
-                    displayValue = seasonRating;
-                    badgeHtml = `<div class="mt-2"><span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span></div>`;
-                }
+                    if (c.badge) {
+                        // For the "On fire" card, display the season leaderboard rating + level
+                        const seasonAgg = getPlayerSeasonAggregate(p.name);
+                        const seasonRating = seasonAgg.gp ? calculateEfficiency(seasonAgg, seasonAgg.gp) : 0;
+                        const rank = getRank(seasonRating);
+                        displayValue = seasonRating;
+                        badgeHtml = `<div class="mt-1"><span class="rank-badge ${rank.class} text-[8px] px-2 py-0.5">${rank.icon} ${rank.title}</span></div>`;
+                    }
+
+                    return `
+                        <div class="flex justify-between items-center py-2 ${index === 0 ? '' : 'border-t border-slate-800/30'}">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg">${positionIcon}</span>
+                                <button type="button" class="font-black italic text-sm ${index === 0 ? 'text-white' : 'text-slate-400'} underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">${p.name}</button>
+                                ${badgeHtml}
+                            </div>
+                            <div class="text-right">
+                                <p class="font-black ${index === 0 ? c.color : 'text-slate-400'} text-sm">${c.valueFmt(displayValue)}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
                 return `<div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
                     <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">${c.title}</p>
                     <p class="text-[11px] font-mono text-slate-500 mt-1">${c.subtitle}</p>
-                    <div class="mt-5 flex justify-between items-start gap-4">
-                        <div>
-                            <button type="button" class="font-black italic text-lg text-white underline decoration-dotted underline-offset-4 hover:text-indigo-300" onclick="focusOnPlayer('${p.name}')">${p.name}</button>
-                            ${badgeHtml}
-                        </div>
-                        <div class="text-right">
-                            <p class="text-3xl font-black ${c.color}">${c.valueFmt(displayValue)}</p>
-                        </div>
+                    <div class="mt-4">
+                        ${leaderboardHtml}
                     </div>
                 </div>`;
             }).join('');
-        }
-
-        function initWarRoom() {
-            const pool = document.getElementById('draft-pool');
-            pool.innerHTML = '';
-            const stats = getGlobalStats(getSeasonFilteredGames());
-            Object.keys(stats).sort().forEach(name => {
-                const card = document.createElement('div');
-                card.className = `draft-card px-6 py-4 rounded-2xl cursor-pointer hover:border-indigo-400 font-black italic text-sm ${selectedPlayers.has(name) ? 'draft-selected' : ''}`;
-                card.innerText = name.toUpperCase();
-                card.onclick = () => {
-                    if(selectedPlayers.has(name)) { selectedPlayers.delete(name); card.classList.remove('draft-selected'); }
-                    else { selectedPlayers.add(name); card.classList.add('draft-selected'); }
-                };
-                pool.appendChild(card);
-            });
-
-            initManualTeamsBuilder(stats);
-        }
-
-        function initManualTeamsBuilder(stats) {
-            manualRatings = {};
-            manualPool = [];
-            manualTeams = [
-                { id: 0, name: 'Team 1', players: [] },
-                { id: 1, name: 'Team 2', players: [] }
-            ];
-
-            Object.keys(stats).sort().forEach(name => {
-                const s = stats[name];
-                manualRatings[name] = calculateEfficiency(s, s.gp);
-                manualPool.push(name);
-            });
-
-            renderManualBuilder();
-        }
-
-        function renderManualBuilder() {
-            const poolEl = document.getElementById('manual-pool');
-            const team0El = document.getElementById('manual-team-0');
-            const team1El = document.getElementById('manual-team-1');
-            if (!poolEl || !team0El || !team1El) return;
-
-            const t0 = manualTeams[0] || { name: 'Team 1', players: [] };
-            const t1 = manualTeams[1] || { name: 'Team 2', players: [] };
-
-            const t0NameInput = document.getElementById('manual-team-0-name');
-            const t1NameInput = document.getElementById('manual-team-1-name');
-            if (t0NameInput) t0NameInput.value = t0.name || 'Team 1';
-            if (t1NameInput) t1NameInput.value = t1.name || 'Team 2';
-
-            const renderChip = (name, accentClass) => {
-                const rating = manualRatings[name] || 0;
-                return `<div class="px-3 py-1.5 rounded-xl bg-slate-950/60 border border-slate-700 text-[11px] font-mono text-slate-200 flex items-center gap-2 cursor-move"
-                             draggable="true" ondragstart="handleManualDragStart(event, '${name.replace(/'/g, "\\'")}')">
-                            <span>${name}</span>
-                            <span class="${accentClass} text-[10px] font-black ml-auto">R ${rating.toFixed(1)}</span>
-                        </div>`;
-            };
-
-            poolEl.innerHTML = manualPool.map(name => renderChip(name, 'text-slate-400')).join('');
-            team0El.innerHTML = t0.players.map(name => renderChip(name, 'text-blue-400')).join('');
-            team1El.innerHTML = t1.players.map(name => renderChip(name, 'text-rose-400')).join('');
-        }
-
-        function handleManualDragStart(event, playerName) {
-            if (!event || !event.dataTransfer) return;
-            event.dataTransfer.setData('text/plain', playerName);
-        }
-
-        function handleManualDrop(event, target) {
-            if (!event || !event.dataTransfer) return;
-            event.preventDefault();
-            const name = event.dataTransfer.getData('text/plain');
-            if (!name) return;
-
-            // Remove from all containers first
-            manualPool = manualPool.filter(n => n !== name);
-            manualTeams.forEach(t => {
-                t.players = t.players.filter(n => n !== name);
-            });
-
-            if (target === 'pool') {
-                if (!manualPool.includes(name)) manualPool.push(name);
-            } else if (typeof target === 'number' && manualTeams[target]) {
-                if (!manualTeams[target].players.includes(name)) {
-                    manualTeams[target].players.push(name);
-                }
-            }
-
-            renderManualBuilder();
-        }
-
-        function updateManualTeamName(index, value) {
-            if (!manualTeams[index]) return;
-            manualTeams[index].name = value || (index === 0 ? 'Team 1' : 'Team 2');
-        }
-
-        function resetManualTeams() {
-            const stats = getGlobalStats(getSeasonFilteredGames());
-            initManualTeamsBuilder(stats);
-            const out = document.getElementById('manual-win-probability');
-            if (out) out.textContent = '';
-        }
-
-        function predictManualTeamsOdds() {
-            if (!manualTeams || manualTeams.length < 2) return;
-            const t0 = manualTeams[0];
-            const t1 = manualTeams[1];
-            if (!t0.players.length || !t1.players.length) {
-                alert('Add at least one player to both Team 1 and Team 2.');
-                return;
-            }
-
-            let sum0 = 0;
-            let sum1 = 0;
-            t0.players.forEach(name => { sum0 += manualRatings[name] || 0; });
-            t1.players.forEach(name => { sum1 += manualRatings[name] || 0; });
-
-            const raw = 50 + ((sum0 - sum1) * 5);
-            const clamped = Math.min(95, Math.max(5, Number(raw.toFixed(0))));
-            const name0 = (t0.name || 'Team 1').toUpperCase();
-            const name1 = (t1.name || 'Team 2').toUpperCase();
-
-            const out = document.getElementById('manual-win-probability');
-            if (out) {
-                out.textContent = `WIN PROBABILITY: ${name0} ${clamped}% | ${name1} ${100 - clamped}%  (ratings ${sum0.toFixed(1)} vs ${sum1.toFixed(1)})`;
-            }
-        }
-
-        function balanceTeams() {
-            if(selectedPlayers.size < 2) return alert("Select at least 2 players!");
-            // Use the same season-filtered stats + rating logic as the leaderboard
-            const stats = getGlobalStats(getSeasonFilteredGames());
-            const roster = Array.from(selectedPlayers).map(name => ({
-                name,
-                rating: calculateEfficiency(stats[name], stats[name].gp)
-            })).sort((a,b) => b.rating - a.rating);
-            let t1 = [], t2 = [], sum1 = 0, sum2 = 0;
-            roster.forEach(p => { if(sum1 <= sum2) { t1.push(p); sum1 += p.rating; } else { t2.push(p); sum2 += p.rating; } });
-            document.getElementById('team-1-roster').innerHTML = t1.map(p => `<div class="p-3 bg-slate-900 rounded-xl flex justify-between border-l-4 border-blue-500"><span>${p.name}</span><span class="text-blue-400 font-mono">${p.rating.toFixed(1)}</span></div>`).join('');
-            document.getElementById('team-2-roster').innerHTML = t2.map(p => `<div class="p-3 bg-slate-900 rounded-xl flex justify-between border-l-4 border-rose-500"><span>${p.name}</span><span class="text-rose-400 font-mono">${p.rating.toFixed(1)}</span></div>`).join('');
-            const prob = 50 + ((sum1 - sum2) * 5);
-            document.getElementById('win-probability').innerText = `WIN PROBABILITY: T1 ${Math.min(95, Math.max(5, prob.toFixed(0)))}% | T2 ${(100 - Math.min(95, Math.max(5, prob.toFixed(0))))}%`;
-            document.getElementById('matchup-results').classList.remove('hidden');
         }
 
         function initDropdown() {
