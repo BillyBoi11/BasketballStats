@@ -29,7 +29,7 @@ const GAME_DATABASE = [
     reboundGame: false, 
     scheduled: false,
     players: [
-      { name: "Gem", team: "Team 2", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1},
+      { name: "Gem", team: "Team 2", twoP: 3, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 2, blk: 0},
       { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   }, 
@@ -269,6 +269,7 @@ const GAME_DATABASE = [
 
 
 ];
+
 
 
 
