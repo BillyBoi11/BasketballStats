@@ -1,11 +1,27 @@
 // EDIT THIS FILE TO UPDATE THE WEBSITE
 const GAME_DATABASE = [
+  {
+    date: "2026-03-10",
+    gameName: "Warmup",
+    duration: "00:00",
+    reboundGame: false, 
+    scheduled: true,
+    group: "HU14",
+    players: [
+      { name: "Gem", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Lucas", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Viking", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Ibrahim", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+    ]
+  },
     {
     date: "2026-03-10",
     gameName: "Outside Game 6 (STREET)",
     duration: "10:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 1", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 2},
       { name: "Billy", team: "Team 2", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 3, blk: 0}
@@ -17,6 +33,7 @@ const GAME_DATABASE = [
     duration: "10:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 7, blk: 1},
       { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 2}
@@ -28,6 +45,7 @@ const GAME_DATABASE = [
     duration: "10:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 2", twoP: 3, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 2, blk: 0},
       { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
@@ -39,6 +57,7 @@ const GAME_DATABASE = [
     duration: "18:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 5, threeP: 3, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 2, blk: 0},
       { name: "Viking", team: "Team 1", twoP: 6, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 2, blk: 0},        
@@ -52,6 +71,7 @@ const GAME_DATABASE = [
     duration: "8:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 2", twoP: 2, threeP: 0, ft: 1, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
       { name: "Billy", team: "Team 1", twoP: 4, threeP: 0, ft: 1, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -65,6 +85,7 @@ const GAME_DATABASE = [
     duration: "20:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 1", twoP: 3, threeP: 0, ft: 1, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1},
       { name: "Billy", team: "Team 2", twoP: 0, threeP: 0, ft: 1, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 1},
@@ -78,6 +99,7 @@ const GAME_DATABASE = [
     duration: "20:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 1", twoP: 9, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Billy", team: "Team 2", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 1},
@@ -91,6 +113,7 @@ const GAME_DATABASE = [
     duration: "85:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 2", twoP: 9, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
       { name: "Billy", team: "Team 2", twoP: 12, threeP: 2, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 2, blk: 0},
@@ -104,6 +127,7 @@ const GAME_DATABASE = [
     duration: "5:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "None", twoP: 12, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Billy", team: "None", twoP: 10, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
@@ -115,6 +139,7 @@ const GAME_DATABASE = [
     duration: "5:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "None", twoP: 12, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Billy", team: "None", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
@@ -126,6 +151,7 @@ const GAME_DATABASE = [
     duration: "5:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "None", twoP: 9, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Billy", team: "None", twoP: 11, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
@@ -137,6 +163,7 @@ const GAME_DATABASE = [
     duration: "9:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Lucas", team: "Team 1", twoP: 4, threeP: 1, ft: 0, miss: 0, foul: 3, reb: 0, tech: 0, stl: 1, blk: 0},
       { name: "Gem", team: "Team 1", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -150,6 +177,7 @@ const GAME_DATABASE = [
     duration: "11:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Gem", team: "Team 1", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -163,6 +191,7 @@ const GAME_DATABASE = [
     duration: "40:00",
     reboundGame: true, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 5, threeP: 1, ft: 0, miss: 0, foul: 1, reb: 11, tech: 0, stl: 3, blk: 0},
       { name: "Lucas", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 2, reb: 1, tech: 0, stl: 0, blk: 0},
@@ -176,6 +205,7 @@ const GAME_DATABASE = [
     duration: "10:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
     
       { name: "Lucas", team: "None", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -190,6 +220,7 @@ const GAME_DATABASE = [
     duration: "15:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 1, threeP: 4, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 1},
       { name: "Viking", team: "Team 1", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -203,6 +234,7 @@ const GAME_DATABASE = [
     duration: "5:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 1, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Lucas", team: "Team 2", twoP: 1, threeP: 1, ft: 0, miss: 0, foul: 2, reb: 0, tech: 0, stl: 0, blk: 0}
@@ -214,6 +246,7 @@ const GAME_DATABASE = [
     duration: "12:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 0, threeP: 1, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Gem", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1}
@@ -225,6 +258,7 @@ const GAME_DATABASE = [
     duration: "25:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 0, blk: 1},
       { name: "Gem", team: "Team 2", twoP: 6, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
@@ -237,6 +271,7 @@ const GAME_DATABASE = [
     duration: "18:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 1", twoP: 6, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
       { name: "Billy", team: "Team 2", twoP: 0, threeP: 3, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 0, blk: 0},
@@ -249,6 +284,7 @@ const GAME_DATABASE = [
     duration: "12:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Billy", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 2, blk: 0},
       { name: "Gem", team: "Team 1", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
@@ -261,18 +297,10 @@ const GAME_DATABASE = [
     duration: "12:00",
     reboundGame: false, 
     scheduled: false,
+    group: "Airball Squad",
     players: [
       { name: "Gem", team: "Team 1", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   }
-
-
 ];
-
-
-
-
-
-
-

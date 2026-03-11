@@ -90,7 +90,7 @@
                 <button onclick="switchTab('compare')" id="tab-compare" class="nav-btn nav-inactive">Compare</button>
                 <button onclick="switchTab('trends')" id="tab-trends" class="nav-btn nav-inactive">Current Trends</button>
                 <a href="recorder.html" class="nav-btn nav-inactive flex items-center">Recorder</a>
-                <a href="drills.html" class="nav-btn nav-inactive flex items-center">Drills</a>
+                <button class="nav-btn nav-inactive flex items-center opacity-50 cursor-not-allowed" disabled>Drills (Locked)</button>
             </nav>
         </header>
 
@@ -103,6 +103,13 @@
                         <div class="flex items-center gap-2">
                             <label for="season-dropdown-archives" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
                             <select id="season-dropdown-archives" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label for="player-group-dropdown" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Group</label>
+                            <select id="player-group-dropdown" onchange="handlePlayerGroupChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs">
+                                <option value="all">HU14</option>
+                                <option value="airball">Airball Squad</option>
+                            </select>
                         </div>
                         <button onclick="copyLeaderboardToClipboard()" class="bg-slate-900/70 hover:bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 font-black uppercase tracking-widest text-[10px] text-white/90 transition-all focus:border-indigo-500">
                             Copy leaderboard
@@ -221,16 +228,18 @@
         let chartInstance = null;
         let selectedPlayers = new Set();
         let selectedSeason = 'all';
+        let selectedPlayerGroup = 'all';
         let analyticsShowLastSeason = false;
 
         // Rating levels (non-overlapping ranges via descending min thresholds)
         const RANKS = [
-            { min: 25, title: "GOAT", class: "rank-hof", icon: "🐐" },
+            { min: 50, title: "bro you cheating at this point", class: "rank-hof", icon: "🐐" },
+            { min: 39, title: "GOAT", class: "rank-hof", icon: "🐐" },
 
             // Hall of Fame tiers
-            { min: 24, title: "Legendary Hall of Famer", class: "rank-hof", icon: "🏆" }, // gap-safe bucket (24 ≤ rating < 25)
-            { min: 23, title: "Legendary Hall of Famer", class: "rank-hof", icon: "🏆" },
-            { min: 22, title: "Rising Hall of Famer", class: "rank-hof", icon: "🏆" },
+            { min: 34, title: "Hall of Fame", class: "rank-hof", icon: "🏆" }, // gap-safe bucket (24 ≤ rating < 25)
+            { min: 29, title: "Legendary Hall of Famer", class: "rank-hof", icon: "🏆" },
+            { min: 25, title: "Rising Hall of Famer", class: "rank-hof", icon: "🏆" },
             { min: 21, title: "Rookie Hall of Famer", class: "rank-hof", icon: "🏆" },
 
             // Upper tiers
@@ -240,8 +249,8 @@
             { min: 12, title: "Playmaker", class: "rank-elite", icon: "🎯" },
             { min: 10, title: "Court Dominator", class: "rank-pro", icon: "💪" },
             { min: 8, title: "Pro Starter", class: "rank-pro", icon: "✅" },
-            { min: 6, title: "Team Player", class: "rank-role", icon: "🤝" },
-            { min: 4, title: "Role Player", class: "rank-role", icon: "🛡️" },
+            { min: 6, title: "youre getting there", class: "rank-role", icon: "🤝" },
+            { min: 4, title: "Pro airballer", class: "rank-role", icon: "🛡️" },
             { min: 0, title: "Benchwarmer", class: "rank-rookie", icon: "🐣" }
         ];
 
@@ -287,13 +296,15 @@
                 .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
         }
 
-        function getRecentCompetitiveGames(count = 3) {
+        function getRecentCompetitiveGames(count = 3, games = null) {
             // Only include games that are treated as "real" for the leaderboard:
             // not scheduled and with at least one player assigned to a team.
-            const seasonGames = getSeasonFilteredGames().filter(g => 
+            const seasonGames = games || getSeasonFilteredGames();
+            const competitiveGames = seasonGames.filter(g => 
                 !isScheduled(g) && Array.isArray(g.players) && g.players.some(p => p.team !== "None")
             );
-            const sorted = getCompetitiveGamesSortedDesc(seasonGames);
+            const sorted = competitiveGames
+                .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
             return sorted.slice(0, count);
         }
 
@@ -342,23 +353,49 @@
             syncSeasonDropdowns();
         }
 
-        function handleSeasonChange(newValue) {
-            selectedSeason = newValue || 'all';
-            syncSeasonDropdowns();
+        function handlePlayerGroupChange(group) {
+            selectedPlayerGroup = group;
             renderEverything();
-
-            // If user is on analytics, keep everything consistent there too.
+            
+            // Also refresh other tabs if they're active
             const analyticsView = document.getElementById('view-analytics');
+            const compareView = document.getElementById('view-compare');
+            const trendsView = document.getElementById('view-trends');
+            
             if (analyticsView && !analyticsView.classList.contains('hidden')) {
                 initDropdown();
                 loadPlayerStats();
+                renderHotPlayer();
             }
+            if (compareView && !compareView.classList.contains('hidden')) {
+                initCompareDropdowns();
+                renderCompare();
+            }
+            if (trendsView && !trendsView.classList.contains('hidden')) {
+                renderTrends();
+            }
+        }
 
-            // Keep widgets in sync with season selection
-            renderHotPlayer();
-            initCompareDropdowns();
-            renderCompare();
-            renderTrends();
+        function getFilteredPlayers(players) {
+            if (selectedPlayerGroup === 'all') {
+                return players;
+            } else if (selectedPlayerGroup === 'airball') {
+                const airballPlayers = ['Billy', 'Gem', 'Viking', 'Lucas'];
+                return players.filter(p => airballPlayers.includes(p.name));
+            }
+            return players;
+        }
+
+        function getFilteredGames() {
+            const seasonGames = getSeasonFilteredGames();
+            if (selectedPlayerGroup === 'all') {
+                // HU14 - show only games with group "HU14" or no group specified
+                return seasonGames.filter(game => game.group === 'HU14' || !game.group);
+            } else if (selectedPlayerGroup === 'airball') {
+                // Airball Squad - show only games with group "Airball Squad"
+                return seasonGames.filter(game => game.group === 'Airball Squad');
+            }
+            return seasonGames;
         }
 
         function calculateEfficiency(p, gp) {
@@ -444,9 +481,11 @@
         }
 
         function getCurrentSortedLeaderboardRows() {
-            const seasonGames = getSeasonFilteredGames();
-            const stats = getGlobalStats(seasonGames);
-            const sorted = Object.values(stats).sort((a, b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
+            const filteredGames = getFilteredGames();
+            const stats = getGlobalStats(filteredGames);
+            const allPlayers = Object.values(stats);
+            const filteredPlayers = getFilteredPlayers(allPlayers);
+            const sorted = filteredPlayers.sort((a, b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
             return sorted.map((p, idx) => {
                 const rating = calculateEfficiency(p, p.gp);
                 const rank = getRank(rating);
@@ -473,9 +512,10 @@
             const card = document.getElementById('hot-player-card');
             if (!card) return;
 
-            const recentGames = getRecentCompetitiveGames(3);
+            const filteredGames = getFilteredGames();
+            const recentGames = getRecentCompetitiveGames(3, filteredGames);
             if (!recentGames.length) {
-                card.innerHTML = '<span class="text-slate-500">No competitive games for this season yet.</span>';
+                card.innerHTML = '<span class="text-slate-500">No competitive games for this season/group yet.</span>';
                 return;
             }
 
@@ -600,61 +640,52 @@
         }
 
         function initCompareDropdowns() {
-            const elA = document.getElementById('compare-player-a');
-            const elB = document.getElementById('compare-player-b');
-            if (!elA || !elB) return;
+            const dropdownA = document.getElementById('compare-player-a');
+            const dropdownB = document.getElementById('compare-player-b');
+            if (!dropdownA || !dropdownB) return;
 
-            const seasonGames = getSeasonFilteredGames().filter(g => !isScheduled(g));
-            const players = [...new Set(seasonGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+            const prevA = dropdownA.value;
+            const prevB = dropdownB.value;
+            dropdownA.innerHTML = '';
+            dropdownB.innerHTML = '';
 
-            const prevA = elA.value;
-            const prevB = elB.value;
-            elA.innerHTML = '';
-            elB.innerHTML = '';
+            const filteredGames = getFilteredGames().filter(g => !isScheduled(g));
+            const allPlayers = [...new Set(filteredGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+            const filteredPlayers = getFilteredPlayers(allPlayers.map(name => ({ name })));
 
-            if (!players.length) {
-                const opt = document.createElement('option');
-                opt.value = '';
-                opt.innerText = 'NO DATA FOR SEASON';
-                elA.appendChild(opt.cloneNode(true));
-                elB.appendChild(opt);
-                elA.disabled = true;
-                elB.disabled = true;
-                return;
-            }
+            if (!filteredPlayers.length) return;
 
-            elA.disabled = false;
-            elB.disabled = false;
-            players.forEach(name => {
-                const o1 = document.createElement('option');
-                o1.value = name; o1.innerText = name.toUpperCase();
-                elA.appendChild(o1);
-                const o2 = document.createElement('option');
-                o2.value = name; o2.innerText = name.toUpperCase();
-                elB.appendChild(o2);
+            filteredPlayers.forEach(player => {
+                const optA = document.createElement('option');
+                optA.value = player.name;
+                optA.innerText = player.name.toUpperCase();
+                dropdownA.appendChild(optA);
+
+                const optB = document.createElement('option');
+                optB.value = player.name;
+                optB.innerText = player.name.toUpperCase();
+                dropdownB.appendChild(optB);
             });
 
-            elA.value = players.includes(prevA) ? prevA : players[0];
-            const fallbackB = players[1] || players[0];
-            elB.value = players.includes(prevB) ? prevB : fallbackB;
+            const playerNames = filteredPlayers.map(p => p.name);
+            dropdownA.value = playerNames.includes(prevA) ? prevA : playerNames[0];
+            dropdownB.value = playerNames.includes(prevB) ? prevB : (playerNames[1] || playerNames[0]);
         }
 
         function renderCompare() {
             const elA = document.getElementById('compare-player-a');
             const elB = document.getElementById('compare-player-b');
             const cardA = document.getElementById('compare-card-a');
-            const cardB = document.getElementById('compare-card-b');
-            if (!elA || !elB || !cardA || !cardB) return;
 
-            const aName = elA.value;
-            const bName = elB.value;
+    const aName = elA.value;
+    const bName = elB.value;
+    const filteredGames = getFilteredGames();
+    const a = aName ? getPlayerSeasonAggregateForYear(aName, getSeasonFromGames(filteredGames)) : null;
+            const b = bName ? getPlayerSeasonAggregateForYear(bName, getSeasonFromGames(filteredGames)) : null;
 
-            const a = aName ? getPlayerSeasonAggregate(aName) : null;
-            const b = bName ? getPlayerSeasonAggregate(bName) : null;
-
-            const render = (p, accent) => {
-                if (!p || !p.gp) {
-                    return `<div class="text-slate-500 text-sm font-mono">No games for this player in the selected season.</div>`;
+    const render = (p, accent) => {
+        if (!p || !p.gp) {
+            return `<div class="text-slate-500 text-sm font-mono">No games for this player in the selected season.</div>`;
                 }
                 const rating = calculateEfficiency(p, p.gp);
                 const rank = getRank(rating);
@@ -695,9 +726,10 @@
             const container = document.getElementById('trends-container');
             if (!container) return;
 
-            const recentGames = getRecentCompetitiveGames(3);
+            const filteredGames = getFilteredGames();
+            const recentGames = getRecentCompetitiveGames(3, filteredGames);
             if (!recentGames.length) {
-                container.innerHTML = `<div class="text-slate-500 font-mono text-sm">No competitive games for this season yet.</div>`;
+                container.innerHTML = `<div class="text-slate-500 font-mono text-sm">No competitive games for this season/group yet.</div>`;
                 return;
             }
 
@@ -778,34 +810,37 @@
             const prev = dropdown.value;
             dropdown.innerHTML = '';
 
-            const seasonGames = getSeasonFilteredGames().filter(g => !isScheduled(g));
-            const players = [...new Set(seasonGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+            const filteredGames = getFilteredGames().filter(g => !isScheduled(g));
+            const allPlayers = [...new Set(filteredGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+            const filteredPlayers = getFilteredPlayers(allPlayers.map(name => ({ name })));
 
-            if (!players.length) {
+            if (!filteredPlayers.length) {
                 const opt = document.createElement('option');
                 opt.value = '';
-                opt.innerText = 'NO DATA FOR SEASON';
+                opt.innerText = 'NO DATA FOR SEASON/GROUP';
                 dropdown.appendChild(opt);
                 dropdown.disabled = true;
                 return;
             }
 
             dropdown.disabled = false;
-            players.forEach(name => {
+            filteredPlayers.forEach(player => {
                 const opt = document.createElement('option');
-                opt.value = name; opt.innerText = name.toUpperCase();
+                opt.value = player.name; 
+                opt.innerText = player.name.toUpperCase();
                 dropdown.appendChild(opt);
             });
 
-            dropdown.value = players.includes(prev) ? prev : players[0];
+            const playerNames = filteredPlayers.map(p => p.name);
+            dropdown.value = playerNames.includes(prev) ? prev : (playerNames[0] || '');
         }
 
         function loadPlayerStats() {
             const name = document.getElementById('player-dropdown').value;
             if(!name) return;
             
-            const seasonGames = getSeasonFilteredGames();
-            const history = seasonGames.filter(g => !isScheduled(g) && g.players.some(p => p.name === name && p.team !== "None")).reverse();
+            const filteredGames = getFilteredGames();
+            const history = filteredGames.filter(g => !isScheduled(g) && g.players.some(p => p.name === name && p.team !== "None")).reverse();
             const playerHistory = history.map(g => g.players.find(p => p.name === name));
             
             // Initializing with same keys as getGlobalStats to ensure parity
@@ -1015,14 +1050,16 @@ Rating ${rating.toFixed(1)} per 15 min – Level: ${rank.title}`;
             if (typeof GAME_DATABASE === 'undefined') return;
 
             initSeasonDropdowns();
-            const seasonGames = getSeasonFilteredGames();
+            const filteredGames = getFilteredGames();
             
-            const competitiveCount = seasonGames.filter(g => !isScheduled(g)).length;
+            const competitiveCount = filteredGames.filter(g => !isScheduled(g)).length;
             const seasonLabel = selectedSeason === 'all' ? 'ALL-TIME' : selectedSeason;
             document.getElementById('game-count').innerText = `${competitiveCount} COMPETITIVE SESSIONS RECORDED • ${seasonLabel}`;
             
-            const stats = getGlobalStats(seasonGames);
-            const sorted = Object.values(stats).sort((a,b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
+            const stats = getGlobalStats(filteredGames);
+            const allPlayers = Object.values(stats);
+            const filteredPlayers = getFilteredPlayers(allPlayers);
+            const sorted = filteredPlayers.sort((a,b) => calculateEfficiency(b, b.gp) - calculateEfficiency(a, a.gp));
             
             leaderBody.innerHTML = sorted.map((p, i) => {
                 const rating = calculateEfficiency(p, p.gp);
@@ -1051,7 +1088,7 @@ Rating ${rating.toFixed(1)} per 15 min – Level: ${rank.title}`;
                 </tr>`;
             }).join('');
 
-            container.innerHTML = seasonGames.map(game => {
+            container.innerHTML = filteredGames.map(game => {
                 const teamTotals = {};
                 game.players.forEach(p => {
                     const pPts = (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + (parseInt(p.ft||0));
