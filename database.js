@@ -3,7 +3,7 @@ const GAME_DATABASE = [
   {
     date: "2026-03-10",
     gameName: "game 14",
-    duration: "20:00",
+    duration: "14:00",
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
@@ -17,7 +17,7 @@ const GAME_DATABASE = [
   {
     date: "2026-03-10",
     gameName: "game 13",
-    duration: "14:00",
+    duration: "8:00",
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
@@ -31,7 +31,7 @@ const GAME_DATABASE = [
   {
     date: "2026-03-10",
     gameName: "game 13",
-    duration: "14:00",
+    duration: "11:00",
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
@@ -360,3 +360,4 @@ const GAME_DATABASE = [
   }
 
 ];
+
