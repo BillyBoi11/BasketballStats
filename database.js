@@ -8,7 +8,7 @@ const GAME_DATABASE = [
     scheduled: false,
     group: "Airball Squad",
     players: [
-      { name: "Gem", team: "Team 1", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 5, tech: 0, stl: 0, blk: 0},
+      { name: "Gem", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 5, tech: 0, stl: 0, blk: 0},
       { name: "Billy", team: "Team 1", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 4, tech: 0, stl: 0, blk: 0},
       { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 1, tech: 0, stl: 0, blk: 0},
     ]
@@ -353,5 +353,6 @@ const GAME_DATABASE = [
   }
 
 ];
+
 
 
