@@ -3,7 +3,7 @@ const GAME_DATABASE = [
     {
     date: "2026-03-23",
     gameName: "King of the court",
-    duration: "0:00",
+    duration: "10:00",
     reboundGame: false, 
     scheduled: false,
     group: "HU14",
