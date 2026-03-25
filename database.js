@@ -6,10 +6,10 @@ const GAME_DATABASE = [
     duration: "6:00",
     reboundGame: false, 
     scheduled: false,
-    group: "UH14",
+    group: "HU14",
     players: [
       { name: "Gem", team: "Team 1", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Ibbe", team: "Team 2", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Ibrahim", team: "Team 2", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Billy", team: "Team 3", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   },
@@ -19,10 +19,10 @@ const GAME_DATABASE = [
     duration: "7:00",
     reboundGame: false, 
     scheduled: false,
-    group: "UH14",
+    group: "HU14",
     players: [
       { name: "Gem", team: "Team 1", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Ibbe", team: "Team 2", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+      { name: "Ibrahim", team: "Team 2", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   },
     {
@@ -31,11 +31,11 @@ const GAME_DATABASE = [
     duration: "10:00",
     reboundGame: false, 
     scheduled: false,
-    group: "UH14",
+    group: "HU14",
     players: [
       { name: "Gem", team: "Team 1", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Billy", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
-      { name: "Ibbe", team: "Team 3", twoP: 5, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+      { name: "Ibrahim", team: "Team 3", twoP: 5, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   },
 {
