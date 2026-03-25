@@ -6,7 +6,7 @@ const GAME_DATABASE = [
     duration: "6:00",
     reboundGame: false, 
     scheduled: false,
-    group: "HU14",
+    group: "All",
     players: [
       { name: "Gem", team: "Team 1", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
       { name: "Ibrahim", team: "Team 2", twoP: 3, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
