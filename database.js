@@ -3,7 +3,7 @@ const GAME_DATABASE = [
     {
     date: "2026-04-10",
     gameName: "1v1",
-    duration: "15:00",
+    duration: "13:00",
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
@@ -15,7 +15,7 @@ const GAME_DATABASE = [
     {
     date: "2026-04-10",
     gameName: "1v1",
-    duration: "15:00",
+    duration: "8:00",
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
@@ -27,7 +27,7 @@ const GAME_DATABASE = [
     {
     date: "2026-04-10",
     gameName: "1v1",
-    duration: "15:00",
+    duration: "12:00",
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
@@ -110,22 +110,22 @@ const GAME_DATABASE = [
       { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   },
+  //{
+    //date: "2026-03-10",
+    //gameName: "game 14",
+    //duration: "14:00",
+    //reboundGame: false, 
+    //scheduled: false,
+    //group: "Airball Squad",
+    //players: [
+      //{ name: "Gem", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 5, tech: 0, stl: 0, blk: 0},
+      //{ name: "Billy", team: "Team 1", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 4, tech: 0, stl: 0, blk: 0},
+      //{ name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 1, tech: 0, stl: 0, blk: 0}
+    //]
+  //},
   {
     date: "2026-03-10",
     gameName: "game 14",
-    duration: "14:00",
-    reboundGame: false, 
-    scheduled: false,
-    group: "Airball Squad",
-    players: [
-      { name: "Gem", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 5, tech: 0, stl: 0, blk: 0},
-      { name: "Billy", team: "Team 1", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 4, tech: 0, stl: 0, blk: 0},
-      { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 1, tech: 0, stl: 0, blk: 0}
-    ]
-  },
-  {
-    date: "2026-03-10",
-    gameName: "game 13",
     duration: "8:00",
     reboundGame: false, 
     scheduled: false,
@@ -461,9 +461,4 @@ const GAME_DATABASE = [
       { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   }
-
 ];
-
-
-
-
