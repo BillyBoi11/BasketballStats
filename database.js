@@ -1,5 +1,57 @@
 // EDIT THIS FILE TO UPDATE THE WEBSITE
 const GAME_DATABASE = [
+{
+    date: "2026-04-24",
+    gameName: "Game 20",
+    duration: "35:00",
+    reboundGame: false, 
+    scheduled: false,
+    group: "Airball Squad",
+    players: [
+      { name: "Gem", team: "Team 1", twoP: 16, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Lucas", team: "Team 1", twoP: 2, threeP: 1, ft: 0, miss: 0, foul: 4, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 15, threeP: 1, ft: 1, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Viking", team: "Team 2", twoP: 17, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 3, blk: 1}
+    ]
+  },
+{
+    date: "2026-04-17",
+    gameName: "Game 19",
+    duration: "13:00",
+    reboundGame: false, 
+    scheduled: false,
+    group: "Airball Squad",
+    players: [
+      { name: "Gem", team: "Team 1", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 1", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Lucas", team: "Team 2", twoP: 0, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 1, blk: 0},
+      { name: "Viking", team: "Team 2", twoP: 2, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+    ]
+  },
+{
+    date: "2026-04-17",
+    gameName: "1v1",
+    duration: "9:00",
+    reboundGame: false, 
+    scheduled: false,
+    group: "Airball Squad",
+    players: [
+      { name: "Gem", team: "Team 1", twoP: 3, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+    ]
+  },
+{
+    date: "2026-04-17",
+    gameName: "1v1",
+    duration: "6:00",
+    reboundGame: false, 
+    scheduled: false,
+    group: "Airball Squad",
+    players: [
+      { name: "Lucas", team: "Team 1", twoP: 0, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 2, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1}
+    ]
+  },
     {
     date: "2026-04-10",
     gameName: "1v1",
@@ -76,7 +128,7 @@ const GAME_DATABASE = [
   },
 {
     date: "2026-03-10",
-    gameName: "game 17",
+    gameName: "game 18",
     duration: "6:00",
     reboundGame: false, 
     scheduled: false,
@@ -88,7 +140,7 @@ const GAME_DATABASE = [
   },
 {
     date: "2026-03-10",
-    gameName: "game 16",
+    gameName: "game 17",
     duration: "6:00",
     reboundGame: false, 
     scheduled: false,
@@ -100,7 +152,7 @@ const GAME_DATABASE = [
   },
  {
     date: "2026-03-10",
-    gameName: "game 15",
+    gameName: "game 16",
     duration: "6:00",
     reboundGame: false, 
     scheduled: false,
@@ -110,19 +162,19 @@ const GAME_DATABASE = [
       { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   },
-  //{
-    //date: "2026-03-10",
-    //gameName: "game 14",
-    //duration: "14:00",
-    //reboundGame: false, 
-    //scheduled: false,
-    //group: "Airball Squad",
-    //players: [
-      //{ name: "Gem", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 5, tech: 0, stl: 0, blk: 0},
-      //{ name: "Billy", team: "Team 1", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 4, tech: 0, stl: 0, blk: 0},
-      //{ name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 1, tech: 0, stl: 0, blk: 0}
-    //]
-  //},
+  {
+    date: "2026-03-10",
+    gameName: "game 15",
+    duration: "14:00",
+    reboundGame: false, 
+    scheduled: false,
+    group: "Airball Squad",
+    players: [
+      { name: "Gem", team: "Team 2", twoP: 4, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 5, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 1", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 4, tech: 0, stl: 0, blk: 0},
+      { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 1, tech: 0, stl: 0, blk: 0}
+    ]
+  },
   {
     date: "2026-03-10",
     gameName: "game 14",
@@ -461,4 +513,5 @@ const GAME_DATABASE = [
       { name: "Lucas", team: "Team 2", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
     ]
   }
+
 ];
