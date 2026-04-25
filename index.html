@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="database.js"></script>
+    <script src="StrengthDatabase.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
@@ -393,6 +394,7 @@
                 <button onclick="switchTab('achievements')" id="tab-achievements" class="nav-btn nav-inactive">Achievements</button>
                 <button onclick="switchTab('chemistry')" id="tab-chemistry" class="nav-btn nav-inactive">Team Chemistry</button>
                 <button onclick="switchTab('visualizations')" id="tab-visualizations" class="nav-btn nav-inactive">Visualizations</button>
+                <button onclick="switchTab('strength')" id="tab-strength" class="nav-btn nav-inactive">Strength</button>
                 <button onclick="switchTab('social')" id="tab-social" class="nav-btn nav-inactive">Social</button>
                 <a href="recorder.html" class="nav-btn nav-inactive flex items-center">Recorder</a>
             </nav>
@@ -404,6 +406,7 @@
                     <option value="achievements">Achievements</option>
                     <option value="chemistry">Team Chemistry</option>
                     <option value="visualizations">Visualizations</option>
+                    <option value="strength">Strength</option>
                     <option value="social">Social</option>
                     <option value="recorder">Recorder</option>
                 </select>
@@ -581,6 +584,51 @@
             </div>
         </div>
 
+        <div id="view-strength" class="hidden">
+            <div id="strength-count" class="text-slate-500 font-mono text-xs italic mb-4 text-right"></div>
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-red-500">
+                <div class="p-6 bg-slate-800/30 flex justify-between items-center leader-header">
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] text-red-400">Strength Leaderboard</h3>
+                        <div class="flex items-center gap-2">
+                            <label for="season-dropdown-strength" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
+                            <select id="season-dropdown-strength" onchange="handleStrengthSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-red-500 text-xs"></select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label for="player-group-dropdown-strength" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Group</label>
+                            <select id="player-group-dropdown-strength" onchange="handleStrengthPlayerGroupChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-red-500 text-xs">
+                                <option value="all">HU14</option>
+                                <option value="airball" selected>Airball Squad</option>
+                            </select>
+                        </div>
+                        <button onclick="copyStrengthLeaderboardToClipboard()" class="bg-slate-900/70 hover:bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 font-black uppercase tracking-widest text-[10px] text-white/90 transition-all focus:border-red-500">
+                            Copy leaderboard
+                        </button>
+                    </div>
+                    <span class="text-[10px] text-slate-500 font-bold italic uppercase tracking-widest text-right leader-header-right flex items-center justify-end">Strength Rating: Combined Athletic Performance</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/50">
+                                <th class="stat-header text-left pl-8">Player / Rank</th>
+                                <th class="stat-header">SESSIONS</th>
+                                <th class="stat-header text-red-400">PUSHUPS</th>
+                                <th class="stat-header text-orange-400">PULLUPS</th>
+                                <th class="stat-header text-yellow-400">BENCH DIPS</th>
+                                <th class="stat-header text-green-400">DIAMOND</th>
+                                <th class="stat-header text-blue-400">BENCH</th>
+                                <th class="stat-header text-purple-400">GROUND</th>
+                                <th class="stat-header text-pink-400">MAX JUMP REACH HEIGHT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="strength-leaderboard-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="strength-container" class="space-y-12"></div>
+        </div>
+
         <div id="view-data" class="hidden">
             <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-green-500">
                 <div class="p-6 bg-slate-800/30">
@@ -636,6 +684,10 @@
         let selectedSeason = 'all';
         let selectedPlayerGroup = 'airball';
         let analyticsShowLastSeason = false;
+        
+        // Strength-specific variables
+        let selectedStrengthSeason = 'all';
+        let selectedStrengthPlayerGroup = 'airball';
 
         // Device Detection
         function isMobileDevice() {
@@ -699,6 +751,246 @@
                 const tabId = activeTab.id.replace('tab-', '');
                 mobileSelect.value = tabId;
             }
+        }
+
+        // Strength-specific functions
+        function getStrengthAvailableSeasonYears() {
+            if (typeof STRENGTH_DATABASE === 'undefined') return [];
+            const years = new Set();
+            STRENGTH_DATABASE.forEach(session => {
+                const year = new Date(session.date).getFullYear();
+                years.add(year);
+            });
+            return Array.from(years).sort((a, b) => b - a);
+        }
+
+        function getStrengthSeasonFilteredSessions() {
+            if (typeof STRENGTH_DATABASE === 'undefined') return [];
+            if (selectedStrengthSeason === 'all') return STRENGTH_DATABASE;
+            const seasonYear = parseInt(selectedStrengthSeason, 10);
+            return STRENGTH_DATABASE.filter(session => {
+                const sessionYear = new Date(session.date).getFullYear();
+                return sessionYear === seasonYear;
+            });
+        }
+
+        function getStrengthFilteredSessions() {
+            const seasonSessions = getStrengthSeasonFilteredSessions();
+            if (selectedStrengthPlayerGroup === 'all') {
+                return seasonSessions.filter(session => session.group === 'HU14' || !session.group);
+            } else if (selectedStrengthPlayerGroup === 'airball') {
+                return seasonSessions.filter(session => session.group === 'Airball Squad');
+            }
+            return seasonSessions;
+        }
+
+        function calculateStrengthRating(playerStats) {
+            if (!playerStats || playerStats.sessions === 0) return 0;
+            
+            // Weighted calculation for strength rating (adjusted for kg/cm)
+            const pushupsScore = (playerStats.avgPushups || 0) * 1.0;
+            const pullupsScore = (playerStats.avgPullups || 0) * 2.0; // Pullups are harder
+            const dipsScore = (playerStats.avgDips || 0) * 1.5;
+            const diamondScore = (playerStats.avgDiamondPushups || 0) * 2.5; // Diamond pushups are hardest
+            const benchScore = ((playerStats.avgBenchPress || 0) / 2) * 1.2; // Convert kg to similar scale
+            const groundScore = ((playerStats.avgGroundLift || 0) / 2) * 1.0; // Convert kg to similar scale
+            const jumpScore = ((playerStats.avgJumpReach || 0) / 10) * 1.8; // Convert cm to similar scale
+            
+            const totalScore = pushupsScore + pullupsScore + dipsScore + diamondScore + benchScore + groundScore + jumpScore;
+            return Math.round(totalScore);
+        }
+
+        function getStrengthGlobalStats(sessions) {
+            const stats = {};
+            sessions.forEach(session => {
+                session.players.forEach(player => {
+                    if (!stats[player.name]) {
+                        stats[player.name] = {
+                            name: player.name,
+                            sessions: 0,
+                            totalPushups: 0,
+                            totalPullups: 0,
+                            totalDips: 0,
+                            totalDiamondPushups: 0,
+                            totalBenchPress: 0,
+                            totalGroundLift: 0,
+                            totalJumpReach: 0
+                        };
+                    }
+                    
+                    const p = stats[player.name];
+                    p.sessions++;
+                    p.totalPushups += player.maxPushups || 0;
+                    p.totalPullups += player.maxPullups || 0;
+                    p.totalDips += player.maxDips || 0;
+                    p.totalDiamondPushups += player.maxDiamondPushups || 0;
+                    p.totalBenchPress += player.maxBenchPress || 0;
+                    p.totalGroundLift += player.maxGroundLift || 0;
+                    p.totalJumpReach += player.maxJumpReach || 0;
+                });
+            });
+            
+            // Calculate averages
+            Object.keys(stats).forEach(name => {
+                const p = stats[name];
+                p.avgPushups = Math.round(p.totalPushups / p.sessions);
+                p.avgPullups = Math.round(p.totalPullups / p.sessions);
+                p.avgDips = Math.round(p.totalDips / p.sessions);
+                p.avgDiamondPushups = Math.round(p.totalDiamondPushups / p.sessions);
+                p.avgBenchPress = Math.round(p.totalBenchPress / p.sessions);
+                p.avgGroundLift = Math.round(p.totalGroundLift / p.sessions);
+                p.avgJumpReach = Math.round(p.totalJumpReach / p.sessions);
+                p.rating = calculateStrengthRating(p);
+            });
+            
+            return stats;
+        }
+
+        function initStrengthSeasonDropdowns() {
+            const years = getStrengthAvailableSeasonYears();
+            const options = [
+                ...years.map(y => ({ value: String(y), label: `${y} Season` })),
+                { value: 'all', label: 'All-Time' }
+            ];
+            
+            const dropdown = document.getElementById('season-dropdown-strength');
+            if (dropdown) {
+                dropdown.innerHTML = options.map(opt => 
+                    `<option value="${opt.value}">${opt.label}</option>`
+                ).join('');
+                dropdown.value = selectedStrengthSeason;
+            }
+        }
+
+        function syncStrengthSeasonDropdowns() {
+            const dropdowns = document.querySelectorAll('select[id*="season-dropdown"]');
+            dropdowns.forEach(dropdown => {
+                if (dropdown.id !== 'season-dropdown-strength') return; // Only sync strength dropdowns
+                if (dropdown.value !== selectedStrengthSeason) {
+                    dropdown.value = selectedStrengthSeason;
+                }
+            });
+        }
+
+        function handleStrengthSeasonChange(value) {
+            selectedStrengthSeason = value;
+            syncStrengthSeasonDropdowns();
+            renderStrengthEverything();
+        }
+
+        function handleStrengthPlayerGroupChange(value) {
+            selectedStrengthPlayerGroup = value;
+            renderStrengthEverything();
+        }
+
+        function copyStrengthLeaderboardToClipboard() {
+            const leaderboardBody = document.getElementById('strength-leaderboard-body');
+            if (!leaderboardBody) return;
+            
+            const rows = Array.from(leaderboardBody.querySelectorAll('tr')).map(row => {
+                const cells = Array.from(row.querySelectorAll('td')).map(cell => cell.textContent.trim());
+                return cells.join('\t');
+            }).join('\n');
+            
+            const headers = 'Player\tSessions\tPushups\tPullups\tDips\tDiamond\tBench\tGround\tJump\tRating';
+            const text = `${headers}\n${rows}`;
+            
+            try {
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                    navigator.clipboard.writeText(text);
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                alert('Strength leaderboard copied to clipboard.');
+            } catch (e) {
+                console.error(e);
+                alert('Copy failed. Your browser may be blocking clipboard access.');
+            }
+        }
+
+        function renderStrengthEverything() {
+            const container = document.getElementById('strength-container');
+            const leaderBody = document.getElementById('strength-leaderboard-body');
+            if (typeof STRENGTH_DATABASE === 'undefined') return;
+
+            initStrengthSeasonDropdowns();
+            const filteredSessions = getStrengthFilteredSessions();
+            
+            const sessionCount = filteredSessions.length;
+            const seasonLabel = selectedStrengthSeason === 'all' ? 'ALL-TIME' : selectedStrengthSeason;
+            document.getElementById('strength-count').innerText = `${sessionCount} STRENGTH SESSIONS RECORDED • ${seasonLabel}`;
+            
+            const stats = getStrengthGlobalStats(filteredSessions);
+            const allPlayers = Object.values(stats);
+            
+            // For strength, we don't need to filter by the same player groups as basketball
+            // Just show all players in the strength data
+            const sorted = allPlayers.sort((a,b) => b.rating - a.rating);
+            
+            leaderBody.innerHTML = sorted.map((p, i) => {
+                return `<tr class="hover:bg-white/5 transition text-sm">
+                    <td class="p-4 pl-8 font-black italic">
+                        <div>
+                            ${i === 0 ? '👑' : ''}
+                            <button type="button" class="underline decoration-dotted underline-offset-4 hover:text-red-300" onclick="focusOnPlayer('${p.name}')">
+                                ${p.name}
+                            </button>
+                        </div>
+                    </td>
+                    <td class="stat-cell text-slate-400">${p.sessions}</td>
+                    <td class="stat-cell text-red-400">${p.avgPushups}</td>
+                    <td class="stat-cell text-orange-400">${p.avgPullups}</td>
+                    <td class="stat-cell text-yellow-400">${p.avgDips}</td>
+                    <td class="stat-cell text-green-400">${p.avgDiamondPushups}</td>
+                    <td class="stat-cell text-blue-400">${p.avgBenchPress}kg</td>
+                    <td class="stat-cell text-purple-400">${p.avgGroundLift}kg</td>
+                    <td class="stat-cell text-pink-400">${p.avgJumpReach}cm</td>
+                </tr>`;
+            }).join('');
+
+            container.innerHTML = filteredSessions.map(session => {
+                return `<div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/5 mb-10">
+                    <div class="bg-slate-800/50 p-8 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="text-red-400 font-mono text-xs font-black uppercase tracking-tighter">${session.date}</span>
+                                <span class="bg-red-500/20 text-red-400 text-[10px] px-2 py-0.5 rounded font-black uppercase">${session.duration || 0} MINS</span>
+                            </div>
+                            <h2 class="text-3xl font-black italic text-white uppercase tracking-tighter">${session.sessionName || "Strength Session"}</h2>
+                        </div>
+                    </div>
+                    <div class="p-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${session.players.map(p => {
+                            return `<div class="player-chip p-5 rounded-2xl relative overflow-hidden border border-red-500/20">
+                                <div class="flex justify-between items-start mb-1">
+                                    <h4 class="font-black text-xl italic">
+                                        <button type="button" class="underline decoration-dotted underline-offset-4 hover:text-red-300" onclick="focusOnPlayer('${p.name}')">
+                                            ${p.name}
+                                        </button>
+                                    </h4>
+                                </div>
+                                <div class="grid grid-cols-2 gap-x-2 gap-y-4 text-center border-t border-white/5 pt-4">
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">PUSHUPS</p><p class="font-mono text-red-400 font-bold">${p.maxPushups||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">PULLUPS</p><p class="font-mono text-orange-400 font-bold">${p.maxPullups||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">BENCH DIPS</p><p class="font-mono text-yellow-400 font-bold">${p.maxDips||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">DIAMOND</p><p class="font-mono text-green-400 font-bold">${p.maxDiamondPushups||0}</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">BENCH</p><p class="font-mono text-blue-400 font-bold">${p.maxBenchPress||0}kg</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">GROUND</p><p class="font-mono text-purple-400 font-bold">${p.maxGroundLift||0}kg</p></div>
+                                    <div><p class="text-[9px] text-slate-500 font-bold uppercase">MAX JUMP REACH HEIGHT</p><p class="font-mono text-pink-400 font-bold">${p.maxJumpReach||0}cm</p></div>
+                                </div>
+                            </div>`;
+                        }).join('')}
+                    </div></div>
+                </div>`;
+            }).join('');
         }
 
         // Achievement definitions (all based on per 15 minutes performance)
@@ -1900,6 +2192,7 @@
             document.getElementById('view-achievements').classList.toggle('hidden', tab !== 'achievements');
             document.getElementById('view-chemistry').classList.toggle('hidden', tab !== 'chemistry');
             document.getElementById('view-visualizations').classList.toggle('hidden', tab !== 'visualizations');
+            document.getElementById('view-strength').classList.toggle('hidden', tab !== 'strength');
             document.getElementById('view-social').classList.toggle('hidden', tab !== 'social');
 
             document.getElementById('tab-archives').classList.toggle('nav-active', tab === 'archives');
@@ -1914,6 +2207,8 @@
             document.getElementById('tab-chemistry').classList.toggle('nav-inactive', tab !== 'chemistry');
             document.getElementById('tab-visualizations').classList.toggle('nav-active', tab === 'visualizations');
             document.getElementById('tab-visualizations').classList.toggle('nav-inactive', tab !== 'visualizations');
+            document.getElementById('tab-strength').classList.toggle('nav-active', tab === 'strength');
+            document.getElementById('tab-strength').classList.toggle('nav-inactive', tab !== 'strength');
             document.getElementById('tab-social').classList.toggle('nav-active', tab === 'social');
             document.getElementById('tab-social').classList.toggle('nav-inactive', tab !== 'social');
 
@@ -1925,6 +2220,7 @@
             if(tab === 'achievements') { renderAchievements(); }
             if(tab === 'chemistry') { renderChemistry(); }
             if(tab === 'visualizations') { renderVisualizations(); }
+            if(tab === 'strength') { renderStrengthEverything(); }
             if(tab === 'social') { renderSocial(); }
         }
 
@@ -2704,7 +3000,13 @@ Rating ${rating.toFixed(1)} per 15 min – Level: ${rank.title}`;
 
         // Default to all-time when page loads
         selectedSeason = '2026';
+        selectedStrengthSeason = 'all';
         renderEverything();
+        
+        // Initialize strength tab if needed
+        if (typeof STRENGTH_DATABASE !== 'undefined') {
+            renderStrengthEverything();
+        }
     </script>
 </body>
 </html>
