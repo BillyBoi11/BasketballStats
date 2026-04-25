@@ -48,21 +48,323 @@
                 border-radius: 9999px;
             }
             .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 9px;
                 white-space: nowrap;
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
-                font-size: 0.6rem;
-                letter-spacing: 0.15em;
             }
-            .leader-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
+            .glass {
+                border-radius: 1rem !important;
+                margin: 0.5rem !important;
             }
-            .leader-header-right {
-                width: 100%;
-                justify-content: space-between;
+            .player-chip {
+                padding: 1rem !important;
+                margin-bottom: 0.5rem !important;
             }
+            .text-3xl {
+                font-size: 1.5rem !important;
+            }
+            .text-2xl {
+                font-size: 1.25rem !important;
+            }
+            .grid-cols-1.lg\\:grid-cols-4 {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            .grid-cols-1.lg\\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            .grid-cols-1.lg\\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            .p-8 {
+                padding: 1rem !important;
+            }
+            .p-6 {
+                padding: 0.75rem !important;
+            }
+            .p-5 {
+                padding: 0.75rem !important;
+            }
+            .mb-16 {
+                margin-bottom: 1rem !important;
+            }
+            .mb-10 {
+                margin-bottom: 0.75rem !important;
+            }
+            .mb-12 {
+                margin-bottom: 0.75rem !important;
+            }
+            .gap-8 {
+                gap: 1rem !important;
+            }
+            .gap-6 {
+                gap: 0.75rem !important;
+            }
+            .gap-4 {
+                gap: 0.5rem !important;
+            }
+            table {
+                font-size: 0.75rem !important;
+            }
+            .stat-header {
+                padding: 0.25rem !important;
+                font-size: 8px !important;
+            }
+            .stat-cell {
+                padding: 0.25rem !important;
+                font-size: 0.7rem !important;
+            }
+            .rank-badge {
+                font-size: 8px !important;
+                padding: 0.125rem 0.5rem !important;
+            }
+            .overflow-x-auto {
+                overflow-x: auto !important;
+            }
+            .flex-col.md\\:flex-row {
+                flex-direction: column !important;
+            }
+            .text-lg {
+                font-size: 1rem !important;
+            }
+            .h-80 {
+                height: 12rem !important;
+            }
+            .relative.h-80 {
+                height: 12rem !important;
+            }
+        }
+
+        /* Mobile-specific classes for device detection */
+        .mobile-only {
+            display: none !important;
+        }
+        .desktop-only {
+            display: block !important;
+        }
+        .mobile-device .mobile-only {
+            display: block !important;
+        }
+        .mobile-device .desktop-only {
+            display: none !important;
+        }
+        
+        /* Mobile dropdown navigation */
+        .mobile-nav-dropdown {
+            display: none !important;
+            position: relative;
+        }
+        .mobile-device .mobile-nav-dropdown {
+            display: block !important;
+        }
+        .mobile-device .mobile-nav-dropdown select {
+            background: rgba(30, 41, 59, 0.95) !important;
+            border: 1px solid rgba(148, 163, 184, 0.3) !important;
+            color: #fff !important;
+            padding: 0.75rem 1rem !important;
+            border-radius: 9999px !important;
+            font-size: 0.625rem !important;
+            font-weight: 900 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            width: 100% !important;
+            appearance: none !important;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 0.75rem center !important;
+            background-size: 1rem !important;
+            padding-right: 2.5rem !important;
+        }
+        .mobile-device .mobile-nav-dropdown select:focus {
+            outline: none !important;
+            border-color: rgba(99, 102, 241, 0.5) !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+        }
+        
+        /* Hide original nav on mobile, show dropdown */
+        .mobile-device .top-nav {
+            display: none !important;
+        }
+        .mobile-device .mobile-nav-dropdown {
+            display: block !important;
+        }
+        
+        .mobile-device .top-nav {
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            gap: 0.5rem !important;
+            padding: 0.5rem !important;
+            margin: -0.5rem !important;
+        }
+        .mobile-device .nav-btn {
+            padding: 0.75rem 1rem !important;
+            font-size: 0.625rem !important;
+            min-width: auto !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            letter-spacing: 0.05em !important;
+            border-radius: 9999px !important;
+        }
+        .mobile-device .nav-btn.nav-active {
+            transform: scale(1.02) !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+        }
+        .mobile-device .nav-btn.nav-inactive {
+            background: rgba(30, 41, 59, 0.8) !important;
+            border: 1px solid rgba(148, 163, 184, 0.2) !important;
+        }
+        .mobile-device .nav-btn.nav-inactive:hover {
+            background: rgba(51, 65, 85, 0.9) !important;
+            border-color: rgba(148, 163, 184, 0.4) !important;
+        }
+        .mobile-device .top-nav::-webkit-scrollbar {
+            height: 3px !important;
+        }
+        .mobile-device .top-nav::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.3) !important;
+            border-radius: 9999px !important;
+        }
+        .mobile-device .top-nav::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5) !important;
+            border-radius: 9999px !important;
+        }
+        .mobile-device .top-nav::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.7) !important;
+        }
+        .mobile-device .glass {
+            backdrop-filter: none !important;
+            background: rgba(30, 41, 59, 0.95) !important;
+        }
+        .mobile-device .player-chip {
+            margin-bottom: 0.75rem !important;
+        }
+        .mobile-device .text-3xl {
+            font-size: 1.5rem !important;
+            line-height: 1.2 !important;
+        }
+        .mobile-device .text-2xl {
+            font-size: 1.25rem !important;
+            line-height: 1.2 !important;
+        }
+        .mobile-device .p-8 {
+            padding: 1rem !important;
+        }
+        .mobile-device .p-6 {
+            padding: 0.75rem !important;
+        }
+        .mobile-device .grid-cols-1.lg\\:grid-cols-4,
+        .mobile-device .grid-cols-1.lg\\:grid-cols-3,
+        .mobile-device .grid-cols-1.lg\\:grid-cols-2 {
+            grid-template-columns: 1fr !important;
+            gap: 0.75rem !important;
+        }
+        .mobile-device .leader-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.5rem !important;
+        }
+        .mobile-device .leader-header-right {
+            text-align: left !important;
+            justify-content: flex-start !important;
+        }
+        .mobile-device table {
+            font-size: 0.7rem !important;
+        }
+        .mobile-device .stat-header {
+            padding: 0.25rem !important;
+            font-size: 7px !important;
+        }
+        .mobile-device .stat-cell {
+            padding: 0.25rem !important;
+            font-size: 0.65rem !important;
+        }
+        .mobile-device .nav-btn {
+            padding: 0.5rem 0.75rem !important;
+            font-size: 8px !important;
+            min-width: auto !important;
+        }
+        .mobile-device .h-80,
+        .mobile-device .relative.h-80 {
+            height: 10rem !important;
+        }
+        .mobile-device .text-lg {
+            font-size: 0.875rem !important;
+        }
+        .mobile-device .text-xl {
+            font-size: 1rem !important;
+        }
+        .mobile-device .rounded-\[2\.5rem\] {
+            border-radius: 1rem !important;
+        }
+        .mobile-device .rounded-\[2rem\] {
+            border-radius: 0.75rem !important;
+        }
+        .mobile-device .rounded-2xl {
+            border-radius: 0.5rem !important;
+        }
+        .mobile-device .rounded-3xl {
+            border-radius: 0.75rem !important;
+        }
+        .mobile-device .mb-8 {
+            margin-bottom: 0.75rem !important;
+        }
+        .mobile-device .mt-8 {
+            margin-top: 0.75rem !important;
+        }
+        .mobile-device .mt-6 {
+            margin-top: 0.5rem !important;
+        }
+        .mobile-device .mt-4 {
+            margin-top: 0.25rem !important;
+        }
+        .mobile-device .gap-3 {
+            gap: 0.25rem !important;
+        }
+        .mobile-device .gap-2 {
+            gap: 0.25rem !important;
+        }
+        .mobile-device .gap-4 {
+            gap: 0.5rem !important;
+        }
+        .mobile-device .gap-6 {
+            gap: 0.75rem !important;
+        }
+        .mobile-device .gap-8 {
+            gap: 1rem !important;
+        }
+        .mobile-device .w-full {
+            width: 100% !important;
+        }
+        .mobile-device .max-w-7xl {
+            max-width: 100% !important;
+        }
+        .mobile-device .px-8 {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        .mobile-device .px-4 {
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+        }
+        .mobile-device select,
+        .mobile-device button {
+            font-size: 0.875rem !important;
+            padding: 0.5rem !important;
+        }
+        .mobile-device .text-xs {
+            font-size: 0.625rem !important;
+        }
+        .mobile-device .text-\[10px\] {
+            font-size: 0.625rem !important;
+        }
+        .mobile-device .text-\[9px\] {
+            font-size: 0.5625rem !important;
+        }
+        .mobile-device .text-\[8px\] {
+            font-size: 0.5rem !important;
         }
 
         .rank-badge { @apply text-[9px] font-black uppercase px-2 py-0.5 rounded-md mt-1 inline-block; }
@@ -87,11 +389,25 @@
             <nav class="flex gap-3 mb-1 top-nav">
                 <button onclick="switchTab('archives')" id="tab-archives" class="nav-btn nav-active">Archives</button>
                 <button onclick="switchTab('analytics')" id="tab-analytics" class="nav-btn nav-inactive">Analytics</button>
-                <button onclick="switchTab('compare')" id="tab-compare" class="nav-btn nav-inactive">Compare</button>
                 <button onclick="switchTab('trends')" id="tab-trends" class="nav-btn nav-inactive">Current Trends</button>
+                <button onclick="switchTab('achievements')" id="tab-achievements" class="nav-btn nav-inactive">Achievements</button>
+                <button onclick="switchTab('chemistry')" id="tab-chemistry" class="nav-btn nav-inactive">Team Chemistry</button>
+                <button onclick="switchTab('visualizations')" id="tab-visualizations" class="nav-btn nav-inactive">Visualizations</button>
+                <button onclick="switchTab('social')" id="tab-social" class="nav-btn nav-inactive">Social</button>
                 <a href="recorder.html" class="nav-btn nav-inactive flex items-center">Recorder</a>
-                <button class="nav-btn nav-inactive flex items-center opacity-50 cursor-not-allowed" disabled>Drills (Locked)</button>
             </nav>
+            <div class="mobile-nav-dropdown">
+                <select onchange="handleMobileNavChange(this.value)" id="mobile-nav-select">
+                    <option value="archives">Archives</option>
+                    <option value="analytics">Analytics</option>
+                    <option value="trends">Current Trends</option>
+                    <option value="achievements">Achievements</option>
+                    <option value="chemistry">Team Chemistry</option>
+                    <option value="visualizations">Visualizations</option>
+                    <option value="social">Social</option>
+                    <option value="recorder">Recorder</option>
+                </select>
+            </div>
         </header>
 
         <div id="view-archives">
@@ -108,7 +424,7 @@
                             <label for="player-group-dropdown" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Group</label>
                             <select id="player-group-dropdown" onchange="handlePlayerGroupChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs">
                                 <option value="all">HU14</option>
-                                <option value="airball">Airball Squad</option>
+                                <option value="airball" selected>Airball Squad</option>
                             </select>
                         </div>
                         <button onclick="copyLeaderboardToClipboard()" class="bg-slate-900/70 hover:bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 font-black uppercase tracking-widest text-[10px] text-white/90 transition-all focus:border-indigo-500">
@@ -179,34 +495,6 @@
             </div>
         </div>
 
-        
-        <div id="view-compare" class="hidden">
-            <div class="glass p-8 rounded-[2.5rem] mb-10 border-l-4 border-indigo-500">
-                <div class="flex flex-col lg:flex-row justify-between gap-6 items-start lg:items-end">
-                    <div>
-                        <h2 class="text-3xl font-black italic uppercase tracking-tighter">Compare</h2>
-                        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.25em] mt-1">Side-by-side using current season filter</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Season</label>
-                        <select id="season-dropdown-compare" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-                    <div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
-                        <label class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-3 block">Player A</label>
-                        <select id="compare-player-a" onchange="renderCompare()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
-                        <div id="compare-card-a" class="mt-6"></div>
-                    </div>
-                    <div class="bg-slate-900/40 border border-white/5 rounded-[2rem] p-6">
-                        <label class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-3 block">Player B</label>
-                        <select id="compare-player-b" onchange="renderCompare()" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 font-black italic text-white outline-none focus:border-indigo-500"></select>
-                        <div id="compare-card-b" class="mt-6"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="view-trends" class="hidden">
             <div class="glass p-8 rounded-[2.5rem] mb-10 border-l-4 border-emerald-500">
                 <div class="flex flex-col lg:flex-row justify-between gap-6 items-start lg:items-end">
@@ -222,14 +510,225 @@
                 <div id="trends-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
             </div>
         </div>
+        
+        <div id="view-chemistry" class="hidden">
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-orange-500">
+                <div class="p-6 bg-slate-800/30">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-orange-400">Team Chemistry Analytics</h3>
+                    <p class="text-[10px] text-slate-500 mt-2">Lineup effectiveness and player synergy analysis</p>
+                </div>
+                <div id="chemistry-container" class="p-8">
+                    <div id="lineup-effectiveness" class="mb-8"></div>
+                    <div id="synergy-scores" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-visualizations" class="hidden">
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-cyan-500">
+                <div class="p-6 bg-slate-800/30 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] text-cyan-400">Advanced Visualizations</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Player analytics & performance charts</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Player</label>
+                        <select id="visualization-player-dropdown" onchange="handleVisualizationPlayerChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-cyan-500 text-xs">
+                        </select>
+                    </div>
+                </div>
+                <div id="visualizations-container" class="p-8">
+                    <!-- Advanced Stats Dashboard -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="glass p-6 rounded-2xl border border-white/5">
+                            <h4 class="font-bold text-cyan-400 mb-4">Shooting Breakdown</h4>
+                            <div id="shooting-breakdown" class="space-y-3"></div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border border-white/5">
+                            <h4 class="font-bold text-purple-400 mb-4">Performance Metrics</h4>
+                            <div id="performance-metrics" class="space-y-3"></div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border border-white/5">
+                            <h4 class="font-bold text-orange-400 mb-4">Game Impact</h4>
+                            <div id="game-impact" class="space-y-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- 3D Radar Comparison -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="glass p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-bold text-cyan-400 mb-4">3D Skill Radar</h3>
+                            <div id="radar-3d" class="relative w-full h-80"></div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-bold text-purple-400 mb-4">Performance Timeline</h3>
+                            <div id="performance-timeline" class="relative w-full h-80"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-social" class="hidden">
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-pink-500">
+                <div class="p-6 bg-slate-800/30">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-pink-400">Social Hub</h3>
+                    <p class="text-[10px] text-slate-500 mt-2">Player profiles and achievement sharing</p>
+                </div>
+                <div id="social-container" class="p-8">
+                    <div id="player-profiles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-data" class="hidden">
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-green-500">
+                <div class="p-6 bg-slate-800/30">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-green-400">Data Management</h3>
+                    <p class="text-[10px] text-slate-500 mt-2">Export, backup, and data tools</p>
+                </div>
+                <div id="data-container" class="p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <button onclick="exportToCSV()" class="glass p-6 rounded-2xl border border-white/5 hover:border-green-500/50 transition-all">
+                            <div class="text-2xl mb-2">📊</div>
+                            <div class="font-bold">Export to CSV</div>
+                            <div class="text-xs text-slate-500">Download all data</div>
+                        </button>
+                        <button onclick="exportToPDF()" class="glass p-6 rounded-2xl border border-white/5 hover:border-green-500/50 transition-all">
+                            <div class="text-2xl mb-2">📄</div>
+                            <div class="font-bold">Export to PDF</div>
+                            <div class="text-xs text-slate-500">Generate reports</div>
+                        </button>
+                        <button onclick="backupData()" class="glass p-6 rounded-2xl border border-white/5 hover:border-green-500/50 transition-all">
+                            <div class="text-2xl mb-2">💾</div>
+                            <div class="font-bold">Backup Data</div>
+                            <div class="text-xs text-slate-500">Save your database</div>
+                        </button>
+                    </div>
+                    <div id="export-preview" class="mt-8"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="view-achievements" class="hidden">
+            <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-purple-500">
+                <div class="p-6 bg-slate-800/30 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] text-purple-400">Achievement Gallery</h3>
+                        <p class="text-[10px] text-slate-500 mt-2">Unlock achievements by reaching performance milestones per 15 minutes</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Player</label>
+                        <select id="achievement-player-dropdown" onchange="handleAchievementPlayerChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-purple-500 text-xs">
+                        </select>
+                    </div>
+                </div>
+                <div id="achievements-container" class="p-8">
+                    <div id="single-player-achievements" class="max-w-2xl mx-auto"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         let chartInstance = null;
         let selectedPlayers = new Set();
         let selectedSeason = 'all';
-        let selectedPlayerGroup = 'all';
+        let selectedPlayerGroup = 'airball';
         let analyticsShowLastSeason = false;
+
+        // Device Detection
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || 
+                   (navigator.userAgent.indexOf('IEMobile') !== -1) ||
+                   (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ||
+                   (window.innerWidth <= 768);
+        }
+
+        function applyDeviceSpecificStyling() {
+            const isMobile = isMobileDevice();
+            const body = document.body;
+            
+            if (isMobile) {
+                body.classList.add('mobile-device');
+                console.log('Mobile device detected - applying mobile optimizations');
+            } else {
+                body.classList.remove('mobile-device');
+                console.log('Desktop device detected - keeping desktop layout');
+            }
+        }
+
+        // Apply device detection on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyDeviceSpecificStyling();
+            
+            // Also detect on window resize (for responsive testing)
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(applyDeviceSpecificStyling, 250);
+            });
+        });
+
+        // Touch detection for better mobile interaction
+        function isTouchDevice() {
+            return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+        }
+
+        // Add touch-specific optimizations
+        if (isTouchDevice()) {
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.classList.add('touch-device');
+            });
+        }
+
+        // Mobile navigation handler
+        function handleMobileNavChange(value) {
+            if (value === 'recorder') {
+                window.location.href = 'recorder.html';
+            } else {
+                switchTab(value);
+            }
+        }
+
+        // Sync mobile dropdown with current tab
+        function syncMobileDropdown() {
+            const mobileSelect = document.getElementById('mobile-nav-select');
+            const activeTab = document.querySelector('.nav-btn.nav-active');
+            if (mobileSelect && activeTab) {
+                const tabId = activeTab.id.replace('tab-', '');
+                mobileSelect.value = tabId;
+            }
+        }
+
+        // Achievement definitions (all based on per 15 minutes performance)
+        const ACHIEVEMENTS = [
+            // Scoring Achievements
+            { id: 'scorer_8', title: 'Scorer', description: 'Average 8+ points per 15m', icon: '🏀', requirement: 8, type: 'ppg', class: 'achievement-bronze' },
+            { id: 'scorer_12', title: 'Sharpshooter', description: 'Average 12+ points per 15m', icon: '🎯', requirement: 12, type: 'ppg', class: 'achievement-silver' },
+            { id: 'scorer_16', title: 'Sniper', description: 'Average 16+ points per 15m', icon: '🔥', requirement: 16, type: 'ppg', class: 'achievement-gold' },
+            { id: 'scorer_20', title: 'Scoring God', description: 'Average 20+ points per 15m', icon: '👑', requirement: 20, type: 'ppg', class: 'achievement-diamond' },
+            
+            // Rebounding Achievements
+            { id: 'reb_4', title: 'Glass Cleaner', description: 'Average 4+ rebounds per 15m', icon: '📦', requirement: 4, type: 'rpg', class: 'achievement-bronze' },
+            { id: 'reb_6', title: 'Board Master', description: 'Average 6+ rebounds per 15m', icon: '🛡️', requirement: 6, type: 'rpg', class: 'achievement-silver' },
+            { id: 'reb_9', title: 'Rebound King', description: 'Average 9+ rebounds per 15m', icon: '👑', requirement: 9, type: 'rpg', class: 'achievement-gold' },
+            
+            // Defense Achievements
+            { id: 'defense_1', title: 'Defender', description: 'Average 1+ (steals+blocks) per 15m', icon: '🛡️', requirement: 1, type: 'impact', class: 'achievement-bronze' },
+            { id: 'defense_2', title: 'Stopper', description: 'Average 2+ (steals+blocks) per 15m', icon: '🚫', requirement: 2, type: 'impact', class: 'achievement-silver' },
+            { id: 'defense_3', title: 'Defensive God', description: 'Average 3+ (steals+blocks) per 15m', icon: '🛡️', requirement: 3, type: 'impact', class: 'achievement-gold' },
+            
+            // Efficiency Achievements
+            { id: 'efficiency_12', title: 'Efficient', description: 'Maintain 12+ efficiency rating', icon: '⚡', requirement: 12, type: 'efficiency', class: 'achievement-bronze' },
+            { id: 'efficiency_16', title: 'Elite', description: 'Maintain 16+ efficiency rating', icon: '⭐', requirement: 16, type: 'efficiency', class: 'achievement-silver' },
+            { id: 'efficiency_20', title: 'GOAT Level', description: 'Maintain 20+ efficiency rating', icon: '🐐', requirement: 20, type: 'efficiency', class: 'achievement-gold' },
+            
+            // Special Achievements
+            { id: 'games_3', title: 'Veteran', description: 'Play 3+ games', icon: '🎮', requirement: 3, type: 'games', class: 'achievement-bronze' },
+            { id: 'games_5', title: 'Seasoned', description: 'Play 5+ games', icon: '🏆', requirement: 5, type: 'games', class: 'achievement-silver' },
+            { id: 'games_10', title: 'Legend', description: 'Play 10+ games', icon: '👑', requirement: 10, type: 'games', class: 'achievement-gold' }
+        ];
 
         // Rating levels (non-overlapping ranges via descending min thresholds)
         const RANKS = [
@@ -353,26 +852,72 @@
             syncSeasonDropdowns();
         }
 
-        function handlePlayerGroupChange(group) {
-            selectedPlayerGroup = group;
+        function handleSeasonChange(value) {
+            selectedSeason = value;
+            syncSeasonDropdowns();
             renderEverything();
             
             // Also refresh other tabs if they're active
             const analyticsView = document.getElementById('view-analytics');
-            const compareView = document.getElementById('view-compare');
             const trendsView = document.getElementById('view-trends');
+            const achievementsView = document.getElementById('view-achievements');
+            const chemistryView = document.getElementById('view-chemistry');
+            const visualizationsView = document.getElementById('view-visualizations');
+            const socialView = document.getElementById('view-social');
             
             if (analyticsView && !analyticsView.classList.contains('hidden')) {
                 initDropdown();
                 loadPlayerStats();
                 renderHotPlayer();
             }
-            if (compareView && !compareView.classList.contains('hidden')) {
-                initCompareDropdowns();
-                renderCompare();
+            if (trendsView && !trendsView.classList.contains('hidden')) {
+                renderTrends();
+            }
+            if (achievementsView && !achievementsView.classList.contains('hidden')) {
+                renderAchievements();
+            }
+            if (chemistryView && !chemistryView.classList.contains('hidden')) {
+                renderChemistry();
+            }
+            if (visualizationsView && !visualizationsView.classList.contains('hidden')) {
+                renderVisualizations();
+            }
+            if (socialView && !socialView.classList.contains('hidden')) {
+                renderSocial();
+            }
+        }
+
+        function handlePlayerGroupChange(group) {
+            selectedPlayerGroup = group;
+            renderEverything();
+            
+            // Also refresh other tabs if they're active
+            const analyticsView = document.getElementById('view-analytics');
+            const trendsView = document.getElementById('view-trends');
+            const achievementsView = document.getElementById('view-achievements');
+            const chemistryView = document.getElementById('view-chemistry');
+            const visualizationsView = document.getElementById('view-visualizations');
+            const socialView = document.getElementById('view-social');
+            
+            if (analyticsView && !analyticsView.classList.contains('hidden')) {
+                initDropdown();
+                loadPlayerStats();
+                renderHotPlayer();
             }
             if (trendsView && !trendsView.classList.contains('hidden')) {
                 renderTrends();
+            }
+            if (achievementsView && !achievementsView.classList.contains('hidden')) {
+                renderAchievements();
+            }
+            if (chemistryView && !chemistryView.classList.contains('hidden')) {
+                renderChemistry();
+            }
+            if (visualizationsView && !visualizationsView.classList.contains('hidden')) {
+                renderVisualizations();
+            }
+            if (socialView && !socialView.classList.contains('hidden')) {
+                renderSocial();
             }
         }
 
@@ -414,6 +959,934 @@
             return r || RANKS[RANKS.length - 1];
         }
 
+        function calculatePlayerStats(name) {
+            const filteredGames = getFilteredGames();
+            const playerGames = filteredGames.filter(g => !isScheduled(g) && g.players.some(p => p.name === name && p.team !== "None"));
+            
+            if (!playerGames.length) return null;
+            
+            let totalPts = 0, totalReb = 0, totalImpact = 0, totalDuration = 0;
+            
+            playerGames.forEach(game => {
+                const player = game.players.find(p => p.name === name);
+                if (player && player.team !== "None") {
+                    const duration = parseDuration(game.duration) || 1;
+                    const pts = (parseInt(player.twoP||0)*2) + (parseInt(player.threeP||0)*3) + parseInt(player.ft||0);
+                    const reb = parseInt(player.reb||0);
+                    const impact = parseInt(player.blk||0) + parseInt(player.stl||0);
+                    
+                    totalPts += pts;
+                    totalReb += reb;
+                    totalImpact += impact;
+                    totalDuration += duration;
+                }
+            });
+            
+            return {
+                ppg: (totalPts / totalDuration) * 15,
+                rpg: (totalReb / totalDuration) * 15,
+                impact: (totalImpact / totalDuration) * 15,
+                efficiency: calculateEfficiency(getGlobalStats(filteredGames)[name], playerGames.length),
+                games: playerGames.length
+            };
+        }
+
+        function checkAchievements(name) {
+            const stats = calculatePlayerStats(name);
+            if (!stats) return [];
+            
+            return ACHIEVEMENTS.map(achievement => {
+                let achieved = false;
+                
+                switch(achievement.type) {
+                    case 'ppg':
+                        achieved = stats.ppg >= achievement.requirement;
+                        break;
+                    case 'rpg':
+                        achieved = stats.rpg >= achievement.requirement;
+                        break;
+                    case 'impact':
+                        achieved = stats.impact >= achievement.requirement;
+                        break;
+                    case 'efficiency':
+                        achieved = stats.efficiency >= achievement.requirement;
+                        break;
+                    case 'games':
+                        achieved = stats.games >= achievement.requirement;
+                        break;
+                }
+                
+                return { ...achievement, achieved, current: stats[achievement.type] };
+            });
+        }
+
+        function renderAchievements() {
+            const container = document.getElementById('single-player-achievements');
+            if (!container) return;
+            
+            initAchievementDropdown();
+            const dropdown = document.getElementById('achievement-player-dropdown');
+            if (dropdown && dropdown.value) {
+                renderSinglePlayerAchievements(dropdown.value);
+            }
+        }
+
+        function initAchievementDropdown() {
+            const dropdown = document.getElementById('achievement-player-dropdown');
+            if (!dropdown) return;
+
+            const prev = dropdown.value;
+            dropdown.innerHTML = '';
+
+            const filteredGames = getFilteredGames();
+            const allPlayers = [...new Set(filteredGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+            const filteredPlayers = getFilteredPlayers(allPlayers.map(name => ({ name })));
+
+            if (!filteredPlayers.length) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.innerText = 'NO PLAYERS FOUND';
+                dropdown.appendChild(opt);
+                dropdown.disabled = true;
+                return;
+            }
+
+            dropdown.disabled = false;
+            filteredPlayers.forEach(player => {
+                const opt = document.createElement('option');
+                opt.value = player.name;
+                opt.innerText = player.name.toUpperCase();
+                dropdown.appendChild(opt);
+            });
+
+            const playerNames = filteredPlayers.map(p => p.name);
+            dropdown.value = playerNames.includes(prev) ? prev : (playerNames[0] || '');
+        }
+
+        function handleAchievementPlayerChange(playerName) {
+            renderSinglePlayerAchievements(playerName);
+        }
+
+        function renderSinglePlayerAchievements(playerName) {
+            const container = document.getElementById('single-player-achievements');
+            if (!container || !playerName) return;
+
+            const achievements = checkAchievements(playerName);
+            const achievedCount = achievements.filter(a => a.achieved).length;
+            const totalCount = achievements.length;
+            const stats = calculatePlayerStats(playerName);
+
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-black text-white mb-2">${playerName}</h2>
+                    <div class="flex justify-center items-center gap-8 text-sm">
+                        <div>
+                            <div class="text-slate-500">Achievements</div>
+                            <div class="text-2xl font-bold text-purple-400">${achievedCount}/${totalCount}</div>
+                        </div>
+                        ${stats ? `
+                            <div class="flex gap-6">
+                                <div>
+                                    <div class="text-slate-500">PPG</div>
+                                    <div class="text-lg font-bold text-emerald-400">${stats.ppg.toFixed(1)}</div>
+                                </div>
+                                <div>
+                                    <div class="text-slate-500">RPG</div>
+                                    <div class="text-lg font-bold text-blue-400">${stats.rpg.toFixed(1)}</div>
+                                </div>
+                                <div>
+                                    <div class="text-slate-500">Efficiency</div>
+                                    <div class="text-lg font-bold text-purple-400">${stats.efficiency.toFixed(1)}</div>
+                                </div>
+                                <div>
+                                    <div class="text-slate-500">Games</div>
+                                    <div class="text-lg font-bold text-slate-400">${stats.games}</div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    ${achievements.map(achievement => `
+                        <div class="glass p-6 rounded-2xl border transition-all duration-300 ${
+                            achievement.achieved 
+                                ? 'border-purple-500/30 bg-purple-900/20 shadow-lg shadow-purple-500/10' 
+                                : 'border-white/5 bg-slate-900/50 opacity-60'
+                        }">
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">${achievement.achieved ? achievement.icon : '🔒'}</div>
+                                <div class="font-bold text-lg mb-2 ${achievement.achieved ? 'text-purple-300' : 'text-slate-400'}">${achievement.title}</div>
+                                <div class="text-xs text-slate-500 mb-3">${achievement.description}</div>
+                                ${achievement.current !== undefined ? `
+                                    <div class="mb-2">
+                                        <div class="text-xs ${achievement.achieved ? 'text-green-400' : 'text-slate-400'}">Progress</div>
+                                        <div class="w-full bg-slate-700 rounded-full h-2 mt-1">
+                                            <div class="h-2 rounded-full transition-all duration-500 ${
+                                                achievement.achieved 
+                                                    ? 'bg-gradient-to-r from-purple-500 to-purple-400' 
+                                                    : 'bg-slate-600'
+                                            }" style="width: ${Math.min(100, (achievement.current / achievement.requirement) * 100)}%"></div>
+                                        </div>
+                                        <div class="text-xs ${achievement.achieved ? 'text-green-400 font-bold' : 'text-slate-400'} mt-1">
+                                            ${achievement.current.toFixed(1)} / ${achievement.requirement}
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                ${achievement.achieved ? '<div class="text-xs text-green-400 font-bold">✓ UNLOCKED</div>' : '<div class="text-xs text-slate-500">LOCKED</div>'}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderChemistry() {
+            const container = document.getElementById('lineup-effectiveness');
+            const synergyContainer = document.getElementById('synergy-scores');
+            if (!container || !synergyContainer) return;
+
+            const filteredGames = getFilteredGames();
+            // Only show Billy, Lucas, Viking, and Gem
+            const allowedPlayers = ['Billy', 'Lucas', 'Viking', 'Gem'];
+            const allPlayers = [...new Set(filteredGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].filter(name => allowedPlayers.includes(name)).sort();
+
+            // Calculate team combined ratings per 15 minutes for each duo
+            const duoStats = {};
+            const teamStats = {};
+            
+            // First, calculate individual player ratings per 15 minutes
+            const playerRatingsPer15 = {};
+            allPlayers.forEach(playerName => {
+                let totalPoints = 0, totalDuration = 0;
+                let totalTwoPt = 0, totalThreePt = 0, totalFT = 0, totalReb = 0, totalBlk = 0, totalStl = 0, totalFoul = 0, totalMiss = 0;
+                
+                filteredGames.forEach(game => {
+                    if (isScheduled(game)) return;
+                    const player = game.players.find(p => p.name === playerName && p.team !== "None");
+                    if (player) {
+                        totalPoints += (parseInt(player.twoP||0)*2) + (parseInt(player.threeP||0)*3) + parseInt(player.ft||0);
+                        totalTwoPt += parseInt(player.twoP || 0);
+                        totalThreePt += parseInt(player.threeP || 0);
+                        totalFT += parseInt(player.ft || 0);
+                        totalReb += parseInt(player.reb || 0);
+                        totalBlk += parseInt(player.blk || 0);
+                        totalStl += parseInt(player.stl || 0);
+                        totalFoul += parseInt(player.foul || 0);
+                        totalMiss += parseInt(player.miss || 0);
+                        totalDuration += parseDuration(game.duration) || 1;
+                    }
+                });
+                
+                if (totalDuration > 0) {
+                    const duration15 = totalDuration / 15;
+                    playerRatingsPer15[playerName] = {
+                        pointsPer15: totalPoints / duration15,
+                        twoPtPer15: totalTwoPt / duration15,
+                        threePtPer15: totalThreePt / duration15,
+                        ftPer15: totalFT / duration15,
+                        rebPer15: totalReb / duration15,
+                        blkPer15: totalBlk / duration15,
+                        stlPer15: totalStl / duration15,
+                        foulPer15: totalFoul / duration15,
+                        missPer15: totalMiss / duration15,
+                        games: filteredGames.filter(g => g.players.some(p => p.name === playerName && p.team !== "None")).length
+                    };
+                    
+                    // Calculate efficiency rating per 15 minutes
+                    const offensive = (playerRatingsPer15[playerName].twoPtPer15 * 2) + (playerRatingsPer15[playerName].threePtPer15 * 3) + playerRatingsPer15[playerName].ftPer15;
+                    const defensive = (playerRatingsPer15[playerName].rebPer15 * 1.2) + (playerRatingsPer15[playerName].blkPer15 * 1.0) + (playerRatingsPer15[playerName].stlPer15 * 0.8);
+                    const penalties = (playerRatingsPer15[playerName].missPer15 * 0.2) + (playerRatingsPer15[playerName].foulPer15 * 1.2);
+                    const totalValue = offensive + defensive - penalties;
+                    playerRatingsPer15[playerName].ratingPer15 = Math.max(0, totalValue * 1.65);
+                }
+            });
+
+            // Calculate duo statistics based on actual games played together
+            filteredGames.forEach(game => {
+                if (isScheduled(game)) return;
+                
+                const teams = {};
+                game.players.forEach(player => {
+                    if (player.team !== "None" && allowedPlayers.includes(player.name)) {
+                        if (!teams[player.team]) teams[player.team] = [];
+                        teams[player.team].push(player.name);
+                    }
+                });
+
+                // Calculate team stats
+                Object.values(teams).forEach(teamPlayers => {
+                    if (teamPlayers.length >= 2) {
+                        const teamKey = teamPlayers.sort().join('-');
+                        if (!teamStats[teamKey]) {
+                            teamStats[teamKey] = {
+                                games: 0,
+                                totalRating: 0,
+                                totalPoints: 0,
+                                totalDuration: 0
+                            };
+                        }
+                        
+                        // Calculate combined rating for this game
+                        let gameRating = 0;
+                        teamPlayers.forEach(playerName => {
+                            if (playerRatingsPer15[playerName]) {
+                                gameRating += playerRatingsPer15[playerName].ratingPer15;
+                            }
+                        });
+                        
+                        teamStats[teamKey].games++;
+                        teamStats[teamKey].totalRating += gameRating;
+                        
+                        // Also calculate individual duos within the team
+                        for (let i = 0; i < teamPlayers.length; i++) {
+                            for (let j = i + 1; j < teamPlayers.length; j++) {
+                                const duoKey = [teamPlayers[i], teamPlayers[j]].sort().join('-');
+                                if (!duoStats[duoKey]) {
+                                    duoStats[duoKey] = {
+                                        games: 0,
+                                        combinedRating: 0,
+                                        player1: teamPlayers[i],
+                                        player2: teamPlayers[j]
+                                    };
+                                }
+                                
+                                const duoRating = (playerRatingsPer15[teamPlayers[i]]?.ratingPer15 || 0) + 
+                                               (playerRatingsPer15[teamPlayers[j]]?.ratingPer15 || 0);
+                                
+                                duoStats[duoKey].games++;
+                                duoStats[duoKey].combinedRating += duoRating;
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Calculate average ratings and sort duos by combined rating per 15 minutes
+            const sortedDuos = Object.entries(duoStats)
+                .filter(([key, stats]) => stats.games > 0)
+                .map(([key, stats]) => ({
+                    ...stats,
+                    avgRating: stats.combinedRating / stats.games,
+                    duo: key
+                }))
+                .sort((a, b) => b.avgRating - a.avgRating)
+                .slice(0, 6);
+
+            // Render lineup effectiveness
+            container.innerHTML = `
+                <h3 class="text-lg font-bold text-cyan-400 mb-4">Best Duos by Combined Rating (per 15m)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${sortedDuos.map(item => `
+                        <div class="glass p-4 rounded-xl border border-white/5 hover:border-cyan-500/30 transition-all">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold text-white">${item.duo.replace('-', ' & ')}</h4>
+                                <div class="text-2xl font-bold text-cyan-400">${item.avgRating.toFixed(1)}</div>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Combined Rating/15m</span>
+                                    <span class="text-cyan-300 font-bold">${item.avgRating.toFixed(1)}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Games Together</span>
+                                    <span class="text-slate-300">${item.games}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">${item.player1} Rating</span>
+                                    <span class="text-purple-300">${(playerRatingsPer15[item.player1]?.ratingPer15 || 0).toFixed(1)}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">${item.player2} Rating</span>
+                                    <span class="text-purple-300">${(playerRatingsPer15[item.player2]?.ratingPer15 || 0).toFixed(1)}</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 w-full bg-slate-700 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-cyan-500 to-purple-500 h-2 rounded-full transition-all duration-1000" style="width: ${Math.min(100, (item.avgRating / 60) * 100)}%"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Calculate synergy scores based on actual performance together vs individual performance
+            const synergyScores = [];
+            allPlayers.forEach(player1 => {
+                allPlayers.forEach(player2 => {
+                    if (player1 < player2) {
+                        const duoKey = `${player1}-${player2}`;
+                        const duoData = duoStats[duoKey];
+                        
+                        if (duoData && duoData.games > 0) {
+                            const individualSum = (playerRatingsPer15[player1]?.ratingPer15 || 0) + 
+                                               (playerRatingsPer15[player2]?.ratingPer15 || 0);
+                            const actualAvg = duoData.avgRating;
+                            const synergyScore = individualSum > 0 ? (actualAvg / individualSum * 100) : 100;
+                            
+                            synergyScores.push({
+                                player1,
+                                player2,
+                                synergy: synergyScore,
+                                games: duoData.games,
+                                actualRating: actualAvg,
+                                expectedRating: individualSum
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Sort by synergy score
+            synergyScores.sort((a, b) => b.synergy - a.synergy);
+
+            // Render synergy scores
+            synergyContainer.innerHTML = synergyScores.map(item => `
+                <div class="glass p-4 rounded-xl border border-white/5 hover:border-purple-500/30 transition-all">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-bold text-white">${item.player1} & ${item.player2}</h4>
+                        <div class="text-lg font-bold ${item.synergy >= 100 ? 'text-green-400' : item.synergy >= 90 ? 'text-yellow-400' : 'text-orange-400'}">
+                            ${item.synergy.toFixed(0)}%
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-500 mb-2">
+                        ${item.synergy >= 100 ? '🔥 Excellent Synergy' : item.synergy >= 90 ? '⭐ Good Synergy' : '📈 Room to Grow'}
+                    </div>
+                    <div class="space-y-1 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Actual Combined</span>
+                            <span class="text-cyan-300">${item.actualRating.toFixed(1)}/15m</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Expected Combined</span>
+                            <span class="text-purple-300">${item.expectedRating.toFixed(1)}/15m</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-1">
+                            <span class="text-slate-400">Games Together:</span>
+                            <span class="text-slate-300">${item.games}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderVisualizations() {
+            initVisualizationDropdown();
+            const dropdown = document.getElementById('visualization-player-dropdown');
+            if (dropdown && dropdown.value) {
+                renderMindBlowingVisualizations(dropdown.value);
+            }
+        }
+
+        function initVisualizationDropdown() {
+            const dropdown = document.getElementById('visualization-player-dropdown');
+            if (!dropdown) return;
+
+            const prev = dropdown.value;
+            dropdown.innerHTML = '';
+
+            const filteredGames = getFilteredGames();
+            const allowedPlayers = ['Billy', 'Lucas', 'Viking', 'Gem'];
+            const allPlayers = [...new Set(filteredGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].filter(name => allowedPlayers.includes(name)).sort();
+
+            if (!allPlayers.length) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.innerText = 'NO PLAYERS FOUND';
+                dropdown.appendChild(opt);
+                dropdown.disabled = true;
+                return;
+            }
+
+            dropdown.disabled = false;
+            allPlayers.forEach(player => {
+                const opt = document.createElement('option');
+                opt.value = player;
+                opt.innerText = player.toUpperCase();
+                dropdown.appendChild(opt);
+            });
+
+            dropdown.value = allPlayers.includes(prev) ? prev : (allPlayers[0] || '');
+        }
+
+        function handleVisualizationPlayerChange(playerName) {
+            renderMindBlowingVisualizations(playerName);
+        }
+
+        function renderMindBlowingVisualizations(playerName) {
+            if (!playerName) return;
+            
+            // Render all components (excluding interactive court)
+            renderShootingBreakdown(playerName);
+            renderPerformanceMetrics(playerName);
+            renderGameImpact(playerName);
+            render3DRadar(playerName);
+            renderPerformanceTimeline(playerName);
+        }
+
+        function renderShootingBreakdown(playerName) {
+            const container = document.getElementById('shooting-breakdown');
+            if (!container) return;
+
+            const stats = calculatePlayerStats(playerName);
+            if (!stats) {
+                container.innerHTML = '<div class="text-slate-500">No data</div>';
+                return;
+            }
+
+            // Calculate real shooting percentages
+            const filteredGames = getFilteredGames().filter(g => !isScheduled(g));
+            let totalTwoPt = 0, totalThreePt = 0, totalFT = 0, totalAttempts = 0;
+            
+            filteredGames.forEach(game => {
+                const player = game.players.find(p => p.name === playerName && p.team !== "None");
+                if (player) {
+                    totalTwoPt += parseInt(player.twoP || 0);
+                    totalThreePt += parseInt(player.threeP || 0);
+                    totalFT += parseInt(player.ft || 0);
+                    totalAttempts += (parseInt(player.twoP || 0) + parseInt(player.threeP || 0) + parseInt(player.miss || 0));
+                }
+            });
+
+            const shootingPct = totalAttempts > 0 ? ((totalTwoPt + totalThreePt) / totalAttempts * 100) : 0;
+            const threePtRate = totalAttempts > 0 ? (totalThreePt / totalAttempts * 100) : 0;
+            const ftPct = (totalTwoPt + totalThreePt) > 0 ? (totalFT / (totalTwoPt + totalThreePt) * 100) : 0;
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Points/Game</span>
+                        <span class="text-cyan-400 font-bold">${stats.ppg.toFixed(1)}</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-cyan-500 to-cyan-400 h-2 rounded-full transition-all duration-1000" style="width: ${Math.min(100, (stats.ppg / 25) * 100)}%"></div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Shooting %</span>
+                        <span class="text-green-400 font-bold">${shootingPct.toFixed(1)}%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">3PT Rate</span>
+                        <span class="text-purple-400 font-bold">${threePtRate.toFixed(1)}%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">FT %</span>
+                        <span class="text-orange-400 font-bold">${ftPct.toFixed(1)}%</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPerformanceMetrics(playerName) {
+            const container = document.getElementById('performance-metrics');
+            if (!container) return;
+
+            const stats = calculatePlayerStats(playerName);
+            if (!stats) {
+                container.innerHTML = '<div class="text-slate-500">No data</div>';
+                return;
+            }
+
+            // Calculate real advanced metrics
+            const filteredGames = getFilteredGames().filter(g => !isScheduled(g));
+            let totalFouls = 0, totalTurnovers = 0, totalMinutes = 0;
+            
+            filteredGames.forEach(game => {
+                const player = game.players.find(p => p.name === playerName && p.team !== "None");
+                if (player) {
+                    totalFouls += parseInt(player.foul || 0);
+                    totalTurnovers += parseInt(player.tech || 0); // Using tech as proxy for turnovers
+                    totalMinutes += parseDuration(game.duration) || 1;
+                }
+            });
+
+            const foulsPer15 = totalMinutes > 0 ? (totalFouls / totalMinutes) * 15 : 0;
+            const turnoversPer15 = totalMinutes > 0 ? (totalTurnovers / totalMinutes) * 15 : 0;
+            const trueShootingPct = stats.ppg > 0 ? (stats.ppg / (2 * (stats.ppg / (shootingPct/100 || 1)))) * 100 : 0;
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Efficiency</span>
+                        <span class="text-purple-400 font-bold">${stats.efficiency.toFixed(1)}</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-purple-500 to-purple-400 h-2 rounded-full transition-all duration-1000" style="width: ${Math.min(100, (stats.efficiency / 30) * 100)}%"></div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Rebounds/Game</span>
+                        <span class="text-blue-400 font-bold">${stats.rpg.toFixed(1)}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Impact/Game</span>
+                        <span class="text-orange-400 font-bold">${stats.impact.toFixed(1)}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">True Shooting %</span>
+                        <span class="text-green-400 font-bold">${trueShootingPct.toFixed(1)}%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Fouls/15m</span>
+                        <span class="text-red-400 font-bold">${foulsPer15.toFixed(1)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGameImpact(playerName) {
+            const container = document.getElementById('game-impact');
+            if (!container) return;
+
+            const stats = calculatePlayerStats(playerName);
+            if (!stats) {
+                container.innerHTML = '<div class="text-slate-500">No data</div>';
+                return;
+            }
+
+            // Calculate real consistency and clutch metrics
+            const filteredGames = getFilteredGames().filter(g => !isScheduled(g));
+            const playerGames = filteredGames.filter(g => g.players.some(p => p.name === playerName && p.team !== "None"));
+            
+            let gameScores = [];
+            let totalTeamPoints = 0;
+            let totalPlayerPoints = 0;
+            
+            playerGames.forEach(game => {
+                const player = game.players.find(p => p.name === playerName && p.team !== "None");
+                if (player) {
+                    const playerScore = (parseInt(player.twoP||0)*2) + (parseInt(player.threeP||0)*3) + parseInt(player.ft||0);
+                    gameScores.push(playerScore);
+                    totalPlayerPoints += playerScore;
+                    
+                    // Calculate team points for this game
+                    game.players.forEach(p => {
+                        if (p.team === player.team) {
+                            totalTeamPoints += (parseInt(p.twoP||0)*2) + (parseInt(p.threeP||0)*3) + parseInt(p.ft||0);
+                        }
+                    });
+                }
+            });
+
+            // Calculate consistency (standard deviation)
+            const avgScore = gameScores.length > 0 ? gameScores.reduce((a, b) => a + b, 0) / gameScores.length : 0;
+            const variance = gameScores.length > 0 ? gameScores.reduce((sum, score) => sum + Math.pow(score - avgScore, 2), 0) / gameScores.length : 0;
+            const stdDev = Math.sqrt(variance);
+            const consistency = avgScore > 0 ? Math.max(0, 100 - (stdDev / avgScore * 100)) : 0;
+            
+            // Calculate team impact percentage
+            const teamImpact = totalTeamPoints > 0 ? (totalPlayerPoints / totalTeamPoints * 100) : 0;
+            
+            // Calculate clutch factor (performance in close games - proxy using high-scoring games)
+            const highScoringGames = gameScores.filter(score => score >= avgScore * 1.2);
+            const clutchFactor = gameScores.length > 0 ? (highScoringGames.length / gameScores.length * 100) : 0;
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Games Played</span>
+                        <span class="text-green-400 font-bold">${stats.games}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Consistency</span>
+                        <span class="text-yellow-400 font-bold">${consistency.toFixed(0)}%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Team Impact</span>
+                        <span class="text-cyan-400 font-bold">${teamImpact.toFixed(1)}%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Clutch Factor</span>
+                        <span class="text-red-400 font-bold">${clutchFactor.toFixed(0)}%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Avg Score</span>
+                        <span class="text-purple-400 font-bold">${avgScore.toFixed(1)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render3DRadar(playerName) {
+            const container = document.getElementById('radar-3d');
+            if (!container) return;
+
+            const stats = calculatePlayerStats(playerName);
+            if (!stats) {
+                container.innerHTML = '<div class="text-slate-500">No data</div>';
+                return;
+            }
+
+            const playerProfile = {
+                name: playerName,
+                scoring: Math.min(100, (stats.ppg / 25) * 100),
+                rebounding: Math.min(100, (stats.rpg / 15) * 100),
+                defense: Math.min(100, (stats.impact / 8) * 100),
+                efficiency: Math.min(100, (stats.efficiency / 30) * 100),
+                experience: Math.min(100, (stats.games / 25) * 100)
+            };
+
+            container.innerHTML = `
+                <div class="relative w-full h-full flex items-center justify-center">
+                    <div class="relative" style="transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(25deg);">
+                        <svg viewBox="0 0 200 200" class="w-48 h-48">
+                            <defs>
+                                <linearGradient id="radarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.8" />
+                                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.8" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Enhanced 3D radar grid -->
+                            ${[20, 40, 60, 80, 100].map(level => {
+                                const points = [
+                                    '100,' + (100-level),
+                                    (100+level*0.95) + ',' + (100-level*0.31),
+                                    (100+level*0.59) + ',' + (100+level*0.81),
+                                    (100-level*0.59) + ',' + (100+level*0.81),
+                                    (100-level*0.95) + ',' + (100-level*0.31)
+                                ].join(' ');
+                                return '<polygon points="' + points + '" fill="none" stroke="#475569" stroke-width="1" opacity="' + (level/100) + '"/>';
+                            }).join('')}
+                            
+                            <!-- 3D data polygon with gradient -->
+                            <polygon points="100,${100-playerProfile.scoring} ${100+playerProfile.scoring*0.95},${100-playerProfile.scoring*0.31} ${100+playerProfile.rebounding*0.59},${100+playerProfile.rebounding*0.81} ${100-playerProfile.defense*0.59},${100-playerProfile.defense*0.81} ${100-playerProfile.efficiency*0.95},${100-playerProfile.efficiency*0.31}" 
+                                      fill="url(#radarGrad)" stroke="#06b6d4" stroke-width="2" opacity="0.8"/>
+                            
+                            <!-- Enhanced labels -->
+                            <text x="100" y="85" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Scoring</text>
+                            <text x="145" y="105" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Rebound</text>
+                            <text x="125" y="155" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Defense</text>
+                            <text x="75" y="155" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Efficiency</text>
+                            <text x="55" y="105" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Experience</text>
+                        </svg>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPerformanceTimeline(playerName) {
+            const container = document.getElementById('performance-timeline');
+            if (!container) return;
+
+            const filteredGames = getFilteredGames().filter(g => !isScheduled(g));
+            const playerGames = filteredGames.filter(g => g.players.some(p => p.name === playerName && p.team !== "None")).slice(-10);
+            
+            container.innerHTML = `
+                <div class="relative w-full h-full">
+                    <svg viewBox="0 0 400 200" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="timelineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.2" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Grid lines -->
+                        ${[40, 80, 120, 160].map(y => `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#475569" stroke-width="1" opacity="0.3"/>`).join('')}
+                        
+                        <!-- Performance line -->
+                        <polyline points="${playerGames.map((game, i) => {
+                            const player = game.players.find(p => p.name === playerName && p.team !== "None");
+                            const points = (parseInt(player.twoP||0)*2) + (parseInt(player.threeP||0)*3) + parseInt(player.ft||0);
+                            return `${i * 40},${160 - (points / 30) * 120}`;
+                        }).join(' ')}" fill="none" stroke="url(#timelineGrad)" stroke-width="3"/>
+                        
+                        <!-- Data points -->
+                        ${playerGames.map((game, i) => {
+                            const player = game.players.find(p => p.name === playerName && p.team !== "None");
+                            const points = (parseInt(player.twoP||0)*2) + (parseInt(player.threeP||0)*3) + parseInt(player.ft||0);
+                            return `<circle cx="${i * 40}" cy="${160 - (points / 30) * 120}" r="4" fill="#10b981" stroke="white" stroke-width="2"/>`;
+                        }).join('')}
+                        
+                        <!-- X-axis labels -->
+                        ${playerGames.map((game, i) => `<text x="${i * 40}" y="190" text-anchor="middle" fill="#94a3b8" font-size="8">G${i+1}</text>`).join('')}
+                    </svg>
+                </div>
+            `;
+        }
+
+        function renderSocial() {
+            const container = document.getElementById('player-profiles');
+            if (!container) return;
+
+            const filteredGames = getFilteredGames();
+            const allPlayers = [...new Set(filteredGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+
+            container.innerHTML = allPlayers.map(playerName => {
+                const stats = calculatePlayerStats(playerName);
+                const achievements = checkAchievements(playerName);
+                const achievedCount = achievements.filter(a => a.achieved).length;
+                const rank = getRank(calculateEfficiency(getGlobalStats(filteredGames)[playerName], stats?.games || 1));
+
+                return `
+                    <div class="glass p-6 rounded-2xl border border-white/5 hover:border-pink-500/30 transition-all">
+                        <div class="text-center mb-4">
+                            <div class="text-2xl mb-2">${rank.icon}</div>
+                            <h3 class="font-bold text-lg text-white">${playerName}</h3>
+                            <div class="${rank.class} rank-badge text-[10px] px-2 py-1">${rank.title}</div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Achievements</span>
+                                <span class="text-pink-400 font-bold">${achievedCount}/${achievements.length}</span>
+                            </div>
+                            ${stats ? `
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-slate-400">PPG</span>
+                                    <span class="text-emerald-400">${stats.ppg.toFixed(1)}</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-slate-400">Efficiency</span>
+                                    <span class="text-purple-400">${stats.efficiency.toFixed(1)}</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-slate-400">Games</span>
+                                    <span class="text-slate-300">${stats.games}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="mt-4 space-y-2">
+                            <button onclick="sharePlayerProfile('${playerName}')" class="w-full bg-pink-600/20 hover:bg-pink-600/30 border border-pink-500/50 rounded-xl px-4 py-2 text-xs font-bold text-pink-300 transition-all">
+                                📤 Share Profile
+                            </button>
+                            <button onclick="shareAchievements('${playerName}')" class="w-full bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-xl px-4 py-2 text-xs font-bold text-slate-300 transition-all">
+                                🏆 Share Achievements
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderData() {
+            const preview = document.getElementById('export-preview');
+            if (!preview) return;
+
+            const filteredGames = getFilteredGames();
+            const totalGames = filteredGames.length;
+            const competitiveGames = filteredGames.filter(g => !isScheduled(g)).length;
+            const allPlayers = [...new Set(filteredGames.flatMap(g => g.players.filter(p => p.team !== "None").map(p => p.name)))].sort();
+
+            preview.innerHTML = `
+                <div class="glass p-6 rounded-2xl border border-white/5">
+                    <h3 class="text-lg font-bold text-green-400 mb-4">Database Overview</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-white">${totalGames}</div>
+                            <div class="text-xs text-slate-500">Total Games</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-emerald-400">${competitiveGames}</div>
+                            <div class="text-xs text-slate-500">Competitive</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-400">${allPlayers.length}</div>
+                            <div class="text-xs text-slate-500">Players</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-400">${selectedSeason === 'all' ? 'ALL' : selectedSeason}</div>
+                            <div class="text-xs text-slate-500">Season</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-slate-900/50 rounded-lg">
+                            <span class="text-sm text-slate-300">Last Updated</span>
+                            <span class="text-xs text-slate-500">${new Date().toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-slate-900/50 rounded-lg">
+                            <span class="text-sm text-slate-300">Group Filter</span>
+                            <span class="text-xs text-slate-500">${selectedPlayerGroup === 'all' ? 'HU14' : 'Airball Squad'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sharePlayerProfile(playerName) {
+            const stats = calculatePlayerStats(playerName);
+            const rank = getRank(calculateEfficiency(getGlobalStats(getFilteredGames())[playerName], stats?.games || 1));
+            
+            const shareText = `🏀 ${playerName}'s Basketball Profile\n\n` +
+                `🏆 Rank: ${rank.icon} ${rank.title}\n` +
+                `📊 Efficiency: ${rank.icon} ${rank.title}\n` +
+                (stats ? `🎯 PPG: ${stats.ppg.toFixed(1)} | 🏀 RPG: ${stats.rpg.toFixed(1)} | 🛡️ Defense: ${stats.impact.toFixed(1)}\n` +
+                `🎮 Games: ${stats.games}` : '') +
+                `\n📱 Generated via CourtSide Pro Analytics`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: `${playerName}'s Basketball Profile`,
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText);
+                alert('Profile copied to clipboard!');
+            }
+        }
+
+        function shareAchievements(playerName) {
+            const achievements = checkAchievements(playerName);
+            const achieved = achievements.filter(a => a.achieved);
+            const total = achievements.length;
+            
+            const shareText = `🏆 ${playerName}'s Basketball Achievements\n\n` +
+                `✅ Unlocked: ${achieved.length}/${total}\n\n` +
+                achieved.map(a => `${a.icon} ${a.title}`).join('\n') +
+                (achieved.length < total ? '\n\n🔒 Keep playing to unlock more!' : '') +
+                `\n📱 Generated via CourtSide Pro Analytics`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: `${playerName}'s Achievements`,
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText);
+                alert('Achievements copied to clipboard!');
+            }
+        }
+
+        function exportToCSV() {
+            const filteredGames = getFilteredGames();
+            let csv = 'Date,Game Name,Duration,Player,Team,2P,3P,FT,Miss,Foul,Reb,Tech,Stl,Blk\n';
+            
+            filteredGames.forEach(game => {
+                game.players.forEach(player => {
+                    csv += `${game.date},"${game.gameName}",${game.duration},${player.name},${player.team},${player.twoP || 0},${player.threeP || 0},${player.ft || 0},${player.miss || 0},${player.foul || 0},${player.reb || 0},${player.tech || 0},${player.stl || 0},${player.blk || 0}\n`;
+                });
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `basketball-stats-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportToPDF() {
+            alert('PDF export coming soon! For now, use CSV export and import into Excel/Google Sheets.');
+        }
+
+        function backupData() {
+            const dataStr = JSON.stringify({
+                games: GAME_DATABASE,
+                season: selectedSeason,
+                group: selectedPlayerGroup,
+                timestamp: new Date().toISOString()
+            }, null, 2);
+            
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `basketball-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
         function formatMinutes(totalMinutes) {
             const hrs = Math.floor(totalMinutes / 60);
             const mins = Math.floor(totalMinutes % 60);
@@ -423,17 +1896,36 @@
         function switchTab(tab) {
             document.getElementById('view-archives').classList.toggle('hidden', tab !== 'archives');
             document.getElementById('view-analytics').classList.toggle('hidden', tab !== 'analytics');
-            document.getElementById('view-compare').classList.toggle('hidden', tab !== 'compare');
             document.getElementById('view-trends').classList.toggle('hidden', tab !== 'trends');
-            
-            document.getElementById('tab-archives').className = `nav-btn ${tab === 'archives' ? 'nav-active' : 'nav-inactive'}`;
-            document.getElementById('tab-analytics').className = `nav-btn ${tab === 'analytics' ? 'nav-active' : 'nav-inactive'}`;
-            document.getElementById('tab-compare').className = `nav-btn ${tab === 'compare' ? 'nav-active' : 'nav-inactive'}`;
-            document.getElementById('tab-trends').className = `nav-btn ${tab === 'trends' ? 'nav-active' : 'nav-inactive'}`;
-            
+            document.getElementById('view-achievements').classList.toggle('hidden', tab !== 'achievements');
+            document.getElementById('view-chemistry').classList.toggle('hidden', tab !== 'chemistry');
+            document.getElementById('view-visualizations').classList.toggle('hidden', tab !== 'visualizations');
+            document.getElementById('view-social').classList.toggle('hidden', tab !== 'social');
+
+            document.getElementById('tab-archives').classList.toggle('nav-active', tab === 'archives');
+            document.getElementById('tab-archives').classList.toggle('nav-inactive', tab !== 'archives');
+            document.getElementById('tab-analytics').classList.toggle('nav-active', tab === 'analytics');
+            document.getElementById('tab-analytics').classList.toggle('nav-inactive', tab !== 'analytics');
+            document.getElementById('tab-trends').classList.toggle('nav-active', tab === 'trends');
+            document.getElementById('tab-trends').classList.toggle('nav-inactive', tab !== 'trends');
+            document.getElementById('tab-achievements').classList.toggle('nav-active', tab === 'achievements');
+            document.getElementById('tab-achievements').classList.toggle('nav-inactive', tab !== 'achievements');
+            document.getElementById('tab-chemistry').classList.toggle('nav-active', tab === 'chemistry');
+            document.getElementById('tab-chemistry').classList.toggle('nav-inactive', tab !== 'chemistry');
+            document.getElementById('tab-visualizations').classList.toggle('nav-active', tab === 'visualizations');
+            document.getElementById('tab-visualizations').classList.toggle('nav-inactive', tab !== 'visualizations');
+            document.getElementById('tab-social').classList.toggle('nav-active', tab === 'social');
+            document.getElementById('tab-social').classList.toggle('nav-inactive', tab !== 'social');
+
+            // Sync mobile dropdown with current tab
+            syncMobileDropdown();
+
             if(tab === 'analytics') { initDropdown(); loadPlayerStats(); renderHotPlayer(); }
-            if(tab === 'compare') { initCompareDropdowns(); renderCompare(); }
             if(tab === 'trends') { renderTrends(); }
+            if(tab === 'achievements') { renderAchievements(); }
+            if(tab === 'chemistry') { renderChemistry(); }
+            if(tab === 'visualizations') { renderVisualizations(); }
+            if(tab === 'social') { renderSocial(); }
         }
 
         function focusOnPlayer(name) {
@@ -952,10 +2444,46 @@
                 data: {
                     labels: history.slice(-10).map(g => g.date),
                     datasets: [
-                        { label: 'Points', data: playerHistory.slice(-10).map(p => (parseInt(p.twoP||0)*2)+(parseInt(p.threeP||0)*3)+parseInt(p.ft||0)), borderColor: '#10b981', tension: 0.4 },
-                        { label: 'Rebounds', data: playerHistory.slice(-10).map(p => parseInt(p.reb||0)), borderColor: '#3b82f6', tension: 0.4 },
-                        { label: 'Impact (Stl+Blk)', data: playerHistory.slice(-10).map(p => parseInt(p.blk||0) + parseInt(p.stl||0)), borderColor: '#f59e0b', tension: 0.4 },
-                        { label: 'Fouls', data: playerHistory.slice(-10).map(p => parseInt(p.foul||0)), borderColor: '#f43f5e', tension: 0.4 }
+                        { 
+                            label: 'Points per 15m', 
+                            data: playerHistory.slice(-10).map(p => {
+                                const pts = (parseInt(p.twoP||0)*2)+(parseInt(p.threeP||0)*3)+parseInt(p.ft||0);
+                                const duration = parseDuration(history[playerHistory.indexOf(p)].duration) || 1;
+                                return (pts / duration) * 15;
+                            }), 
+                            borderColor: '#10b981', 
+                            tension: 0.4 
+                        },
+                        { 
+                            label: 'Rebounds per 15m', 
+                            data: playerHistory.slice(-10).map(p => {
+                                const reb = parseInt(p.reb||0);
+                                const duration = parseDuration(history[playerHistory.indexOf(p)].duration) || 1;
+                                return (reb / duration) * 15;
+                            }), 
+                            borderColor: '#3b82f6', 
+                            tension: 0.4 
+                        },
+                        { 
+                            label: 'Impact per 15m (Stl+Blk)', 
+                            data: playerHistory.slice(-10).map(p => {
+                                const impact = parseInt(p.blk||0) + parseInt(p.stl||0);
+                                const duration = parseDuration(history[playerHistory.indexOf(p)].duration) || 1;
+                                return (impact / duration) * 15;
+                            }), 
+                            borderColor: '#f59e0b', 
+                            tension: 0.4 
+                        },
+                        { 
+                            label: 'Fouls per 15m', 
+                            data: playerHistory.slice(-10).map(p => {
+                                const fouls = parseInt(p.foul||0);
+                                const duration = parseDuration(history[playerHistory.indexOf(p)].duration) || 1;
+                                return (fouls / duration) * 15;
+                            }), 
+                            borderColor: '#f43f5e', 
+                            tension: 0.4 
+                        }
                     ]
                 },
                 options: { maintainAspectRatio: false, plugins: { legend: { labels: { color: '#64748b', font: { weight: '900', size: 10 } } } } }
