@@ -434,7 +434,7 @@
                             Copy leaderboard
                         </button>
                     </div>
-                    <span class="text-[10px] text-slate-500 font-bold italic uppercase tracking-widest text-right leader-header-right flex items-center justify-end">Rating: Efficiency Normalized Per 15 Mins</span>
+                    <span class="text-[10px] text-slate-500 font-bold italic uppercase tracking-widest text-right leader-header-right flex items-center justify-end">Rating: Efficiency Normalized Per 40 Minutes</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -663,7 +663,7 @@
                 <div class="p-6 bg-slate-800/30 flex justify-between items-center">
                     <div>
                         <h3 class="text-xs font-black uppercase tracking-[0.3em] text-purple-400">Achievement Gallery</h3>
-                        <p class="text-[10px] text-slate-500 mt-2">Unlock achievements by reaching performance milestones per 15 minutes</p>
+                        <p class="text-[10px] text-slate-500 mt-2">Unlock achievements by reaching performance milestones per 40 minutes</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Player</label>
@@ -993,23 +993,23 @@
             }).join('');
         }
 
-        // Achievement definitions (all based on per 15 minutes performance)
+        // Achievement definitions (all based on per 40 minutes performance)
         const ACHIEVEMENTS = [
             // Scoring Achievements
-            { id: 'scorer_8', title: 'Scorer', description: 'Average 8+ points per 15m', icon: '🏀', requirement: 8, type: 'ppg', class: 'achievement-bronze' },
-            { id: 'scorer_12', title: 'Sharpshooter', description: 'Average 12+ points per 15m', icon: '🎯', requirement: 12, type: 'ppg', class: 'achievement-silver' },
-            { id: 'scorer_16', title: 'Sniper', description: 'Average 16+ points per 15m', icon: '🔥', requirement: 16, type: 'ppg', class: 'achievement-gold' },
-            { id: 'scorer_20', title: 'Scoring God', description: 'Average 20+ points per 15m', icon: '👑', requirement: 20, type: 'ppg', class: 'achievement-diamond' },
+            { id: 'scorer_22', title: 'Scorer', description: 'Average 22+ points per 40m', icon: '🏀', requirement: 22, type: 'ppg', class: 'achievement-bronze' },
+            { id: 'scorer_35', title: 'Sharpshooter', description: 'Average 35+ points per 40m', icon: '🎯', requirement: 35, type: 'ppg', class: 'achievement-silver' },
+            { id: 'scorer_50', title: 'Sniper', description: 'Average 50+ points per 40m', icon: '🔥', requirement: 50, type: 'ppg', class: 'achievement-gold' },
+            { id: 'scorer_65', title: 'Scoring God', description: 'Average 65+ points per 40m', icon: '👑', requirement: 65, type: 'ppg', class: 'achievement-diamond' },
             
             // Rebounding Achievements
-            { id: 'reb_4', title: 'Glass Cleaner', description: 'Average 4+ rebounds per 15m', icon: '📦', requirement: 4, type: 'rpg', class: 'achievement-bronze' },
-            { id: 'reb_6', title: 'Board Master', description: 'Average 6+ rebounds per 15m', icon: '🛡️', requirement: 6, type: 'rpg', class: 'achievement-silver' },
-            { id: 'reb_9', title: 'Rebound King', description: 'Average 9+ rebounds per 15m', icon: '👑', requirement: 9, type: 'rpg', class: 'achievement-gold' },
+            { id: 'reb_10', title: 'Glass Cleaner', description: 'Average 10+ rebounds per 40m', icon: '📦', requirement: 10, type: 'rpg', class: 'achievement-bronze' },
+            { id: 'reb_16', title: 'Board Master', description: 'Average 16+ rebounds per 40m', icon: '🛡️', requirement: 16, type: 'rpg', class: 'achievement-silver' },
+            { id: 'reb_24', title: 'Rebound King', description: 'Average 24+ rebounds per 40m', icon: '👑', requirement: 24, type: 'rpg', class: 'achievement-gold' },
             
             // Defense Achievements
-            { id: 'defense_1', title: 'Defender', description: 'Average 1+ (steals+blocks) per 15m', icon: '🛡️', requirement: 1, type: 'impact', class: 'achievement-bronze' },
-            { id: 'defense_2', title: 'Stopper', description: 'Average 2+ (steals+blocks) per 15m', icon: '🚫', requirement: 2, type: 'impact', class: 'achievement-silver' },
-            { id: 'defense_3', title: 'Defensive God', description: 'Average 3+ (steals+blocks) per 15m', icon: '🛡️', requirement: 3, type: 'impact', class: 'achievement-gold' },
+            { id: 'defense_3', title: 'Defender', description: 'Average 3+ (steals+blocks) per 40m', icon: '🛡️', requirement: 3, type: 'impact', class: 'achievement-bronze' },
+            { id: 'defense_5', title: 'Stopper', description: 'Average 5+ (steals+blocks) per 40m', icon: '🚫', requirement: 5, type: 'impact', class: 'achievement-silver' },
+            { id: 'defense_8', title: 'Defensive God', description: 'Average 8+ (steals+blocks) per 40m', icon: '🛡️', requirement: 8, type: 'impact', class: 'achievement-gold' },
             
             // Efficiency Achievements
             { id: 'efficiency_12', title: 'Efficient', description: 'Maintain 12+ efficiency rating', icon: '⚡', requirement: 12, type: 'efficiency', class: 'achievement-bronze' },
@@ -1275,9 +1275,9 @@
             });
             
             return {
-                ppg: (totalPts / totalDuration) * 15,
-                rpg: (totalReb / totalDuration) * 15,
-                impact: (totalImpact / totalDuration) * 15,
+                ppg: (totalPts / totalDuration) * 40,
+                rpg: (totalReb / totalDuration) * 40,
+                impact: (totalImpact / totalDuration) * 40,
                 efficiency: calculateEfficiency(getGlobalStats(filteredGames)[name], playerGames.length),
                 games: playerGames.length
             };
@@ -1379,7 +1379,7 @@
                         ${stats ? `
                             <div class="flex gap-6">
                                 <div>
-                                    <div class="text-slate-500">PPG</div>
+                                    <div class="text-slate-500">PTS/40m</div>
                                     <div class="text-lg font-bold text-emerald-400">${stats.ppg.toFixed(1)}</div>
                                 </div>
                                 <div>
@@ -1746,7 +1746,7 @@
             container.innerHTML = `
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
-                        <span class="text-slate-400">Points/Game</span>
+                        <span class="text-slate-400">Points/40m</span>
                         <span class="text-cyan-400 font-bold">${stats.ppg.toFixed(1)}</span>
                     </div>
                     <div class="w-full bg-slate-700 rounded-full h-2">
@@ -2023,7 +2023,7 @@
                             </div>
                             ${stats ? `
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-slate-400">PPG</span>
+                                    <span class="text-slate-400">PTS/40m</span>
                                     <span class="text-emerald-400">${stats.ppg.toFixed(1)}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
@@ -2490,14 +2490,14 @@
                                 <span class="rank-badge ${rank.class}">${rank.icon} ${rank.title}</span>
                             </div>
                             <div class="text-right">
-                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Rating / 15m</p>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Rating / 40m</p>
                                 <p class="text-3xl font-black ${accent}">${rating.toFixed(1)}</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mt-6 text-center">
                             <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">GP</p><p class="text-xl font-black text-white">${p.gp}</p></div>
                             <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">WIN %</p><p class="text-xl font-black text-white">${winPct}%</p></div>
-                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">PPG</p><p class="text-xl font-black text-emerald-400">${ppg}</p></div>
+                            <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">PTS/40m</p><p class="text-xl font-black text-emerald-400">${ppg}</p></div>
                             <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">RPG</p><p class="text-xl font-black text-blue-400">${rpg}</p></div>
                             <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">BPG</p><p class="text-xl font-black text-orange-400">${bpg}</p></div>
                             <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5"><p class="text-[9px] font-black text-slate-500 uppercase">SPG</p><p class="text-xl font-black text-purple-400">${spg}</p></div>
@@ -2536,12 +2536,12 @@
             const topBy = (key) => players.slice().sort((a, b) => (b[key] - a[key]) || (b.rating - a.rating)).slice(0, 3);
 
             const cards = [
-                { title: 'Scoring trend', subtitle: `PPG (last ${recentGames.length})`, key: 'ppg', valueFmt: v => v.toFixed(1), color: 'text-emerald-400' },
+                { title: 'Scoring trend', subtitle: `PTS/40m (last ${recentGames.length})`, key: 'ppg', valueFmt: v => v.toFixed(1), color: 'text-emerald-400' },
                 { title: 'Blocks trend', subtitle: `BPG (last ${recentGames.length})`, key: 'bpg', valueFmt: v => v.toFixed(1), color: 'text-orange-400' },
                 { title: 'Steals trend', subtitle: `SPG (last ${recentGames.length})`, key: 'spg', valueFmt: v => v.toFixed(1), color: 'text-purple-400' },
                 { title: 'Rebounds trend', subtitle: `RPG (last ${recentGames.length})`, key: 'rpg', valueFmt: v => v.toFixed(1), color: 'text-blue-400' },
                 { title: '3PT trend', subtitle: `3PM/G (last ${recentGames.length})`, key: 'threesPg', valueFmt: v => v.toFixed(1), color: 'text-indigo-400' },
-                { title: 'On fire', subtitle: `Rating / 15m (last ${recentGames.length})`, key: 'rating', valueFmt: v => v.toFixed(1), color: 'text-amber-400', badge: true },
+                { title: 'On fire', subtitle: `Rating / 40m (last ${recentGames.length})`, key: 'rating', valueFmt: v => v.toFixed(1), color: 'text-amber-400', badge: true },
             ];
 
             container.innerHTML = cards.map(c => {
@@ -2719,7 +2719,7 @@
             document.getElementById('player-averages').innerHTML = `
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG PTS</p><p class="text-3xl font-black text-emerald-400">${seasonAggregate.gp ? (seasonAggregate.pts/seasonAggregate.gp).toFixed(1) : 0}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG REB</p><p class="text-3xl font-black text-blue-400">${seasonAggregate.gp ? (seasonAggregate.rebs/seasonAggregate.gp).toFixed(1) : 0}</p></div>
-                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">RATING / 15m</p><p class="text-3xl font-black text-indigo-400">${rating.toFixed(1)}</p></div>
+                <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">RATING / 40m</p><p class="text-3xl font-black text-indigo-400">${rating.toFixed(1)}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">AVG STL</p><p class="text-3xl font-black text-purple-400">${seasonAggregate.gp ? (seasonAggregate.steals/seasonAggregate.gp).toFixed(1) : 0}</p></div>
                 <div class="text-center"><p class="text-[9px] font-black text-slate-500 mb-1">WIN %</p><p class="text-3xl font-black text-white">${seasonAggregate.gp ? ((seasonAggregate.wins/seasonAggregate.gp)*100).toFixed(0) : 0}%</p></div>
                 ${lastSeasonHtml}
