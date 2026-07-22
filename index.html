@@ -424,6 +424,14 @@
                             <select id="season-dropdown-archives" onchange="handleSeasonChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs"></select>
                         </div>
                         <div class="flex items-center gap-2">
+                            <label for="half-year-dropdown" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Half-Year</label>
+                            <select id="half-year-dropdown" onchange="handleHalfYearChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs">
+                                <option value="all">All</option>
+                                <option value="1">First Half (Jan-Jun)</option>
+                                <option value="2">Second Half (Jul-Dec)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-2">
                             <label for="player-group-dropdown" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Group</label>
                             <select id="player-group-dropdown" onchange="handlePlayerGroupChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs">
                                 <option value="all">HU14</option>
@@ -1024,25 +1032,21 @@
 
         // Rating levels (non-overlapping ranges via descending min thresholds)
         const RANKS = [
-            { min: 50, title: "bro you cheating at this point", class: "rank-hof", icon: "🐐" },
-            { min: 39, title: "GOAT", class: "rank-hof", icon: "🐐" },
-
-            // Hall of Fame tiers
-            { min: 34, title: "Hall of Fame", class: "rank-hof", icon: "🏆" }, // gap-safe bucket (24 ≤ rating < 25)
-            { min: 29, title: "Pro", class: "rank-hof", icon: "🏆" },
-            { min: 25, title: "Rising Pro", class: "rank-hof", icon: "🏆" },
-            { min: 21, title: "Rookie Pro", class: "rank-hof", icon: "🏆" },
-
-            // Upper tiers
-            { min: 18, title: "very very good", class: "rank-hof", icon: "" },
-            { min: 16, title: "very good", class: "rank-elite", icon: "" },
-            { min: 14, title: "good", class: "rank-elite", icon: "" },
-            { min: 12, title: "almost good", class: "rank-elite", icon: "" },
-            { min: 10, title: "youre close", class: "rank-pro", icon: "" },
-            { min: 8, title: "starting", class: "rank-pro", icon: "" },
-            { min: 6, title: "youre getting there", class: "rank-role", icon: "" },
-            { min: 4, title: "Pro airballer", class: "rank-role", icon: "" },
-            { min: 0, title: "Benchwarmer", class: "rank-rookie", icon: "" }
+            { min: 125, title: "Transcendent Being", class: "rank-hof", icon: "🌟" },
+            { min: 98, title: "Basketball Deity", class: "rank-hof", icon: "🐐" },
+            { min: 85, title: "Immortal Legend", class: "rank-hof", icon: "👑" },
+            { min: 73, title: "Hall of Fame God", class: "rank-hof", icon: "🏆" },
+            { min: 63, title: "Elite Dynasty", class: "rank-hof", icon: "💎" },
+            { min: 53, title: "Superstar Pro", class: "rank-elite", icon: "⭐" },
+            { min: 45, title: "All-Star Elite", class: "rank-elite", icon: "🔥" },
+            { min: 40, title: "Franchise Player", class: "rank-elite", icon: "🎯" },
+            { min: 35, title: "Starter Elite", class: "rank-pro", icon: "💪" },
+            { min: 30, title: "Solid Starter", class: "rank-pro", icon: "🏀" },
+            { min: 25, title: "Rotation Player", class: "rank-pro", icon: "📊" },
+            { min: 20, title: "Bench Contributor", class: "rank-role", icon: "🔄" },
+            { min: 15, title: "Developmental", class: "rank-role", icon: "📈" },
+            { min: 10, title: "Practice Squad", class: "rank-role", icon: "🏋️" },
+            { min: 0, title: "Tryout Candidate", class: "rank-rookie", icon: "🆕" }
         ];
 
         function parseDuration(dur) {
@@ -1075,9 +1079,30 @@
 
         function getSeasonFilteredGames() {
             if (typeof GAME_DATABASE === 'undefined') return [];
-            if (selectedSeason === 'all') return GAME_DATABASE;
-            const seasonYear = parseInt(selectedSeason, 10);
-            return GAME_DATABASE.filter(g => getGameYear(g) === seasonYear);
+            let filtered = GAME_DATABASE;
+            
+            if (selectedSeason !== 'all') {
+                const seasonYear = parseInt(selectedSeason, 10);
+                filtered = filtered.filter(g => getGameYear(g) === seasonYear);
+            }
+            
+            if (selectedHalfYear !== 'all') {
+                filtered = filtered.filter(g => {
+                    const dateStr = g?.date || '';
+                    const parts = dateStr.split('-');
+                    if (parts.length >= 2) {
+                        const month = parseInt(parts[1], 10);
+                        if (selectedHalfYear === '1') {
+                            return month >= 1 && month <= 6;
+                        } else if (selectedHalfYear === '2') {
+                            return month >= 7 && month <= 12;
+                        }
+                    }
+                    return false;
+                });
+            }
+            
+            return filtered;
         }
 
         function getCompetitiveGamesSortedDesc(games) {
@@ -1142,6 +1167,13 @@
                 selectedSeason = 'all';
             }
             syncSeasonDropdowns();
+        }
+
+        let selectedHalfYear = 'all';
+
+        function handleHalfYearChange(value) {
+            selectedHalfYear = value;
+            renderEverything();
         }
 
         function handleSeasonChange(value) {
