@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Timeline Editor | CourtSide Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="videoData/index.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+    body { font-family: Inter, sans-serif; background: radial-gradient(circle at 15% 0%, rgba(20,184,166,.14), transparent 30%), #090f1d; color: #f8fafc; }
+    .panel { background: linear-gradient(145deg, rgba(30,41,59,.88), rgba(15,23,42,.78)); border: 1px solid rgba(255,255,255,.1); box-shadow: 0 24px 80px rgba(2,6,23,.35); }
+    .field { background: #020617; border: 1px solid #334155; border-radius: 14px; padding: 10px 12px; outline: none; width: 100%; }
+    .field:focus { border-color: #22d3ee; }
+    .btn { border-radius: 999px; padding: 10px 14px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .14em; border: 1px solid rgba(255,255,255,.12); }
+    .tick { position:absolute; top:0; bottom:0; width:1px; background:rgba(148,163,184,.22); }
+    .marker { position:absolute; top:26px; transform:translateX(-50%); min-width:14px; height:34px; border-radius:8px; border:1px solid rgba(255,255,255,.22); cursor:pointer; }
+  </style>
+</head>
+<body class="p-5 md:p-10">
+  <div class="max-w-7xl mx-auto">
+    <header class="flex flex-col md:flex-row justify-between gap-4 items-start md:items-end mb-8 border-b border-slate-800 pb-6">
+      <div>
+        <a href="index.html" class="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Back to app</a>
+        <h1 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter mt-2">Video Timeline Editor</h1>
+        <p class="text-slate-500 text-xs font-mono uppercase tracking-[0.2em] mt-1">Tag clock, points, rebounds, fouls, steals, blocks, misses, free throws</p>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <button class="btn bg-emerald-600 hover:bg-emerald-500" onclick="createNewData()">New Data</button>
+        <button class="btn bg-indigo-600 hover:bg-indigo-500" onclick="document.getElementById('uploadInput').click()">Upload Data</button>
+        <button class="btn bg-cyan-600 hover:bg-cyan-500" onclick="downloadJs()">Download JS</button>
+        <button class="btn bg-slate-800 hover:bg-slate-700" onclick="copyJs()">Copy JS</button>
+        <input id="uploadInput" type="file" accept=".js,.json,application/json,text/javascript" class="hidden" onchange="uploadDataFile(event)" />
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <section class="panel rounded-2xl p-5 lg:col-span-2">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Data File</label>
+            <select id="dataSelect" class="field mt-2" onchange="loadSelectedData()"></select>
+          </div>
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Data Name</label>
+            <input id="idInput" class="field mt-2" oninput="renameCurrentData()" placeholder="VideoData3" />
+          </div>
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Title</label>
+            <input id="titleInput" class="field mt-2" oninput="saveForm()" />
+          </div>
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">YouTube Link</label>
+            <input id="urlInput" class="field mt-2" oninput="saveForm(); refreshYoutubePreview(true)" />
+          </div>
+        </div>
+
+        <div class="aspect-video bg-black rounded-2xl overflow-hidden border border-slate-800">
+          <div id="playerWrap" class="w-full h-full"><div id="player" class="w-full h-full"></div></div>
+          <iframe id="previewFrame" class="w-full h-full hidden" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <div id="playerStatus" class="mt-2 text-xs font-mono text-slate-500">Loading YouTube player...</div>
+
+        <div class="flex flex-wrap gap-2 items-center mt-4">
+          <button class="btn bg-emerald-600 hover:bg-emerald-500" onclick="togglePlay()">Play / Pause</button>
+          <button class="btn bg-slate-800 hover:bg-slate-700" onclick="stepFrames(-5)">-5 Frames</button>
+          <button class="btn bg-slate-800 hover:bg-slate-700" onclick="stepFrames(5)">+5 Frames</button>
+          <button class="btn bg-slate-800 hover:bg-slate-700" onclick="seekWindow(-1)">Window Left</button>
+          <button class="btn bg-slate-800 hover:bg-slate-700" onclick="seekWindow(1)">Window Right</button>
+          <div class="ml-auto text-xs font-mono text-slate-400">Time <span id="currentTime">0m 00s</span></div>
+        </div>
+
+        <div class="mt-5">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400">Timeline Window</div>
+            <div class="flex items-center gap-2">
+              <label class="text-[10px] font-black text-slate-500 uppercase">Zoom</label>
+              <select id="windowSize" class="field !w-32" onchange="renderTimeline()">
+                <option value="10" selected>10 seconds</option>
+                <option value="30">30 seconds</option>
+                <option value="60">1 minute</option>
+                <option value="300">5 minutes</option>
+              </select>
+            </div>
+          </div>
+          <div id="timeline" class="relative h-24 bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden" onwheel="handleWheel(event)" onclick="timelineClick(event)">
+            <div id="playhead" class="absolute top-0 bottom-0 w-0.5 bg-red-400 z-20"></div>
+          </div>
+          <div id="windowLabel" class="mt-2 text-xs font-mono text-slate-500"></div>
+        </div>
+      </section>
+
+      <aside class="panel rounded-2xl p-5">
+        <h2 class="text-xs font-black uppercase tracking-[0.25em] text-emerald-400 mb-4">Add Action</h2>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase">Time</label>
+            <input id="eventTime" class="field mt-1" placeholder="1:37" />
+          </div>
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase">Action</label>
+            <select id="eventType" class="field mt-1">
+              <option value="clock_start">Start clock</option>
+              <option value="clock_pause">Pause clock</option>
+              <option value="twoP">2PT made</option>
+              <option value="threeP">3PT made</option>
+              <option value="ft">Free throw</option>
+              <option value="miss">Miss</option>
+              <option value="reb">Rebound</option>
+              <option value="foul">Foul</option>
+              <option value="stl">Steal</option>
+              <option value="blk">Block</option>
+              <option value="tech">Tech</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase">Player</label>
+            <input id="eventPlayer" class="field mt-1" placeholder="PlayerName" />
+          </div>
+          <div>
+            <label class="text-[10px] font-black text-slate-500 uppercase">Team</label>
+            <input id="eventTeam" class="field mt-1" placeholder="Team 1" />
+          </div>
+          <div class="col-span-2">
+            <label class="text-[10px] font-black text-slate-500 uppercase">Note</label>
+            <input id="eventNote" class="field mt-1" placeholder="Foul on PlayerName" />
+          </div>
+        </div>
+        <div class="flex gap-2 mt-4">
+          <button class="btn bg-cyan-600 hover:bg-cyan-500 flex-1" onclick="addEvent()">Add Action</button>
+          <button class="btn bg-slate-800 hover:bg-slate-700" onclick="useCurrentTime()">Use Video Time</button>
+        </div>
+
+        <h2 class="text-xs font-black uppercase tracking-[0.25em] text-purple-400 mt-8 mb-4">Actions</h2>
+        <div id="eventsList" class="space-y-2 max-h-[520px] overflow-auto pr-1"></div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const ACTION_COLORS = {
+      clock_start: "bg-emerald-500", clock_pause: "bg-amber-500", twoP: "bg-blue-500", threeP: "bg-indigo-500",
+      ft: "bg-lime-500", miss: "bg-slate-500", reb: "bg-sky-500", foul: "bg-rose-500", stl: "bg-purple-500", blk: "bg-orange-500", tech: "bg-red-700"
+    };
+    let currentDataId = "VideoData1";
+    let videoData = { id: "VideoData1", title: "", youtubeUrl: "", frameStep: 5, events: [] };
+    let player = null;
+    let windowStart = 0;
+    let timer = null;
+
+    function loadYouTubeApi() {
+      window.onYouTubeIframeAPIReady = createYoutubePlayer;
+      if (window.YT?.Player) {
+        createYoutubePlayer();
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(script);
+    }
+
+    function createYoutubePlayer() {
+      player = new YT.Player("player", { height: "100%", width: "100%", videoId: "", playerVars: { rel: 0, modestbranding: 1 }, events: { onReady: init } });
+    }
+
+    function init() {
+      document.getElementById("playerStatus").textContent = "YouTube player ready.";
+      loadVideoScripts().then(() => {
+        buildDataSelect();
+        loadSelectedData();
+        timer = setInterval(tick, 120);
+      });
+    }
+
+    async function loadVideoScripts() {
+      for (const file of (window.VIDEO_DATA_FILES || [])) {
+        await new Promise(resolve => {
+          const s = document.createElement("script");
+          s.src = file;
+          s.onload = resolve;
+          s.onerror = resolve;
+          document.head.appendChild(s);
+        });
+      }
+    }
+
+    function buildDataSelect() {
+      const select = document.getElementById("dataSelect");
+      const ids = Object.keys(window.VIDEO_DATA_LIBRARY || {});
+      select.innerHTML = ids.map(id => `<option value="${id}">${id}</option>`).join("");
+      if (ids.includes(currentDataId)) select.value = currentDataId;
+    }
+
+    function loadSelectedData() {
+      currentDataId = document.getElementById("dataSelect").value || currentDataId;
+      videoData = structuredClone(window.VIDEO_DATA_LIBRARY[currentDataId] || videoData);
+      videoData.id = sanitizeDataId(videoData.id || currentDataId);
+      document.getElementById("idInput").value = videoData.id;
+      document.getElementById("titleInput").value = videoData.title || "";
+      document.getElementById("urlInput").value = videoData.youtubeUrl || "";
+      refreshYoutubePreview(true);
+      sortEvents();
+      renderAll();
+    }
+
+    function saveForm() {
+      videoData.id = sanitizeDataId(document.getElementById("idInput").value || videoData.id || currentDataId);
+      videoData.title = document.getElementById("titleInput").value;
+      videoData.youtubeUrl = document.getElementById("urlInput").value;
+      window.VIDEO_DATA_LIBRARY[videoData.id] = structuredClone(videoData);
+      renderAll();
+    }
+
+    function sanitizeDataId(value) {
+      const clean = String(value || "VideoData1").replace(/[^A-Za-z0-9_$]/g, "");
+      return clean || "VideoData1";
+    }
+
+    function nextDataId() {
+      const ids = Object.keys(window.VIDEO_DATA_LIBRARY || {});
+      let n = ids.length + 1;
+      while (ids.includes(`VideoData${n}`)) n++;
+      return `VideoData${n}`;
+    }
+
+    function setActiveData(data) {
+      window.VIDEO_DATA_LIBRARY = window.VIDEO_DATA_LIBRARY || {};
+      const id = sanitizeDataId(data.id || nextDataId());
+      videoData = {
+        id,
+        title: data.title || "",
+        youtubeUrl: data.youtubeUrl || data.youtube || data.url || "",
+        frameStep: data.frameStep || 5,
+        events: Array.isArray(data.events) ? data.events : []
+      };
+      currentDataId = id;
+      window.VIDEO_DATA_LIBRARY[id] = structuredClone(videoData);
+      buildDataSelect();
+      document.getElementById("dataSelect").value = id;
+      loadSelectedData();
+      refreshYoutubePreview(true);
+    }
+
+    function createNewData() {
+      const id = prompt("Name for the new video data file:", nextDataId());
+      if (id === null) return;
+      setActiveData({
+        id: sanitizeDataId(id),
+        title: "New Video Breakdown",
+        youtubeUrl: "",
+        frameStep: 5,
+        events: []
+      });
+    }
+
+    function renameCurrentData() {
+      const oldId = currentDataId;
+      const newId = sanitizeDataId(document.getElementById("idInput").value);
+      if (!newId || newId === oldId) {
+        videoData.id = newId || oldId;
+        return;
+      }
+      delete window.VIDEO_DATA_LIBRARY[oldId];
+      videoData.id = newId;
+      currentDataId = newId;
+      window.VIDEO_DATA_LIBRARY[newId] = structuredClone(videoData);
+      buildDataSelect();
+      document.getElementById("dataSelect").value = newId;
+      renderAll();
+    }
+
+    async function uploadDataFile(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      const data = parseUploadedData(text, file.name);
+      if (!data) {
+        alert("Could not read that file. Upload a VideoData JS file or JSON object.");
+        event.target.value = "";
+        return;
+      }
+      setActiveData(data);
+      refreshYoutubePreview(true);
+      event.target.value = "";
+    }
+
+    function parseUploadedData(text, fileName) {
+      try {
+        if (fileName.toLowerCase().endsWith(".json")) {
+          return JSON.parse(text);
+        }
+        const idMatch = text.match(/VIDEO_DATA_LIBRARY\.([A-Za-z0-9_$]+)\s*=/);
+        const objectStart = text.indexOf("{", idMatch ? idMatch.index : 0);
+        const objectEnd = text.lastIndexOf("};");
+        if (objectStart !== -1 && objectEnd !== -1 && objectEnd > objectStart) {
+          const objectText = text.slice(objectStart, objectEnd + 1);
+          const parsed = Function(`"use strict"; return (${objectText});`)();
+          if (!parsed.id && idMatch) parsed.id = idMatch[1];
+          return parsed;
+        }
+        return JSON.parse(text);
+      } catch (err) {
+        console.error(err);
+        return null;
+      }
+    }
+
+    function refreshYoutubePreview(force = false) {
+      loadYoutube(document.getElementById("urlInput").value || videoData.youtubeUrl, force);
+    }
+
+    function loadYoutube(url, force = false) {
+      const id = getYouTubeId(url);
+      const status = document.getElementById("playerStatus");
+      updatePreviewFrame(id);
+      
+      // Check if running from file:// protocol
+      if (window.location.protocol === 'file:') {
+        if (status) status.textContent = "⚠️ YouTube API requires a web server. Run via http://localhost or use the preview frame below.";
+        return;
+      }
+      
+      if (!player) {
+        if (status) status.textContent = "YouTube player is not ready yet.";
+        return;
+      }
+      const currentId = player.getVideoData?.().video_id || "";
+      if (id && (force || currentId !== id)) {
+        player.cueVideoById(id);
+        showApiPlayer();
+        if (status) status.textContent = `Loaded video ID: ${id}`;
+      }
+      if (!id && force) {
+        player.cueVideoById("");
+        if (status) status.textContent = "Paste a valid YouTube link to preview the video.";
+      }
+    }
+
+    function updatePreviewFrame(id) {
+      const frame = document.getElementById("previewFrame");
+      if (!frame) return;
+      frame.src = id ? `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&enablejsapi=1` : "";
+      if (id && !player) {
+        frame.classList.remove("hidden");
+        document.getElementById("playerWrap")?.classList.add("hidden");
+      }
+    }
+
+    function showApiPlayer() {
+      document.getElementById("previewFrame")?.classList.add("hidden");
+      document.getElementById("playerWrap")?.classList.remove("hidden");
+    }
+
+    function getYouTubeId(url) {
+      const text = String(url || "");
+      const m = text.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{6,})/);
+      return m ? m[1] : text.match(/^[A-Za-z0-9_-]{6,}$/)?.[0] || "";
+    }
+
+    function parseTime(text) {
+      if (typeof text === "number") return text;
+      const parts = String(text || "0").replace(".", ":").split(":").map(v => parseInt(v, 10) || 0);
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return parts[0] || 0;
+    }
+
+    function formatTime(seconds) {
+      seconds = Math.max(0, Math.round(seconds || 0));
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      return h ? `${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}` : `${m}:${String(s).padStart(2,"0")}`;
+    }
+
+    function sortEvents() {
+      videoData.events = (videoData.events || []).sort((a, b) => parseTime(a.time) - parseTime(b.time));
+    }
+
+    function useCurrentTime() {
+      document.getElementById("eventTime").value = formatTime(player?.getCurrentTime?.() || 0);
+    }
+
+    function addEvent() {
+      const event = {
+        time: document.getElementById("eventTime").value || formatTime(player?.getCurrentTime?.() || 0),
+        type: document.getElementById("eventType").value,
+        player: document.getElementById("eventPlayer").value,
+        team: document.getElementById("eventTeam").value,
+        note: document.getElementById("eventNote").value
+      };
+      if (!event.note) event.note = event.type.replace("_", " ") + (event.player ? ` ${event.player}` : "");
+      videoData.events.push(event);
+      sortEvents();
+      window.VIDEO_DATA_LIBRARY[videoData.id] = structuredClone(videoData);
+      renderAll();
+    }
+
+    function deleteEvent(index) {
+      videoData.events.splice(index, 1);
+      window.VIDEO_DATA_LIBRARY[videoData.id] = structuredClone(videoData);
+      renderAll();
+    }
+
+    function seekTo(seconds) {
+      player?.seekTo?.(Math.max(0, seconds), true);
+      const size = getWindowSize();
+      if (seconds < windowStart || seconds > windowStart + size) windowStart = Math.max(0, seconds - size / 2);
+      renderTimeline();
+    }
+
+    function togglePlay() {
+      if (!player) return;
+      const state = player.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) player.pauseVideo(); else player.playVideo();
+    }
+
+    function stepFrames(frames) {
+      const fps = 30;
+      seekTo((player?.getCurrentTime?.() || 0) + frames / fps);
+    }
+
+    function seekWindow(dir) {
+      windowStart = Math.max(0, windowStart + dir * getWindowSize());
+      seekTo(windowStart);
+    }
+
+    function getWindowSize() {
+      return parseInt(document.getElementById("windowSize").value, 10) || 10;
+    }
+
+    function handleWheel(event) {
+      event.preventDefault();
+      stepFrames(event.deltaY > 0 ? 5 : -5);
+    }
+
+    function timelineClick(event) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      seekTo(windowStart + ((event.clientX - rect.left) / rect.width) * getWindowSize());
+    }
+
+    function tick() {
+      const t = player?.getCurrentTime?.() || 0;
+      document.getElementById("currentTime").textContent = formatTime(t);
+      const size = getWindowSize();
+      if (t > windowStart + size * 0.85) windowStart = Math.max(0, t - size * 0.2);
+      renderPlayhead();
+    }
+
+    function renderAll() {
+      renderTimeline();
+      renderEvents();
+    }
+
+    function renderTimeline() {
+      const timeline = document.getElementById("timeline");
+      const playhead = document.getElementById("playhead");
+      timeline.innerHTML = "";
+      timeline.appendChild(playhead);
+      const size = getWindowSize();
+      for (let i = 0; i <= size; i++) {
+        const tick = document.createElement("div");
+        tick.className = "tick";
+        tick.style.left = `${(i / size) * 100}%`;
+        timeline.appendChild(tick);
+      }
+      videoData.events.forEach((ev, index) => {
+        const seconds = parseTime(ev.time);
+        if (seconds < windowStart || seconds > windowStart + size) return;
+        const marker = document.createElement("button");
+        marker.className = `marker ${ACTION_COLORS[ev.type] || "bg-cyan-500"}`;
+        marker.style.left = `${((seconds - windowStart) / size) * 100}%`;
+        marker.title = `${ev.time} ${ev.type} ${ev.player || ""}`;
+        marker.onclick = e => { e.stopPropagation(); seekTo(seconds); highlightEvent(index); };
+        timeline.appendChild(marker);
+      });
+      document.getElementById("windowLabel").textContent = `${formatTime(windowStart)} to ${formatTime(windowStart + size)}`;
+      renderPlayhead();
+    }
+
+    function renderPlayhead() {
+      const playhead = document.getElementById("playhead");
+      if (!playhead) return;
+      const t = player?.getCurrentTime?.() || 0;
+      const pct = ((t - windowStart) / getWindowSize()) * 100;
+      playhead.style.left = `${Math.max(0, Math.min(100, pct))}%`;
+    }
+
+    function renderEvents() {
+      const list = document.getElementById("eventsList");
+      list.innerHTML = videoData.events.map((ev, index) => `
+        <div id="event-${index}" class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">
+          <div class="flex items-start justify-between gap-2">
+            <button class="text-left" onclick="seekTo(${parseTime(ev.time)})">
+              <div class="text-xs font-black text-cyan-300">${ev.time} - ${ev.type}</div>
+              <div class="text-sm font-bold text-white">${ev.player || "No player"} <span class="text-slate-500">${ev.team || ""}</span></div>
+              <div class="text-xs text-slate-400">${ev.note || ""}</div>
+            </button>
+            <button class="text-rose-400 text-xs font-black" onclick="deleteEvent(${index})">DEL</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function highlightEvent(index) {
+      document.querySelectorAll("[id^='event-']").forEach(el => el.classList.remove("border-cyan-400"));
+      document.getElementById(`event-${index}`)?.classList.add("border-cyan-400");
+    }
+
+    function makeJs() {
+      const id = videoData.id || currentDataId || "VideoData1";
+      const clean = { ...videoData, id };
+      return `window.VIDEO_DATA_LIBRARY = window.VIDEO_DATA_LIBRARY || {};\n\nwindow.VIDEO_DATA_LIBRARY.${id} = ${JSON.stringify(clean, null, 2)};\n`;
+    }
+
+    function downloadJs() {
+      refreshYoutubePreview(true);
+      const blob = new Blob([makeJs()], { type: "text/javascript" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `${videoData.id || currentDataId}.js`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    async function copyJs() {
+      refreshYoutubePreview(true);
+      await navigator.clipboard.writeText(makeJs());
+      alert("Video data JS copied.");
+    }
+
+    loadYouTubeApi();
+  </script>
+</body>
+</html>

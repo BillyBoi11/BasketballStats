@@ -637,6 +637,74 @@
             <div id="strength-container" class="space-y-12"></div>
         </div>
 
+        <div id="video-modal" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-sm">
+            <div class="h-full flex flex-col">
+                <div class="flex justify-between items-center p-4 bg-slate-900/80 border-b border-slate-800">
+                    <div>
+                        <h2 id="video-modal-title" class="text-2xl font-black italic text-white uppercase tracking-tighter">Game Stream</h2>
+                        <p id="video-modal-subtitle" class="text-slate-400 text-xs font-mono uppercase tracking-widest mt-1"></p>
+                    </div>
+                    <button onclick="closeVideoModal()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border border-rose-400/30 transition-all">Close</button>
+                </div>
+                
+                <div class="flex-1 relative">
+                    <div id="video-player-container" class="w-full h-full flex items-center justify-center bg-black">
+                        <div id="youtube-player" class="w-full h-full"></div>
+                    </div>
+                    
+                    <!-- Score overlay -->
+                    <div id="score-overlay" class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-slate-900/90 backdrop-blur-md px-6 py-3 rounded-2xl border border-slate-700">
+                        <div id="team-scores" class="flex items-center gap-4">
+                            <div class="text-center">
+                                <p id="team1-name" class="text-[9px] font-black text-blue-400 uppercase tracking-widest">TEAM 1</p>
+                                <p id="team1-score" class="text-3xl font-black text-white">0</p>
+                            </div>
+                            <div class="text-center">
+                                <p id="game-clock" class="text-2xl font-black text-amber-400 font-mono">0:00</p>
+                                <p class="text-[8px] text-slate-500 uppercase tracking-widest">Clock</p>
+                            </div>
+                            <div class="text-center">
+                                <p id="team2-name" class="text-[9px] font-black text-rose-400 uppercase tracking-widest">TEAM 2</p>
+                                <p id="team2-score" class="text-3xl font-black text-white">0</p>
+                            </div>
+                        </div>
+                        <div id="player-scores" class="hidden flex items-center gap-4">
+                            <div id="team1-players" class="flex gap-2"></div>
+                            <div class="text-center">
+                                <p id="game-clock-players" class="text-2xl font-black text-amber-400 font-mono">0:00</p>
+                                <p class="text-[8px] text-slate-500 uppercase tracking-widest">Clock</p>
+                            </div>
+                            <div id="team2-players" class="flex gap-2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats section -->
+                <div class="bg-slate-900/80 border-t border-slate-800 p-6">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-cyan-400 mb-4">Video Statistics</h3>
+                    <div id="video-stats" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
+                            <p class="text-[9px] text-slate-500 uppercase tracking-widest">Total Shots</p>
+                            <p id="stat-total-shots" class="text-2xl font-black text-white">0</p>
+                        </div>
+                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
+                            <p class="text-[9px] text-slate-500 uppercase tracking-widest">Made</p>
+                            <p id="stat-made" class="text-2xl font-black text-emerald-400">0</p>
+                        </div>
+                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
+                            <p class="text-[9px] text-slate-500 uppercase tracking-widest">Missed</p>
+                            <p id="stat-missed" class="text-2xl font-black text-rose-400">0</p>
+                        </div>
+                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
+                            <p class="text-[9px] text-slate-500 uppercase tracking-widest">Shooting %</p>
+                            <p id="stat-shooting-pct" class="text-2xl font-black text-cyan-400">0%</p>
+                        </div>
+                    </div>
+                    <div id="video-events-list" class="mt-4 space-y-2 max-h-40 overflow-auto"></div>
+                </div>
+            </div>
+        </div>
+
         <div id="view-data" class="hidden">
             <div class="glass rounded-[2rem] overflow-hidden mb-16 shadow-2xl border-t-4 border-green-500">
                 <div class="p-6 bg-slate-800/30">
@@ -1032,21 +1100,25 @@
 
         // Rating levels (non-overlapping ranges via descending min thresholds)
         const RANKS = [
-            { min: 125, title: "Transcendent Being", class: "rank-hof", icon: "🌟" },
-            { min: 98, title: "Basketball Deity", class: "rank-hof", icon: "🐐" },
-            { min: 85, title: "Immortal Legend", class: "rank-hof", icon: "👑" },
-            { min: 73, title: "Hall of Fame God", class: "rank-hof", icon: "🏆" },
-            { min: 63, title: "Elite Dynasty", class: "rank-hof", icon: "💎" },
-            { min: 53, title: "Superstar Pro", class: "rank-elite", icon: "⭐" },
-            { min: 45, title: "All-Star Elite", class: "rank-elite", icon: "🔥" },
-            { min: 40, title: "Franchise Player", class: "rank-elite", icon: "🎯" },
-            { min: 35, title: "Starter Elite", class: "rank-pro", icon: "💪" },
-            { min: 30, title: "Solid Starter", class: "rank-pro", icon: "🏀" },
-            { min: 25, title: "Rotation Player", class: "rank-pro", icon: "📊" },
-            { min: 20, title: "Bench Contributor", class: "rank-role", icon: "🔄" },
-            { min: 15, title: "Developmental", class: "rank-role", icon: "📈" },
-            { min: 10, title: "Practice Squad", class: "rank-role", icon: "🏋️" },
-            { min: 0, title: "Tryout Candidate", class: "rank-rookie", icon: "🆕" }
+            { min: 50, title: "bro you cheating at this point", class: "rank-hof", icon: "🐐" },
+            { min: 39, title: "GOAT", class: "rank-hof", icon: "🐐" },
+
+            // Hall of Fame tiers
+            { min: 34, title: "Hall of Fame", class: "rank-hof", icon: "🏆" }, // gap-safe bucket (24 ≤ rating < 25)
+            { min: 29, title: "Pro", class: "rank-hof", icon: "🏆" },
+            { min: 25, title: "Rising Pro", class: "rank-hof", icon: "🏆" },
+            { min: 21, title: "Rookie Pro", class: "rank-hof", icon: "🏆" },
+
+            // Upper tiers
+            { min: 18, title: "very very good", class: "rank-hof", icon: "" },
+            { min: 16, title: "very good", class: "rank-elite", icon: "" },
+            { min: 14, title: "good", class: "rank-elite", icon: "" },
+            { min: 12, title: "almost good", class: "rank-elite", icon: "" },
+            { min: 10, title: "youre close", class: "rank-pro", icon: "" },
+            { min: 8, title: "starting", class: "rank-pro", icon: "" },
+            { min: 6, title: "youre getting there", class: "rank-role", icon: "" },
+            { min: 4, title: "Pro airballer", class: "rank-role", icon: "" },
+            { min: 0, title: "Benchwarmer", class: "rank-rookie", icon: "" }
         ];
 
         function parseDuration(dur) {
@@ -2971,11 +3043,15 @@ Rating ${rating.toFixed(1)} per 15 min – Level: ${rank.title}`;
                                 <span class="${isGameScheduled ? 'text-amber-400' : 'text-emerald-400'} font-mono text-xs font-black uppercase tracking-tighter">${game.date}</span>
                                 <span class="bg-indigo-500/20 text-indigo-400 text-[10px] px-2 py-0.5 rounded font-black uppercase">${game.duration || 0} MINS</span>
                                 ${isGameScheduled ? '<span class="bg-amber-500/20 text-amber-500 text-[10px] px-2 py-0.5 rounded font-black uppercase">Upcoming</span>' : ''}
+                                ${game.videoData ? '<span class="bg-cyan-500/20 text-cyan-400 text-[10px] px-2 py-0.5 rounded font-black uppercase">📹 Video Available</span>' : ''}
                             </div>
                             <h2 class="text-3xl font-black italic text-white uppercase tracking-tighter">${game.gameName || "Season Game"}</h2>
                         </div>
-                        <div class="flex items-center bg-slate-900/80 px-8 py-4 rounded-3xl border border-slate-700">
-                            ${isGameScheduled ? '<span class="text-slate-400 text-xs font-black tracking-widest uppercase">Matchup Pending</span>' : (scoreboardHtml || '<span class="text-slate-500 text-xs font-black">PRACTICE SESSION</span>')}
+                        <div class="flex items-center gap-3">
+                            ${game.videoData && !isGameScheduled ? `<button onclick="openGameStream('${game.videoData}', '${game.gameName}')" class="bg-cyan-600 hover:bg-cyan-500 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border border-cyan-400/30 transition-all">Stream Game</button>` : ''}
+                            <div class="flex items-center bg-slate-900/80 px-8 py-4 rounded-3xl border border-slate-700">
+                                ${isGameScheduled ? '<span class="text-slate-400 text-xs font-black tracking-widest uppercase">Matchup Pending</span>' : (scoreboardHtml || '<span class="text-slate-500 text-xs font-black">PRACTICE SESSION</span>')}
+                            </div>
                         </div>
                     </div>
                     <div class="p-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -3028,6 +3104,422 @@ Rating ${rating.toFixed(1)} per 15 min – Level: ${rank.title}`;
 
             // Keep the "on fire" widget synced even if user stays on analytics.
             renderHotPlayer();
+        }
+
+        let videoPlayer = null;
+        let currentVideoData = null;
+        let videoTimer = null;
+        let gameClockRunning = false;
+        let gameClockTime = 0;
+
+        function loadYouTubeApiForVideo() {
+            return new Promise((resolve) => {
+                if (window.YT?.Player) {
+                    resolve();
+                    return;
+                }
+                window.onYouTubeIframeAPIReady = resolve;
+                const script = document.createElement("script");
+                script.src = "https://www.youtube.com/iframe_api";
+                document.head.appendChild(script);
+            });
+        }
+
+        async function openGameStream(videoDataPath, gameName) {
+            const modal = document.getElementById('video-modal');
+            modal.classList.remove('hidden');
+            
+            document.getElementById('video-modal-title').textContent = gameName;
+            document.getElementById('video-modal-subtitle').textContent = 'Loading video data...';
+            
+            try {
+                // Load YouTube API first
+                await loadYouTubeApiForVideo();
+                
+                // Load the video data file
+                const script = document.createElement('script');
+                script.src = videoDataPath;
+                script.onload = () => {
+                    const dataKey = videoDataPath.split('/').pop().replace('.js', '');
+                    currentVideoData = window.VIDEO_DATA_LIBRARY?.[dataKey] || window.VIDEO_DATA_LIBRARY?.Game26;
+                    
+                    if (currentVideoData) {
+                        document.getElementById('video-modal-subtitle').textContent = currentVideoData.title || gameName;
+                        // Wait a bit for YouTube API to be fully ready
+                        setTimeout(() => {
+                            initializeVideoPlayer();
+                            updateVideoStats();
+                        }, 500);
+                    } else {
+                        document.getElementById('video-modal-subtitle').textContent = 'No video data found';
+                    }
+                };
+                script.onerror = () => {
+                    document.getElementById('video-modal-subtitle').textContent = 'Failed to load video data';
+                };
+                document.head.appendChild(script);
+            } catch (error) {
+                console.error('Error loading video:', error);
+                document.getElementById('video-modal-subtitle').textContent = 'Error loading video';
+            }
+        }
+
+        function initializeVideoPlayer() {
+            if (!currentVideoData) return;
+            
+            const videoId = getYouTubeId(currentVideoData.youtubeUrl);
+            if (!videoId) {
+                document.getElementById('youtube-player').innerHTML = '<p class="text-slate-400">No YouTube URL provided in video data</p>';
+                return;
+            }
+            
+            // Reset clock state
+            gameClockRunning = false;
+            gameClockTime = 0;
+            
+            if (videoPlayer) {
+                videoPlayer.loadVideoById(videoId);
+            } else {
+                videoPlayer = new YT.Player('youtube-player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: videoId,
+                    playerVars: {
+                        rel: 0,
+                        modestbranding: 1,
+                        autoplay: 1
+                    },
+                    events: {
+                        onReady: () => {
+                            // Start timer when player is ready
+                            if (videoTimer) clearInterval(videoTimer);
+                            videoTimer = setInterval(updateGameClock, 1000);
+                        },
+                        onStateChange: onPlayerStateChange
+                    }
+                });
+            }
+            
+            // Start timer for clock updates
+            if (videoTimer) clearInterval(videoTimer);
+            videoTimer = setInterval(updateGameClock, 1000);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                if (videoTimer) clearInterval(videoTimer);
+                videoTimer = setInterval(updateGameClock, 1000);
+            } else {
+                if (videoTimer) clearInterval(videoTimer);
+            }
+        }
+
+        function updateGameClock() {
+            if (!videoPlayer || !currentVideoData) return;
+            const videoTime = videoPlayer.getCurrentTime();
+            
+            // Calculate game clock based on clock_start and clock_pause events
+            gameClockTime = 0;
+            let lastStartTime = 0;
+            let clockWasRunning = false;
+            
+            currentVideoData.events.forEach(event => {
+                const eventTime = parseTime(event.time);
+                if (eventTime <= videoTime) {
+                    if (event.type === 'clock_start') {
+                        lastStartTime = eventTime;
+                        clockWasRunning = true;
+                    } else if (event.type === 'clock_pause') {
+                        if (clockWasRunning) {
+                            gameClockTime += eventTime - lastStartTime;
+                            clockWasRunning = false;
+                        }
+                    }
+                }
+            });
+            
+            // If clock is currently running, add time from last start to current video time
+            if (clockWasRunning) {
+                gameClockTime += videoTime - lastStartTime;
+            }
+            
+            const clockDisplay = formatTime(gameClockTime);
+            document.getElementById('game-clock').textContent = clockDisplay;
+            if (document.getElementById('game-clock-players')) {
+                document.getElementById('game-clock-players').textContent = clockDisplay;
+            }
+            
+            // Update scores based on events up to current time
+            updateScoresAtTime(videoTime);
+        }
+
+        function updateScoresAtTime(currentTime) {
+            if (!currentVideoData || !currentVideoData.events) return;
+            
+            // Get unique players per team
+            const teamPlayers = {};
+            currentVideoData.events.forEach(event => {
+                if (event.player && event.team) {
+                    if (!teamPlayers[event.team]) {
+                        teamPlayers[event.team] = new Set();
+                    }
+                    teamPlayers[event.team].add(event.player);
+                }
+            });
+            
+            // Check if any team has 2+ players
+            const hasMultiPlayerTeam = Object.values(teamPlayers).some(players => players.size >= 2);
+            
+            const teamScoresDiv = document.getElementById('team-scores');
+            const playerScoresDiv = document.getElementById('player-scores');
+            
+            if (hasMultiPlayerTeam) {
+                teamScoresDiv.classList.add('hidden');
+                playerScoresDiv.classList.remove('hidden');
+                updatePlayerScores(currentTime, teamPlayers);
+            } else {
+                teamScoresDiv.classList.remove('hidden');
+                playerScoresDiv.classList.add('hidden');
+                updateTeamScores(currentTime);
+            }
+        }
+
+        function updateTeamScores(currentTime) {
+            let team1Score = 0;
+            let team2Score = 0;
+            
+            currentVideoData.events.forEach(event => {
+                const eventTime = parseTime(event.time);
+                if (eventTime <= currentTime) {
+                    if (event.type === 'twoP') {
+                        if (event.team === 'Team 1') team1Score += 2;
+                        if (event.team === 'Team 2') team2Score += 2;
+                    } else if (event.type === 'threeP') {
+                        if (event.team === 'Team 1') team1Score += 3;
+                        if (event.team === 'Team 2') team2Score += 3;
+                    } else if (event.type === 'ft') {
+                        if (event.team === 'Team 1') team1Score += 1;
+                        if (event.team === 'Team 2') team2Score += 1;
+                    }
+                }
+            });
+            
+            document.getElementById('team1-score').textContent = team1Score;
+            document.getElementById('team2-score').textContent = team2Score;
+        }
+
+        function updatePlayerScores(currentTime, teamPlayers) {
+            const playerScores = {};
+            
+            // Initialize scores for all players
+            Object.keys(teamPlayers).forEach(team => {
+                teamPlayers[team].forEach(player => {
+                    playerScores[`${team}-${player}`] = 0;
+                });
+            });
+            
+            // Calculate scores
+            currentVideoData.events.forEach(event => {
+                const eventTime = parseTime(event.time);
+                if (eventTime <= currentTime && event.player && event.team) {
+                    const key = `${event.team}-${event.player}`;
+                    if (!playerScores[key]) playerScores[key] = 0;
+                    
+                    if (event.type === 'twoP') {
+                        playerScores[key] += 2;
+                    } else if (event.type === 'threeP') {
+                        playerScores[key] += 3;
+                    } else if (event.type === 'ft') {
+                        playerScores[key] += 1;
+                    }
+                }
+            });
+            
+            // Render team 1 players
+            const team1PlayersDiv = document.getElementById('team1-players');
+            const team1Players = teamPlayers['Team 1'] || new Set();
+            team1PlayersDiv.innerHTML = Array.from(team1Players).map(player => {
+                const score = playerScores[`Team 1-${player}`] || 0;
+                return `
+                    <div class="text-center px-3 py-1 bg-slate-950/50 rounded-lg border border-slate-700">
+                        <p class="text-[8px] font-black text-blue-400 uppercase tracking-widest">${player}</p>
+                        <p class="text-xl font-black text-white">${score}</p>
+                    </div>
+                `;
+            }).join('');
+            
+            // Render team 2 players
+            const team2PlayersDiv = document.getElementById('team2-players');
+            const team2Players = teamPlayers['Team 2'] || new Set();
+            team2PlayersDiv.innerHTML = Array.from(team2Players).map(player => {
+                const score = playerScores[`Team 2-${player}`] || 0;
+                return `
+                    <div class="text-center px-3 py-1 bg-slate-950/50 rounded-lg border border-slate-700">
+                        <p class="text-[8px] font-black text-rose-400 uppercase tracking-widest">${player}</p>
+                        <p class="text-xl font-black text-white">${score}</p>
+                    </div>
+                `;
+            }).join('');
+            
+            // Update clock
+            document.getElementById('game-clock-players').textContent = formatTime(currentTime);
+        }
+
+        function updateVideoStats() {
+            if (!currentVideoData || !currentVideoData.events) return;
+            
+            // Calculate per-player statistics
+            const playerStats = {};
+            
+            currentVideoData.events.forEach(event => {
+                if (event.player) {
+                    if (!playerStats[event.player]) {
+                        playerStats[event.player] = {
+                            totalShots: 0,
+                            made: 0,
+                            missed: 0,
+                            twoP: 0,
+                            threeP: 0,
+                            ft: 0,
+                            reb: 0,
+                            stl: 0,
+                            blk: 0,
+                            foul: 0,
+                            team: event.team || ''
+                        };
+                    }
+                    
+                    if (event.type === 'twoP') {
+                        playerStats[event.player].totalShots++;
+                        playerStats[event.player].made++;
+                        playerStats[event.player].twoP++;
+                    } else if (event.type === 'threeP') {
+                        playerStats[event.player].totalShots++;
+                        playerStats[event.player].made++;
+                        playerStats[event.player].threeP++;
+                    } else if (event.type === 'ft') {
+                        playerStats[event.player].ft++;
+                    } else if (event.type === 'miss') {
+                        playerStats[event.player].totalShots++;
+                        playerStats[event.player].missed++;
+                    } else if (event.type === 'reb') {
+                        playerStats[event.player].reb++;
+                    } else if (event.type === 'stl') {
+                        playerStats[event.player].stl++;
+                    } else if (event.type === 'blk') {
+                        playerStats[event.player].blk++;
+                    } else if (event.type === 'foul') {
+                        playerStats[event.player].foul++;
+                    }
+                }
+            });
+            
+            // Calculate shooting percentages
+            Object.keys(playerStats).forEach(player => {
+                const stats = playerStats[player];
+                stats.shootingPct = stats.totalShots > 0 ? ((stats.made / stats.totalShots) * 100).toFixed(1) : 0;
+                stats.points = (stats.twoP * 2) + (stats.threeP * 3) + stats.ft;
+            });
+            
+            // Render per-player stats
+            const statsContainer = document.getElementById('video-stats');
+            statsContainer.innerHTML = Object.keys(playerStats).map(player => {
+                const stats = playerStats[player];
+                const teamColor = stats.team === 'Team 1' ? 'text-blue-400' : stats.team === 'Team 2' ? 'text-rose-400' : 'text-white';
+                return `
+                    <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
+                        <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-2">${player}</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div>
+                                <p class="text-slate-500">PTS</p>
+                                <p class="font-black text-white">${stats.points}</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-500">FG</p>
+                                <p class="font-black text-emerald-400">${stats.made}/${stats.totalShots}</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-500">FG%</p>
+                                <p class="font-black text-cyan-400">${stats.shootingPct}%</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-500">REB</p>
+                                <p class="font-black text-blue-400">${stats.reb}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Render events list
+            const eventsList = document.getElementById('video-events-list');
+            eventsList.innerHTML = currentVideoData.events.map((event, index) => {
+                const colorClass = getEventColor(event.type);
+                return `
+                    <div class="bg-slate-950/50 p-2 rounded-lg border border-slate-800 flex items-center gap-3">
+                        <span class="text-xs font-mono text-slate-400">${event.time}</span>
+                        <span class="w-2 h-2 rounded-full ${colorClass}"></span>
+                        <span class="text-xs font-bold text-white">${event.type.replace('_', ' ')}</span>
+                        ${event.player ? `<span class="text-xs text-slate-400">${event.player}</span>` : ''}
+                        ${event.team ? `<span class="text-xs text-slate-500">${event.team}</span>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getEventColor(type) {
+            const colors = {
+                clock_start: 'bg-emerald-500',
+                clock_pause: 'bg-amber-500',
+                twoP: 'bg-blue-500',
+                threeP: 'bg-indigo-500',
+                ft: 'bg-lime-500',
+                miss: 'bg-slate-500',
+                reb: 'bg-sky-500',
+                foul: 'bg-rose-500',
+                stl: 'bg-purple-500',
+                blk: 'bg-orange-500',
+                tech: 'bg-red-700'
+            };
+            return colors[type] || 'bg-slate-500';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            modal.classList.add('hidden');
+            
+            if (videoPlayer) {
+                videoPlayer.stopVideo();
+            }
+            
+            if (videoTimer) {
+                clearInterval(videoTimer);
+                videoTimer = null;
+            }
+            
+            currentVideoData = null;
+        }
+
+        function getYouTubeId(url) {
+            const text = String(url || "");
+            const m = text.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{6,})/);
+            return m ? m[1] : text.match(/^[A-Za-z0-9_-]{6,}$/)?.[0] || "";
+        }
+
+        function parseTime(text) {
+            if (typeof text === "number") return text;
+            const parts = String(text || "0").replace(".", ":").split(":").map(v => parseInt(v, 10) || 0);
+            if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            if (parts.length === 2) return parts[0] * 60 + parts[1];
+            return parts[0] || 0;
+        }
+
+        function formatTime(seconds) {
+            seconds = Math.max(0, Math.round(seconds || 0));
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            return h ? `${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}` : `${m}:${String(s).padStart(2,"0")}`;
         }
 
         // Default to all-time when page loads
