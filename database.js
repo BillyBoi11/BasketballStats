@@ -19,7 +19,7 @@ const GAME_DATABASE = [
     reboundGame: false,
     scheduled: false,
     group: "Airball Squad",
-    //videoData: "videoData/Game26.js",
+    //videoData: "Game26.js",
     players: [
       { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 0, tech: 1, stl: 0, blk: 0},
       { name: "Gem", team: "Team 2", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
@@ -56,7 +56,7 @@ const GAME_DATABASE = [
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
-    videoData: "videoData/Game23.js",
+    videoData: "Game23.js",
     players: [
       { name: "Gem", team: "Team 1", twoP: 21, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1},
       { name: "Billy", team: "Team 2", twoP: 23, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1}
