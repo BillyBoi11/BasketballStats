@@ -15,14 +15,14 @@ const GAME_DATABASE = [
 {
     date: "2026-08-03",
     gameName: "Game 26",
-    duration: "6:30",
-    reboundGame: false,
+    duration: "4:24",
+    reboundGame: true,
     scheduled: false,
     group: "Airball Squad",
     videoData: "Game26.js",
     players: [
-      { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 0, tech: 1, stl: 0, blk: 0},
-      { name: "Gem", team: "Team 2", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 0}
+      { name: "Lucas", team: "Team 1", twoP: 1, threeP: 0, ft: 0, miss: 0, foul: 1, reb: 3, tech: 1, stl: 0, blk: 0},
+      { name: "Gem", team: "Team 2", twoP: 5, threeP: 0, ft: 0, miss: 0, foul: 0, reb: 2, tech: 0, stl: 0, blk: 0}
     ]
   },
 {
