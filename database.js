@@ -53,13 +53,13 @@ const GAME_DATABASE = [
     date: "2026-07-07",
     gameName: "Game 23",
     duration: "26:55",
-    reboundGame: false, 
+    reboundGame: true, 
     scheduled: false,
     group: "Airball Squad",
     videoData: "Game23.js",
     players: [
-      { name: "Gem", team: "Team 1", twoP: 21, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1},
-      { name: "Billy", team: "Team 2", twoP: 23, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 1}
+      { name: "Gem", team: "Team 1", twoP: 21, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 19, tech: 0, stl: 0, blk: 0},
+      { name: "Billy", team: "Team 2", twoP: 23, threeP: 1, ft: 0, miss: 0, foul: 0, reb: 24, tech: 0, stl: 0, blk: 1}
     ]
   },
 {
