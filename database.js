@@ -52,7 +52,7 @@ const GAME_DATABASE = [
 {
     date: "2026-07-07",
     gameName: "Game 23",
-    duration: "32:00",
+    duration: "26:55",
     reboundGame: false, 
     scheduled: false,
     group: "Airball Squad",
