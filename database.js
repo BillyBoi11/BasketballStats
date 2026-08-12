@@ -1,6 +1,20 @@
 // EDIT THIS FILE TO UPDATE THE WEBSITE
 const GAME_DATABASE = [
 {
+    date: "2026-08-12",
+    gameName: "Game 28",
+    duration: "35:00",
+    reboundGame: false, 
+    scheduled: false,
+    group: "Airball Squad",
+    players: [
+      { name: "Lucas", team: "Team 1", twoP: 11, threeP: 1, ft: 0, miss: 0, foul: 1, reb: 0, tech: 0, stl: 1, blk: 0},
+      { name: "Viking", team: "Team 1", twoP: 17, threeP: 0, ft: 0, miss: 0, foul: 2, reb: 0, tech: 0, stl: 2, blk: 3},
+      { name: "Gem", team: "Team 2", twoP: 13, threeP: 2, ft: 0, miss: 0, foul: 0, reb: 0, tech: 0, stl: 0, blk: 5},
+      { name: "Billy", team: "Team 2", twoP: 20, threeP: 6, ft: 2, miss: 0, foul: 0, reb: 0, tech: 0, stl: 2, blk: 1}
+    ]
+  },
+{
     date: "2026-08-03",
     gameName: "Game 27",
     duration: "5:00",
