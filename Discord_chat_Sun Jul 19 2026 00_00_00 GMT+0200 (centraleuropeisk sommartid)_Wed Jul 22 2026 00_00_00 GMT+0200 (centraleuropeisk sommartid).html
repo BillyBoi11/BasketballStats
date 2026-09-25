@@ -1,0 +1,2770 @@
+
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Discord Chat Export</title>
+        <style>
+          body {
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #36393f;
+            color: #dcddde;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+          }
+          .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid;
+            height: 100%;
+            overflow: auto;
+            flex: 1;
+            border-radius: 6px;
+          }
+          .chatTitle {
+            background-color: #2f3136;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+          }
+          .chatTitle img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin-right: 20px;
+          }
+          .titleInfo p {
+            margin: 5px 0;
+          }
+          .titleInfo p:first-child {
+            font-size: 24px;
+            font-weight: bold;
+          }
+          .chatContent {
+            background-color: #36393f;
+            border-radius: 8px;
+            padding: 0;
+            margin: 0;
+          }
+          .chatContent li {
+            list-style: none;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+          }
+          .chatContent li:hover {
+            background-color: #32353b;
+          }
+          .chatContent .titleImg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 16px;
+          }
+          .messageContent {
+            flex-grow: 1;
+          }
+          .chatName {
+            color: #fff;
+            font-weight: 500;
+            margin-right: 8px;
+          }
+          .time {
+            color: #72767d;
+            font-size: 0.75rem;
+          }
+          .chatContent p {
+            margin: 8px 0;
+          }
+          .attachment {
+            margin-top: 12px;
+            max-width: 100%;
+          }
+          .image-attachment img {
+            max-width: 400px;
+            max-height: 300px;
+            border-radius: 4px;
+          }
+          .video-attachment video,
+          .audio-attachment audio {
+            max-width: 400px;
+          }
+          .file-attachment a {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #2f3136;
+            border-radius: 4px;
+            color: #00b0f4;
+            text-decoration: none;
+            font-size: 0.9em;
+          }
+          .file-attachment a:hover {
+            background-color: #393c43;
+          }
+          .sameSender {
+            margin-top: -16px;
+          }
+          .sameSender .titleImg, .sameSender .chatName, .sameSender .time {
+            display: none;
+          }
+        </style>
+      </head>
+      <body>
+        <p style="text-align: center; font-size: 15px;">Export 292 message(s)</p>
+        <div class="container">
+          <div class="chatTitle">
+            <img src="https://cdn.discordapp.com/icons/1516400476923363479/dfb637554b6b3b292650442c718fe972.webp?size=80&quality=lossless" alt="">
+            <div class="titleInfo">
+              <p>BASE DEFENDERS OFFICIAL</p>
+              <p>general</p>
+              <p style="font-size: 15px;">从 Sun Jul 19 2026 00:00:00 GMT+0200 (centraleuropeisk sommartid) 到 Wed Jul 22 2026 00:00:00 GMT+0200 (centraleuropeisk sommartid)</p>
+            </div>
+          </div>
+          <ul class="chatContent">
+            
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1385028009978888272/8c4d9cd8d39c431af9411f2161201af6.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">lasthope0294</span><span class="time">Sun Jul 19 2026 08:48:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> is the game ready?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 09:57:46 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Early state yes soon)</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 09:57:52 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 18:56:58 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@lasthope0294#0</span> Im just having sum problems rn</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Sun Jul 19 2026 19:03:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> How is it going w the zombie anim?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 19:11:24 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Hellish</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 19:11:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> So imma just make a test dummy for the early acces</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Sun Jul 19 2026 19:12:33 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Alright</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Sun Jul 19 2026 19:12:40 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Wanna hop on call later and plan</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 19:21:16 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> plan what?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Sun Jul 19 2026 19:30:38 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Idk the game or smt</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 19:31:29 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Hm?</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Sun Jul 19 2026 19:31:34 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Maybe</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1385028009978888272/8c4d9cd8d39c431af9411f2161201af6.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">lasthope0294</span><span class="time">Mon Jul 20 2026 00:01:34 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@official_staydown#0</span> 😭</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:10:51 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> https://klipy.com/gifs/weak-hero-geum-seongje</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:11:00 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Argentina lostt</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:11:09 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> YESSS</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:11:13 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> LETS GOO</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:11:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I rooted for Argentina</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:11:29 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Damn it</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:11:35 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Now Messi is retired</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:11:58 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> lowkk</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:12:03 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> ronaldo is too</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:12:40 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Ronaldo, Neymar and Messi has now retired</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:13:23 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> NOOOOOOOOOOOOO</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:13:25 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> NEYMARR</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:14:11 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yes..</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1251188028089827340/875a4edda2006ceca1e139dcf29057b5.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">xh128z</span><span class="time">Mon Jul 20 2026 00:15:06 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Let’s be honest he barely played these last years</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:15:24 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Ive only watched this world cup</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:16:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> https://klipy.com/gifs/weak-hero-class-2-lee-junyoung</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1251188028089827340/875a4edda2006ceca1e139dcf29057b5.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">xh128z</span><span class="time">Mon Jul 20 2026 00:16:43 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> This World Cup he was playing from home office</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:16:50 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im not that interested in fotball</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:17:07 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I just watched cuz retirements</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:17:18 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> im js watching nva</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:17:20 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> nba</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:17:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im not even watching nba</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:17:32 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:17:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Cooper flagg isn't even playing</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:17:50 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> These people playing isn't the nba players</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:18:03 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its just</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:18:05 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Kids...</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:18:22 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> true</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:18:35 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:18:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> the nba front offices of teams are just makingg gasmbles</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:18:45 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> like melo and and giannis and bam</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:18:53 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> lebron and stepth</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:18:59 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Is it official?</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:19:04 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Bron and Curry?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:19:12 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> naz reid w hororna</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:19:33 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I want bron to join Miami heat</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:20:00 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> its said warriors dont think they can land bronn</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:20:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Hope he joins Giannis</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:20:35 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Giannis has carried his team through nba finals</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:20:38 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And won it</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:20:48 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> imaginve bron to okc xddd</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:20:51 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> 2021</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:20:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Never would happen</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:21:04 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Cuz LeBron hates em</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:21:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> TRUE</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:21:09 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> They swept the Lakers away</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:21:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> fairs</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:21:29 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> When the season starts again</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:21:33 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> My season is also starting</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:21:41 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I wanna play as SF</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:21:49 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And my secondary is PF</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:22:09 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> bron too chicago</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:22:14 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Nah..</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:22:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> xdd</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:22:26 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Bron to Miami</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:22:26 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> prob going to cleavland</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:22:31 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yeah</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:22:32 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Maybe</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:22:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I think its abt Miami, Cleve, Warriors</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:23:21 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> fairs</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:24:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> i dont know why some people think hes going to minnisota like tthey cant afford him</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:25:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Minnesota never</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:25:05 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> They got Ball</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:25:23 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Bron is going to rot there</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:25:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> yeah</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:26:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> like minisota need to focus on getting a second center or a good 4 guard</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:26:30 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yeah</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:26:32 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Did u know</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:26:43 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Giannis has one of the saddest story of all time</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:27:09 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> WHAO i actually didnt know that</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:27:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> What happened to him</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:27:24 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> He grew up very poor</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:27:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> VERY VERY POOR</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:27:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Like he had to help is family get money</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:27:40 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> When he was a kid</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:27:45 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Did you know that</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:27:51 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> He didnt wanna be a basketball player</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:27:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> He wanted soccer</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:28:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> But to help his family he chose basketball</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:28:25 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Thats all i wanna say</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:28:40 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I know the whole story cuz i watched a documentary</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:29:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> dammnn</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:29:14 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Hes so humble and cares about his family</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:29:18 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> He didnt let money change him</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:29:42 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> truee</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:29:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> when we play for a team we going too atleast you</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:30:04 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> dont let money change us</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:30:13 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yeah</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:30:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I already have money so</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:30:20 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im aint changed</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:30:24 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im still childish</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:30:29 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:30:42 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im just playing for fun</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:30:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> At this point</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:31:03 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Like when i played with Billy</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:31:13 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Did i really care about that game?</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:31:14 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Nah</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:31:28 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I shot contested</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:31:36 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And you know im aint shooting contested</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:31:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> true</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:31:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And yet i made buckets</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:32:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> With contested ahh shots</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:33:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Next season is the season i rise up</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:33:20 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> As the SF</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:34:01 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> </p>
+          <div class="attachment image-attachment">
+                <img src="https://cdn.discordapp.com/attachments/1516400477502181470/1528530378816487635/Screenshot_2026-07-18-13-08-08-707_com.google.android.youtube-edit.jpg?ex=6a61ee19&is=6a609c99&hm=9a19364d05a3e9ba612628c7136fbd8d30516dd9f7d05c760799ae5a104bb4b9&" alt="图片附件">
+              </div>
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:34:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:34:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:34:44 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:34:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:34:54 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:35:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616> <:StayDownswife:1527997277505982616></p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:35:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:35:21 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yes</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:36:01 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> U think i could play at all positions?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:36:11 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> exept for c</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:36:18 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> C i think i can plau</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:36:21 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I AM LOYALLL TOOO PGG</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:36:29 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@official_staydown#0</span> you do></p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:36:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im longer than the most people were up against</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:36:51 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Remember that they are -1 age</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:37:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> truee</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:37:10 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Me as PF would be hellish</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:37:25 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> w me as the pg</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:37:26 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im built for pf</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:37:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@karu_shiki#0</span> Yh</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:37:52 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And your secondary?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:38:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> pg sg</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:38:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Sg?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:38:42 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> or maybe sf</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:38:50 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Sf is a never</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:38:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Sf is an all rounder</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:39:00 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> what do u think?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:39:05 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> No idea dude</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:39:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Pg and bench?</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:39:22 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Nah just kidding</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:39:42 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> NAHHH</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:39:42 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yes C</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:39:45 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Center</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:39:46 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> THE DIRESPECT</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:39:53 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> THE TRUTH</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:39:54 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> ME A CENTER OHH SHI</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:40:01 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> i mean i am aggressive</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:40:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> so i could guard the paint</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:40:10 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I were joking</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:40:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> C would be a never fit</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:40:22 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Rather sf than C</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:40:28 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> damn</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:40:38 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> im a slashing pg</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:41:12 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im a sharp SF</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:41:21 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:41:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Slash and Sharp</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:41:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> sharp pg</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:41:45 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> billy is js sg</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:41:52 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Sg never</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:41:59 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> He shoots worse than me</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:09 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> H</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:10 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> H</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:10 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> H</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:11 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> HH</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:11 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> H</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:11 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> H</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:12 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> HH</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:16 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> HES A BENCH WARMER</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:42:20 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yup</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:42:36 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Billy had airballed more in a day than Ive done in my whole 3 years</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:42:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> hes calling me a bench warmer but we both know he is</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:43:09 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> i can shoot almost as good as him if i worked on it and i create opertunities for our team to score</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:43:22 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Hes training on shooting</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:43:22 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> IM USEFULL he isnt hes selfish im selfless</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:43:31 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Meanwhile me aint training on shit than dunking</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:43:36 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Hes selfish as fuck</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:43:56 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> nobody is going to give him the ball if he doessnt play w the team</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:44:01 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Exactly</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:44:11 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Hope his confidence lowers soon</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:44:20 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> So he could understand how were doin</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:44:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> people gonna give us the ball bcz they know we are either gonna score or make an opertunity for someone else too</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:44:36 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@official_staydown#0</span> true</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:44:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yeah</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:44:59 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im the best in the group for a reason</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:45:10 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> When we play 2v2 what do i do?</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:45:11 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Pass</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:45:14 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> wdy think im the second?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:45:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Trust my mates</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:45:28 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Second hm</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:45:35 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I would place Viking there</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:45:43 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> what do i do i go for layup or pass</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:45:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Cuz he got length</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:46:03 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> me soon tho when my leg is working and im back into shape</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:46:17 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Viking and i have the best chemistry</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:46:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> he looses the ball</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:46:24 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@official_staydown#0</span> true for now</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:46:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> That'll stay for a long while</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:46:55 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Me and him cooked Karim and Calvin</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:46:59 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> On the training</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:47:06 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> damm</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:47:18 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> bet u carried tho</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:47:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I joined the basketball team</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:47:26 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Coach told me i was better than the most</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:47:31 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:47:32 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@karu_shiki#0</span> Nah me and him did</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:47:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@official_staydown#0</span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:47:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its like Dwayne Wade and LeBron James</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:48:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:48:15 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its up to you now</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:48:34 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> to get back into my prime</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:48:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Stay losing</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:48:43 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Or winning</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:48:56 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> ima make myself win</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:49:15 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Theres a reason why Viking and i rarely is on a team</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:49:21 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I want u on that place now</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:49:39 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> That means Billy has no other choice than to put me with one of u guys or himself</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:49:45 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> untill we get banned too</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:49:52 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> then he has to choose</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:00 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its over dude</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:50:00 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> either he gets me or viking</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:04 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I choose the teams now</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:50:05 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> frr</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:07 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Fuck it we ball</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:13 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its my time</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:16 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its my time to rule</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:50:26 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> wanna hang tmr?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:33 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yeah sure</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:50:41 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> same place as before?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:43 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Im not doing anything special tomorrow so</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:49 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Why not perslunda?</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:50:56 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> We kinda need real hoops this time</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:51:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> true</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:51:14 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And u gotta lock into the real ones</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:51:23 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Ive realized that u can lose that now</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:51:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> im still kinda slow know that</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:51:43 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Ive trained on gäveränge hoops</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:51:54 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And lost my ability to shoot on a normal one</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:51:59 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> damnnn</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:52:09 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yeab</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:52:18 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> So perslunda 13:00?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:52:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> 4?</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:52:24 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> wb 2</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:52:29 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> 14:00 hm</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:52:45 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> 13:30 final offer</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:53:00 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> 13:45</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:53:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> MAINLY CUZ IM CONSERNED ABT WAKING UP</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:53:21 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Final offer 13:30</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:53:26 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> alright</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:53:31 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Good then</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:53:37 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Perslunda 13:30 it is</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:53:43 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> yes</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:53:44 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Imma head to sleep now</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:53:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Goodnight now</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:53:48 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> gnn</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:53:52 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> sleep well brother</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:54:03 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I swear imma buy tvwoman body pillow</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:54:06 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> </p>
+          <div class="attachment image-attachment">
+                <img src="https://cdn.discordapp.com/attachments/1516400477502181470/1528535436333682790/Screenshot_2026-07-18-13-08-08-707_com.google.android.youtube-edit.jpg?ex=6a61f2ce&is=6a60a14e&hm=f040d63fa0cb7d95065f38a14fb674a2124b00549213f6e03523cefa08905f2e&" alt="图片附件">
+              </div>
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:54:08 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> OHH</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:54:14 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> PEAKKKK IG</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:54:21 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I dreamed about her last night</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:54:38 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> I can tell u smth tomorrow that is kinda private</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:54:48 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> bro is dreaming about tv woman not sky</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:54:51 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its about my relationship with you know who</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:54:56 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;">@official_staydown#0</span> yeah ofc go ahead</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:55:16 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Its kinda falling rn cuz</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:55:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Smth happened</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:55:27 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> And it was kinda both faults</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:55:32 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Alright imma sleep now</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:55:40 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> tell me tmr</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:55:40 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Dw no arguments</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:55:46 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> not here</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:55:49 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> None did anything wrong</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:55:57 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> We did not argue</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:56:02 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> js tell me evrv tmr</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:56:07 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Goodnight</p>
+          
+        </div>
+      </li>
+    
+      <li class="sameSender">
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:56:12 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> U gotta sleep</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:56:13 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> gn sleep well</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:56:19 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Today is a big day</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:56:29 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> peak</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1245738716790657095/e26c2a0a7e421bd3c7bd9909ba476406.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">official_staydown</span><span class="time">Mon Jul 20 2026 00:56:31 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Goodnight</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 00:56:47 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> gn sleep well</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1454063484344995914/39700c210ff40949b3d6f5b9c88a4ab0.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">randomperson404040</span><span class="time">Mon Jul 20 2026 13:16:28 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Is anyone alive?</p>
+          
+        </div>
+      </li>
+    
+      <li >
+        <img class="titleImg" width="40px" height="40px" src="https://cdn.discordapp.com/avatars/1301871108915466352/9c969e3469af782b829e2e79decd8b3d.png?size=128" alt="">
+        <div class="titleInfo">
+          <p class="timeInfo"><span class="chatName">karu_shiki</span><span class="time">Mon Jul 20 2026 13:27:28 GMT+0200 (centraleuropeisk sommartid)</span></p>
+          <p><span style="color: skyblue;"></span> Yes</p>
+          
+        </div>
+      </li>
+    
+          </ul>
+        </div>
+
+      </body>
+      </html>
+    
