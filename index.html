@@ -435,7 +435,8 @@
                             <label for="player-group-dropdown" class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Group</label>
                             <select id="player-group-dropdown" onchange="handlePlayerGroupChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-indigo-500 text-xs">
                                 <option value="all">HU14</option>
-                                <option value="airball" selected>Airball Squad</option>
+                                <option value="airball">Airball Squad</option>
+                                <option value="airball 2" selected>Airball squad 2.0</option>
                             </select>
                         </div>
                         <button onclick="copyLeaderboardToClipboard()" class="bg-slate-900/70 hover:bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 font-black uppercase tracking-widest text-[10px] text-white/90 transition-all focus:border-indigo-500">
@@ -607,6 +608,7 @@
                             <select id="player-group-dropdown-strength" onchange="handleStrengthPlayerGroupChange(this.value)" class="bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 font-black italic text-white outline-none focus:border-red-500 text-xs">
                                 <option value="all">HU14</option>
                                 <option value="airball" selected>Airball Squad</option>
+                                <option value="airball 2" selected>Airball Squad 2.0</option>
                             </select>
                         </div>
                         <button onclick="copyStrengthLeaderboardToClipboard()" class="bg-slate-900/70 hover:bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2 font-black uppercase tracking-widest text-[10px] text-white/90 transition-all focus:border-red-500">
@@ -758,7 +760,7 @@
         let chartInstance = null;
         let selectedPlayers = new Set();
         let selectedSeason = 'all';
-        let selectedPlayerGroup = 'airball';
+        let selectedPlayerGroup = 'airball 2';
         let analyticsShowLastSeason = false;
         
         // Strength-specific variables
@@ -856,6 +858,9 @@
                 return seasonSessions.filter(session => session.group === 'HU14' || !session.group);
             } else if (selectedStrengthPlayerGroup === 'airball') {
                 return seasonSessions.filter(session => session.group === 'Airball Squad');
+            }
+            else if (selectedStrengthPlayerGroup === 'airball 2') {
+                return seasonSessions.filter(session => session.group === 'Airball Squad 2');
             }
             return seasonSessions;
         }
@@ -1324,6 +1329,10 @@
                 const airballPlayers = ['Billy', 'Gem', 'Viking', 'Lucas'];
                 return players.filter(p => airballPlayers.includes(p.name));
             }
+            else if (selectedPlayerGroup === 'airball 2') {
+                const airballPlayers = ['Billy ', 'Gem ', 'Lucas '];
+                return players.filter(p => airballPlayers.includes(p.name));
+            }
             return players;
         }
 
@@ -1335,6 +1344,10 @@
             } else if (selectedPlayerGroup === 'airball') {
                 // Airball Squad - show only games with group "Airball Squad"
                 return seasonGames.filter(game => game.group === 'Airball Squad');
+            }
+            else if (selectedPlayerGroup === 'airball 2') {
+                // Airball Squad - show only games with group "Airball Squad"
+                return seasonGames.filter(game => game.group === 'Airball Squad 2');
             }
             return seasonGames;
         }
@@ -2192,7 +2205,7 @@
                         </div>
                         <div class="flex justify-between items-center p-3 bg-slate-900/50 rounded-lg">
                             <span class="text-sm text-slate-300">Group Filter</span>
-                            <span class="text-xs text-slate-500">${selectedPlayerGroup === 'all' ? 'HU14' : 'Airball Squad'}</span>
+                            <span class="text-xs text-slate-500">${selectedPlayerGroup === 'all' ? 'HU14' : 'Airball Squad' : 'Airball Squad 2'}</span>
                         </div>
                     </div>
                 </div>
